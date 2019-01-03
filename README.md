@@ -1,6 +1,6 @@
 # Weather card
 
-![openweathermap](https://user-images.githubusercontent.com/33804747/50626516-eb41af80-0f58-11e9-9813-95c2a16a937b.png)
+![openweathermap-eng](https://user-images.githubusercontent.com/33804747/50649716-d987f880-0fa8-11e9-9608-93aa8b2857f4.png)
 
 ## Configuration
 
