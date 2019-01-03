@@ -61,7 +61,7 @@ class WeatherCardChart extends Polymer.Element {
           <div class="attributes" on-click="_weatherAttr">
             <div>
               <ha-icon icon="hass:water-percent"></ha-icon> [[roundNumber(weatherObj.attributes.humidity)]] %<br>
-              <ha-icon icon="hass:gauge"></ha-icon> [[roundNumber(weatherObj.attributes.pressure)]] гПа
+              <ha-icon icon="hass:gauge"></ha-icon> [[roundNumber(weatherObj.attributes.pressure)]] hPa
             </div>
             <div>
               <template is="dom-if" if="[[sunObj]]">
@@ -71,7 +71,7 @@ class WeatherCardChart extends Polymer.Element {
             </div>
             <div>
               <ha-icon icon="hass:[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
-              <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] м/с
+              <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] m/s
             </div>
           </div>
           <ha-chart-base data="[[ChartData]]"></ha-chart-base>
@@ -118,8 +118,8 @@ class WeatherCardChart extends Polymer.Element {
       'windy-variant': 'hass:weather-windy-variant'
     };
     this.cardinalDirections = [
-      'С', 'С-СВ', 'СВ', 'В-СВ', 'В', 'В-ЮВ', 'ЮВ', 'Ю-ЮВ',
-      'Ю', 'Ю-ЮЗ', 'ЮЗ', 'З-ЮЗ', 'З', 'З-СЗ', 'СЗ', 'С-СЗ', 'С'
+      'N', 'NNO', 'NO', 'ONO', 'O', 'OZO', 'ZO', 'ZZO',
+      'Z', 'ZZW', 'ZW', 'WZW', 'W', 'WNW', 'NW', 'NNW', 'N'
     ];
     this.cardinalDirectionsIcon = [
       'mdi:arrow-down', 'mdi:arrow-bottom-left', 'mdi:arrow-left',
@@ -223,7 +223,7 @@ class WeatherCardChart extends Polymer.Element {
         labels: dateTime,
         datasets: [
           {
-            label: 'Температура днем',
+            label: 'Day',
             type: 'line',
             data: tempHigh,
             yAxisID: 'TempAxis',
@@ -234,7 +234,7 @@ class WeatherCardChart extends Polymer.Element {
             fill: false,
           },
           {
-            label: 'Температура ночью',
+            label: 'Night',
             type: 'line',
             data: tempLow,
             yAxisID: 'TempAxis',
@@ -245,7 +245,7 @@ class WeatherCardChart extends Polymer.Element {
             fill: false,
           },
           {
-            label: 'Осадки',
+            label: 'Precipitations',
             type: 'bar',
             data: precip,
             yAxisID: 'PrecipAxis',
