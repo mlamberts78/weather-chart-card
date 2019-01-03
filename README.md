@@ -16,7 +16,7 @@ views:
 - title: Main
   cards:
   - type: 'custom:weather-card-chart'
-    title: Погода
+    title: Weather
     weather: weather.openweathermap
     sun: sun.sun
 ```
