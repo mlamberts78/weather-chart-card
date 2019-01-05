@@ -199,6 +199,7 @@ class WeatherCardChart extends Polymer.Element {
   drawChart() {
     var dataArray = [];
     var data = this.weatherObj.attributes.forecast.slice(0,9);
+    var tempUnit = this._hass.config.unit_system.temperature;
     var i;
     if (!this.weatherObj.attributes.forecast) {
       return [];
@@ -228,7 +229,7 @@ class WeatherCardChart extends Polymer.Element {
             data: tempHigh,
             yAxisID: 'TempAxis',
             borderWidth: 2.0,
-            lineTension: 0.5,
+            lineTension: 0.4,
             pointRadius: 0.0,
             pointHitRadius: 5.0,
             fill: false,
@@ -239,7 +240,7 @@ class WeatherCardChart extends Polymer.Element {
             data: tempLow,
             yAxisID: 'TempAxis',
             borderWidth: 2.0,
-            lineTension: 0.5,
+            lineTension: 0.4,
             pointRadius: 0.0,
             pointHitRadius: 5.0,
             fill: false,
@@ -304,6 +305,9 @@ class WeatherCardChart extends Polymer.Element {
             },
             time: {
               unit: 'day',
+              displayFormats: {
+                day: 'dd',
+              },  
             },
             ticks: {
               display: true,
@@ -311,11 +315,6 @@ class WeatherCardChart extends Polymer.Element {
               autoSkip: true,
               fontColor: textColor,
               maxRotation: 0,
-              callback: function(value) {
-                return new Date(value).toLocaleDateString([], {
-                  weekday: 'short'
-                });
-              },
             },
           }],
           yAxes: [{
@@ -365,6 +364,13 @@ class WeatherCardChart extends Polymer.Element {
                 day: 'numeric',
                 weekday: 'long',
               });
+            },
+            label: function(tooltipItems, data) {
+              var label = data.datasets[tooltipItems.datasetIndex].label || '';
+              if (data.datasets[2].label == label) {
+                return label + ': ' + tooltipItems.yLabel + ' mm';
+              }
+              return label + ': ' + tooltipItems.yLabel + ' ' + tempUnit;
             },
           }
         },
