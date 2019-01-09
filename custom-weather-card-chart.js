@@ -33,7 +33,7 @@ class WeatherCardChart extends Polymer.Element {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 10px;
+        margin: 10px 0px 10px 0px;
       }
       .attributes div {
         text-align: center;
@@ -42,10 +42,8 @@ class WeatherCardChart extends Polymer.Element {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-left: 16px;
-        margin-right: -2px;
+        margin: 0px -2px 0px 16px;
       }
-
     </style>
       <ha-card header="[[title]]">
         <div class="card">
@@ -118,8 +116,8 @@ class WeatherCardChart extends Polymer.Element {
       'windy-variant': 'hass:weather-windy-variant'
     };
     this.cardinalDirections = [
-      'N', 'NNO', 'NO', 'ONO', 'O', 'OZO', 'ZO', 'ZZO',
-      'Z', 'ZZW', 'ZW', 'WZW', 'W', 'WNW', 'NW', 'NNW', 'N'
+      'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+      'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'
     ];
     this.cardinalDirectionsIcon = [
       'mdi:arrow-down', 'mdi:arrow-bottom-left', 'mdi:arrow-left',
@@ -200,6 +198,8 @@ class WeatherCardChart extends Polymer.Element {
     var dataArray = [];
     var data = this.weatherObj.attributes.forecast.slice(0,9);
     var tempUnit = this._hass.config.unit_system.temperature;
+    var lengthUnit = this._hass.config.unit_system.length;
+    var precipUnit = lengthUnit === 'km' ? 'mm' : 'in';
     var i;
     if (!this.weatherObj.attributes.forecast) {
       return [];
@@ -276,11 +276,6 @@ class WeatherCardChart extends Polymer.Element {
         },
         legend: {
           display: false,
-          position: 'top',
-          labels: {
-            fontColor: textColor,
-            boxWidth: 10,
-          },
         },
         scales: {
           xAxes: [{
@@ -297,17 +292,10 @@ class WeatherCardChart extends Polymer.Element {
           {
             id: 'DateAxis',
             position: 'top',
-            type: 'time',
             gridLines: {
               display: true,
               drawBorder: false,
               color: dividerColor,
-            },
-            time: {
-              unit: 'day',
-              displayFormats: {
-                day: 'dd',
-              },  
             },
             ticks: {
               display: true,
@@ -315,6 +303,10 @@ class WeatherCardChart extends Polymer.Element {
               autoSkip: true,
               fontColor: textColor,
               maxRotation: 0,
+              callback: function(value, index, values) {
+                return new Date(value).toLocaleDateString([],
+                  { weekday: 'short' });
+              },
             },
           }],
           yAxes: [{
@@ -331,8 +323,7 @@ class WeatherCardChart extends Polymer.Element {
               fontColor: textColor,
               callback: function(value, index, values) {
                 if (value > 0) {
-                  return '+' + value;
-                }
+                  return '+' + value }
                 return value;
               }
             },
@@ -363,12 +354,15 @@ class WeatherCardChart extends Polymer.Element {
                 month: 'long',
                 day: 'numeric',
                 weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
               });
             },
             label: function(tooltipItems, data) {
               var label = data.datasets[tooltipItems.datasetIndex].label || '';
               if (data.datasets[2].label == label) {
-                return label + ': ' + tooltipItems.yLabel + ' mm';
+                return label + ': ' + (tooltipItems.yLabel ?
+                  (tooltipItems.yLabel + ' ' + precipUnit) : ('0 ' + precipUnit));
               }
               return label + ': ' + tooltipItems.yLabel + ' ' + tempUnit;
             },
@@ -376,7 +370,7 @@ class WeatherCardChart extends Polymer.Element {
         },
         layout: {
           padding: {
-            top: '10.0',
+            top: '0.0',
             bottom: '0.0',
             right: '0.0',
             left: '-6.0',
