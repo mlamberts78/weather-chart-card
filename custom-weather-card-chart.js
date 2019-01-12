@@ -50,10 +50,10 @@ class WeatherCardChart extends Polymer.Element {
           <div class="main">
             <ha-icon icon="[[getWeatherIcon(weatherObj.state)]]"></ha-icon>
             <template is="dom-if" if="[[tempObj]]">
-              <div on-click="_tempAttr">[[computeTemp(tempObj.state)]]<sup>[[getUnit('temperature')]]</sup></div>
+              <div on-click="_tempAttr">[[roundNumber(tempObj.state)]]<sup>[[getUnit('temperature')]]</sup></div>
             </template>
             <template is="dom-if" if="[[!tempObj]]">
-              <div on-click="_weatherAttr">[[computeTemp(weatherObj.attributes.temperature)]]<sup>[[getUnit('temperature')]]</sup></div>
+              <div on-click="_weatherAttr">[[roundNumber(weatherObj.attributes.temperature)]]<sup>[[getUnit('temperature')]]</sup></div>
             </template>
           </div>
           <div class="attributes" on-click="_weatherAttr">
@@ -90,6 +90,7 @@ class WeatherCardChart extends Polymer.Element {
       config: Object,
       sunObj: Object,
       tempObj: Object,
+      mode: String,
       weatherObj: {
         type: Object,
         observer: 'dataChanged',
@@ -99,6 +100,7 @@ class WeatherCardChart extends Polymer.Element {
 
   constructor() {
     super();
+    this.mode = 'daily';
     this.weatherIcons = {
       'clear-night': 'hass:weather-night',
       'cloudy': 'hass:weather-cloudy',
@@ -132,6 +134,7 @@ class WeatherCardChart extends Polymer.Element {
     this.weatherObj = config.weather;
     this.sunObj = config.sun;
     this.tempObj = config.temp;
+    this.mode = config.mode;
     if (!config.weather) {
       throw new Error('Please define "weather" entity in the card config');
     }
@@ -152,7 +155,7 @@ class WeatherCardChart extends Polymer.Element {
 
   roundNumber(number) {
     var rounded = Math.round(number);
-    return rounded
+    return rounded;
   }
 
   computeTime(time) {
@@ -162,16 +165,9 @@ class WeatherCardChart extends Polymer.Element {
     );
   }
 
-  computeTemp(temperature) {
-    if (temperature > 0) {
-      return "+" + Math.round(temperature);
-    }
-    return Math.round(temperature)
-  }
-
   computeWind(speed) {
     var calcSpeed = Math.round(speed * 1000 / 3600);
-    return calcSpeed
+    return calcSpeed;
   }
 
   getCardSize() {
@@ -200,6 +196,7 @@ class WeatherCardChart extends Polymer.Element {
     var tempUnit = this._hass.config.unit_system.temperature;
     var lengthUnit = this._hass.config.unit_system.length;
     var precipUnit = lengthUnit === 'km' ? 'mm' : 'in';
+    var mode = this.mode;
     var i;
     if (!this.weatherObj.attributes.forecast) {
       return [];
@@ -224,7 +221,7 @@ class WeatherCardChart extends Polymer.Element {
         labels: dateTime,
         datasets: [
           {
-            label: 'Day',
+            label: 'Temperature',
             type: 'line',
             data: tempHigh,
             yAxisID: 'TempAxis',
@@ -235,7 +232,7 @@ class WeatherCardChart extends Polymer.Element {
             fill: false,
           },
           {
-            label: 'Night',
+            label: 'Temperature night',
             type: 'line',
             data: tempLow,
             yAxisID: 'TempAxis',
@@ -304,8 +301,14 @@ class WeatherCardChart extends Polymer.Element {
               fontColor: textColor,
               maxRotation: 0,
               callback: function(value, index, values) {
-                return new Date(value).toLocaleDateString([],
+                var data = new Date(value).toLocaleDateString([],
                   { weekday: 'short' });
+                var time = new Date(value).toLocaleTimeString([],
+                  { hour: 'numeric' });
+                if (mode == 'hourly') {
+                  return time;
+                }
+                return data;
               },
             },
           }],
@@ -323,7 +326,8 @@ class WeatherCardChart extends Polymer.Element {
               fontColor: textColor,
               callback: function(value, index, values) {
                 if (value > 0) {
-                  return '+' + value }
+                  return '+' + value;
+                }
                 return value;
               }
             },
