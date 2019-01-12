@@ -38,3 +38,4 @@ custom_updater:
 | weather | **No**   | An entity_id with the `weather` domain                                          |
 | sun     | Yes      | Should be `sun.sun`. Show sunrise and sunset time                               |
 | temp    | Yes      | Entity_id of the temperature sensor. Show temperature value from sensor instead |
+| mode    | Yes      | Set mode to `hourly` to display hours instead weekdays on the chart             |
