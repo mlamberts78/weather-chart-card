@@ -19,7 +19,6 @@ Then you can add the card to the view:
   - type: 'custom:weather-card-chart'
     title: Weather
     weather: weather.openweathermap
-    sun: sun.sun
 ```
 You can update this card using [custom updater](https://github.com/custom-components/custom_updater). To do this, add these lines to `custom_updater` configuration in `configuration.yaml`:
 ```yaml
@@ -36,6 +35,5 @@ custom_updater:
 | type    | **No**   | Should be `'custom:weather-card-chart'`                                                            |
 | title   | **No**   | Card title                                                                                         |
 | weather | **No**   | An entity_id with the `weather` domain                                                             |
-| sun     | Yes      | Should be `sun.sun`. Show sunrise and sunset time                                                  |
 | temp    | Yes      | Entity_id of the temperature sensor. Show temperature value from sensor instead                    |
 | mode    | Yes      | Default value: `daily`. Set mode to `hourly` to display hours instead weekdays on the chart        |
