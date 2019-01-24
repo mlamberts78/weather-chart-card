@@ -1,4 +1,16 @@
 const locale = {
+  da: {
+    tempHi: "Temperatur",
+    tempLo: "Temperatur nat",
+    precip: "Nedbør",
+    uPress: "hPa",
+    uSpeed: "m/s",
+    uPrecip: "mm",
+    cardinalDirections: [
+      'N', 'N-NØ', 'NØ', 'Ø-NØ', 'Ø', 'Ø-SØ', 'SØ', 'S-SØ',
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
+    ]
+  },
   en: {
     tempHi: "Temperature",
     tempLo: "Temperature night",
@@ -9,6 +21,30 @@ const locale = {
     cardinalDirections: [
       'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
       'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ]
+  },
+  fr: {
+    tempHi: "Température",
+    tempLo: "Température nuit",
+    precip: "Précipitations",
+    uPress: "hPa",
+    uSpeed: "m/s",
+    uPrecip: "mm",
+    cardinalDirections: [
+      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+      'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'
+    ]
+  },
+  nl: {
+    tempHi: "Maximum temperatuur",
+    tempLo: "Minimum temperatuur",
+    precip: "Neerslag",
+    uPress: "hPa",
+    uSpeed: "m/s",
+    uPrecip: "mm",
+    cardinalDirections: [
+      'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-ZO', 'ZO', 'Z-ZO',
+      'Z', 'Z-ZW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
     ]
   },
   ru: {
@@ -223,7 +259,7 @@ class WeatherCardChart extends Polymer.Element {
 
   drawChart() {
     var data = this.weatherObj.attributes.forecast.slice(0,9);
-    var locale = this._hass.selectedLanguage;
+    var locale = this._hass.selectedLanguage || this._hass.language;
     var tempUnit = this._hass.config.unit_system.temperature;
     var lengthUnit = this._hass.config.unit_system.length;
     var precipUnit = lengthUnit === 'km' ? this.ll('uPrecip') : 'in';
