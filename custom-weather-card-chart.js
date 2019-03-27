@@ -11,7 +11,7 @@ const locale = {
       'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
     ]
   },
- de: {
+  de: {
     tempHi: "Höchsttemperatur",
     tempLo: "Tiefsttemperatur",
     precip: "Niederschlag",
