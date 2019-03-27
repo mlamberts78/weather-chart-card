@@ -11,6 +11,18 @@ const locale = {
       'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
     ]
   },
+ de: {
+    tempHi: "Höchsttemperatur",
+    tempLo: "Tiefsttemperatur",
+    precip: "Niederschlag",
+    uPress: "hPa",
+    uSpeed: "m/s",
+    uPrecip: "mm",
+    cardinalDirections: [
+      'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-SO', 'SO', 'S-SO',
+      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ]
+  },
   en: {
     tempHi: "Temperature",
     tempLo: "Temperature night",
