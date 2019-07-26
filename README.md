@@ -1,5 +1,3 @@
-# Weather card
-
 ![openweathermap-eng](https://user-images.githubusercontent.com/33804747/50649716-d987f880-0fa8-11e9-9608-93aa8b2857f4.png)
 
 ## Configuration
@@ -19,13 +17,6 @@ Then you can add the card to the view:
   - type: 'custom:weather-card-chart'
     title: Weather
     weather: weather.openweathermap
-```
-You can update this card using [custom updater](https://github.com/custom-components/custom_updater). To do this, add these lines to `custom_updater` configuration in `configuration.yaml`:
-```yaml
-# Example configuration.yaml entry
-custom_updater:
-  card_urls:
-    - https://raw.githubusercontent.com/sgttrs/lovelace-weather-card-chart/master/custom-updater.json
 ```
 
 #### Configuration variables:
