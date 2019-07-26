@@ -23,6 +23,18 @@ const locale = {
       'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
     ]
   },
+  es: {
+    tempHi: "Temperatura máxima",
+    tempLo: "Temperatura mínima",
+    precip: "Precipitations",
+    uPress: "hPa",
+    uSpeed: "m/s",
+    uPrecip: "mm",
+    cardinalDirections: [
+      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+      'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'
+    ]
+  },
   fr: {
     tempHi: "Température",
     tempLo: "Température nuit",
