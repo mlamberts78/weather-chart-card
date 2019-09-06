@@ -207,7 +207,7 @@ class WeatherCardChart extends Polymer.Element {
       'hail': 'hass:weather-hail',
       'lightning': 'hass:weather-lightning',
       'lightning-rainy': 'hass:weather-lightning-rainy',
-      'partlycloudy': 'hass:weather-partlycloudy',
+      'partlycloudy': 'hass:weather-partly-cloudy',
       'pouring': 'hass:weather-pouring',
       'rainy': 'hass:weather-rainy',
       'snowy': 'hass:weather-snowy',
