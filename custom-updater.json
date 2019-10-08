@@ -1,9 +1,0 @@
-{
-    "custom-weather-card-chart": {
-      "updated_at": "2019-01-24",
-      "version": "0.2.4",
-      "remote_location": "https://raw.githubusercontent.com/sgttrs/lovelace-weather-card-chart/master/custom-weather-card-chart.js",
-      "visit_repo": "https://github.com/sgttrs/lovelace-weather-card-chart",
-      "changelog": "https://github.com/sgttrs/lovelace-weather-card-chart/releases/latest"
-    }
-}
