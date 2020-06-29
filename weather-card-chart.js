@@ -116,6 +116,8 @@ class WeatherCardChart extends Polymer.Element {
           margin-top: -10px;
         }
         .main ha-icon {
+          --iron-icon-height: 74px;
+          --iron-icon-width: 74px;
           --mdc-icon-size: 74px;
           margin-right: 20px;
         }
@@ -166,7 +168,7 @@ class WeatherCardChart extends Polymer.Element {
               </template>
             </div>
             <div>
-              <ha-icon icon="hass:[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
++             <ha-icon icon="[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
               <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
             </div>
           </div>
