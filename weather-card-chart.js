@@ -172,7 +172,7 @@ class WeatherCardChart extends Polymer.Element {
               <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
             </div>
           </div>
-          <ha-chart-base data="[[ChartData]]"></ha-chart-base>
+          <ha-chart-base hass="[[_hass]]" data="[[ChartData]]"></ha-chart-base>
           <div class="conditions">
             <template is="dom-repeat" items="[[forecast]]">
               <div>
