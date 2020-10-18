@@ -169,7 +169,12 @@ class WeatherCardChart extends Polymer.Element {
             </div>
             <div>
               <ha-icon icon="[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
-              <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
+              <template is="dom-if" if="[[windObj]]">
+                <ha-icon icon="hass:weather-windy"></ha-icon> [[roundNumber(windObj.state)]] [[ll('uSpeed')]]                
+              </template>
+              <template is="dom-if" if="[[!windObj]]">
+                <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
+              </template>
             </div>
           </div>
           <ha-chart-base hass="[[_hass]]" data="[[ChartData]]"></ha-chart-base>
@@ -190,6 +195,7 @@ class WeatherCardChart extends Polymer.Element {
       config: Object,
       sunObj: Object,
       tempObj: Object,
+      windObj: Object,
       mode: String,
       weatherObj: {
         type: Object,
@@ -229,6 +235,7 @@ class WeatherCardChart extends Polymer.Element {
     this.title = config.title;
     this.weatherObj = config.weather;
     this.tempObj = config.temp;
+    this.windObj = config.temp;
     this.mode = config.mode;
     if (!config.weather) {
       throw new Error('Please define "weather" entity in the card config');
@@ -241,6 +248,7 @@ class WeatherCardChart extends Polymer.Element {
     this.weatherObj = this.config.weather in hass.states ? hass.states[this.config.weather] : null;
     this.sunObj = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
     this.tempObj = this.config.temp in hass.states ? hass.states[this.config.temp] : null;
+    this.windObj = this.config.wind in hass.states ? hass.states[this.config.wind] : null;
     this.forecast = this.weatherObj.attributes.forecast.slice(0,9);
     this.windBearing = this.weatherObj.attributes.wind_bearing;
   }
