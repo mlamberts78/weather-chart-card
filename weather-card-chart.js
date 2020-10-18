@@ -168,7 +168,7 @@ class WeatherCardChart extends Polymer.Element {
               </template>
             </div>
             <div>
-+             <ha-icon icon="[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
+              <ha-icon icon="[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
               <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
             </div>
           </div>
