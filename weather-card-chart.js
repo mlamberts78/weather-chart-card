@@ -169,11 +169,12 @@ class WeatherCardChart extends Polymer.Element {
             </div>
             <div>
               <ha-icon icon="[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
+              <ha-icon icon="hass:weather-windy"></ha-icon>
               <template is="dom-if" if="[[windObj]]">
-                <ha-icon icon="hass:weather-windy"></ha-icon> [[roundNumber(windObj.state)]] [[ll('uSpeed')]]                
+                [[roundNumber(windObj.state)]] [[ll('uSpeed')]]                
               </template>
               <template is="dom-if" if="[[!windObj]]">
-                <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
+                [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
               </template>
             </div>
           </div>
@@ -235,7 +236,7 @@ class WeatherCardChart extends Polymer.Element {
     this.title = config.title;
     this.weatherObj = config.weather;
     this.tempObj = config.temp;
-    this.windObj = config.temp;
+    this.windObj = config.wind;
     this.mode = config.mode;
     if (!config.weather) {
       throw new Error('Please define "weather" entity in the card config');
