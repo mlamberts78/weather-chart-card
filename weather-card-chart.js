@@ -304,6 +304,9 @@ class WeatherCardChart extends Polymer.Element {
   }
 
   drawChart() {
+    if (!this.weatherObj.attributes || !this.weatherObj.attributes.forecast) {
+      return [];
+    }
     var data = this.weatherObj.attributes.forecast.slice(0,9);
     var locale = this._hass.selectedLanguage || this._hass.language;
     var tempUnit = this._hass.config.unit_system.temperature;
@@ -311,9 +314,6 @@ class WeatherCardChart extends Polymer.Element {
     var precipUnit = lengthUnit === 'km' ? this.ll('uPrecip') : 'in';
     var mode = this.mode;
     var i;
-    if (!this.weatherObj.attributes.forecast) {
-      return [];
-    }
     var dateTime = [];
     var tempHigh = [];
     var tempLow = [];
