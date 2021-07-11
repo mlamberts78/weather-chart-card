@@ -346,10 +346,6 @@ class WeatherCardChart extends Polymer.Element {
           fill: false,
           tooltip: {
             callbacks: {
-              title: function(context) {
-                var label = context.dataset.label || '';
-                return label += ': ' + context.parsed.y + tempUnit;
-              },
               label: function(context) {
                 var label = context.dataset.label || '';
                 return label += ': ' + context.parsed.y + tempUnit;
@@ -372,10 +368,6 @@ class WeatherCardChart extends Polymer.Element {
           fill: false,
           tooltip: {
             callbacks: {
-              title: function(context) {
-                var label = context.dataset.label || '';
-                return label += ': ' + context.parsed.y + tempUnit;
-              },
               label: function(context) {
                 var label = context.dataset.label || '';
                 return label += ': ' + context.parsed.y + tempUnit;
@@ -523,13 +515,18 @@ class WeatherCardChart extends Polymer.Element {
           tooltip: {
             callbacks: {
               title: function(context) {
-                return new Date(context[0].label).toLocaleDateString(locale, {
+                var date = new Date(context[0].label);
+                if (mode == 'hourly') {
+                  return date.toLocaleTimeString(locale, { 
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    });
+                }
+                return date.toLocaleDateString(locale, {
                   month: 'long',
                   day: 'numeric',
                   weekday: 'long',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                });
+                });;
               }
             }
           }
