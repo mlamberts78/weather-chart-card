@@ -421,7 +421,8 @@ class WeatherCardChart extends Polymer.Element {
             var meta = chartInstance.getDatasetMeta(2);
             meta.data.forEach(function (bar, index) {
               var data = (Math.round((chartInstance.data.datasets[2].data[index]) * 10) / 10).toFixed(1);
-              ctx.fillText(data, bar.x, bar.y - 5);
+              if (data > 0)
+                ctx.fillText(data, bar.x, bar.y - 5);
             });
           },
         },
