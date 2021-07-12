@@ -426,7 +426,7 @@ class WeatherCardChart extends Polymer.Element {
             type: 'time',
             adapters: {
               date: {
-                locale: this._hass.locale,
+                locale: this.lang,
               },
             },
             display: false,
@@ -442,7 +442,7 @@ class WeatherCardChart extends Polymer.Element {
             position: 'top',
             adapters: {
               date: {
-                locale: this._hass.locale,
+                locale: this.lang,
               },
             },
             grid: {
@@ -470,7 +470,7 @@ class WeatherCardChart extends Polymer.Element {
             position: 'left',
             adapters: {
               date: {
-                locale: this._hass.locale,
+                locale: this.lang ,
               },
             },
             grid: {
@@ -493,7 +493,7 @@ class WeatherCardChart extends Polymer.Element {
             suggestedMax: 20,
             adapters: {
               date: {
-                locale: this._hass.locale,
+                locale: this.lang,
               },
             },
             grid: {
