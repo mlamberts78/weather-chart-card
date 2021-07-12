@@ -178,7 +178,7 @@ class WeatherCardChart extends Polymer.Element {
               </template>
             </div>
           </div>
-          <ha-chart-base data="[[ChartData]]" options="[[ChartOptions]]" chartType="[[ChartType]]"></ha-chart-base>
+          <ha-chart-base data="[[ChartData]]" options="[[ChartOptions]]"></ha-chart-base>
           <div class="conditions">
             <template is="dom-repeat" items="[[forecast]]">
               <div>
@@ -328,7 +328,6 @@ class WeatherCardChart extends Polymer.Element {
     var style = getComputedStyle(document.body);
     var textColor = style.getPropertyValue('--primary-text-color');
     var dividerColor = style.getPropertyValue('--divider-color');
-    const chartType = 'bar';
     const chartData = {
       labels: dateTime,
       datasets: [
@@ -345,7 +344,19 @@ class WeatherCardChart extends Polymer.Element {
           borderColor: "#ff0029",
           backgroundColor: "#ff0029",
           fill: false,
-        },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                var label = context.dataset.label || '';
+                return label += ': ' + context.parsed.y + tempUnit;
+              },
+              label: function(context) {
+                var label = context.dataset.label || '';
+                return label += ': ' + context.parsed.y + tempUnit;
+              }
+            }
+          }
+          },
         {
           label: this.ll('tempLo'),
           type: 'line',
@@ -359,6 +370,18 @@ class WeatherCardChart extends Polymer.Element {
           borderColor: "#66a61e",
           backgroundColor: "#66a61e",
           fill: false,
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                var label = context.dataset.label || '';
+                return label += ': ' + context.parsed.y + tempUnit;
+              },
+              label: function(context) {
+                var label = context.dataset.label || '';
+                return label += ': ' + context.parsed.y + tempUnit;
+              }
+            }
+          }
         },
         {
           label: this.ll('precip'),
@@ -370,6 +393,14 @@ class WeatherCardChart extends Polymer.Element {
           yAxisID: 'yPrecipAxis',
           borderColor: "#262889",
           backgroundColor: "#262889",
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                var label = context.dataset.label || '';
+                return label += ': ' + context.parsed.y + precipUnit;
+              }
+            }
+          }
         },
       ]
     }
@@ -487,34 +518,25 @@ class WeatherCardChart extends Polymer.Element {
             },
           },
         },
-        tooltips: {
-          mode: 'index',
-          callbacks: {
-            title: function (items, data) {
-              const item = items[0];
-              const date = data.labels[item.index];
-              return new Date(date).toLocaleDateString(locale, {
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long',
-                hour: 'numeric',
-                minute: 'numeric',
-              });
-            },
-            label: function(tooltipItems, data) {
-              var label = data.datasets[tooltipItems.datasetIndex].label || '';
-              if (data.datasets[2].label == label) {
-                return label + ': ' + (tooltipItems.yLabel ?
-                  (tooltipItems.yLabel + ' ' + precipUnit) : ('0 ' + precipUnit));
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                return new Date(context[0].label).toLocaleDateString(locale, {
+                  month: 'long',
+                  day: 'numeric',
+                  weekday: 'long',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                });
               }
-              return label + ': ' + tooltipItems.yLabel + ' ' + tempUnit;
-            },
-          },
+            }
+          }
         },
+ 
       }
     this.ChartData = chartData;
     this.ChartOptions = chartOptions;
-    this.ChartType = chartType;
   }
 
   _fire(type, detail, options) {
