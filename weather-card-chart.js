@@ -136,7 +136,7 @@ class WeatherCardChart extends Polymer.Element {
           margin: 10px 0px 10px 0px;
         }
         .attributes div {
-          text-align: center;
+          text-align: left;
         }
         .conditions {
           display: flex;
