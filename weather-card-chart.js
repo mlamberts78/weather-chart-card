@@ -454,7 +454,7 @@ class WeatherCardChart extends Polymer.Element {
               display: true,
               source: 'labels',
               autoSkip: true,
-              fontColor: textColor,
+              color: textColor,
               maxRotation: 0,
               callback: function(value, index, values) {
                 var date = new Date(0);
@@ -481,7 +481,7 @@ class WeatherCardChart extends Polymer.Element {
             },
             ticks: {
               display: true,
-              fontColor: textColor,
+              color: textColor,
             },
             afterFit: function(scaleInstance) {
               scaleInstance.width = 37;
@@ -504,7 +504,7 @@ class WeatherCardChart extends Polymer.Element {
             ticks: {
               display: false,
               min: 0,
-              fontColor: textColor,
+              color: textColor,
             },
             afterFit: function(scaleInstance) {
               scaleInstance.width = 15;
