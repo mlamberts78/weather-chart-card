@@ -1,0 +1,34 @@
+{
+  "name": "weather-chart-card",
+  "version": "1.0.0",
+  "description": "Weather card with charts for Home Assistant Lovelace UI",
+  "keywords": [
+    "home-assistant",
+    "homeassistant",
+    "hass",
+    "automation",
+    "lovelace",
+    "custom-cards"
+  ],
+  "module": "src/main.js",
+  "repository": "git@github.com:Yevgenium/lovelace-weather-card-chart.git",
+  "author": "Yevgeniy Prokopenko",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^3.5.1",
+    "chartjs-plugin-datalabels": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "acorn": "^8.4.1",
+    "rollup": "^2.33.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.1.0"
+  },
+  "scripts": {
+    "start": "rollup -c rollup.config.dev.js --watch",
+    "build": "npm run lint && npm run rollup",
+    "lint": "eslint src/* --ext .js",
+    "rollup": "rollup -c"
+  }
+}
