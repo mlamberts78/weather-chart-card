@@ -22,16 +22,19 @@ weather: weather.home
 
 #### Configuration variables:
 
-| Name            | Type    | Default      | Description                                                                                        |
-| --------------- | ------- | -------------|--------------------------------------------------------------------------------------------------- |
-| type            | string  | **Required** | Should be `custom:weather-chart-card`                                                              |
-| weather         | string  | **Required** | An entity_id with the `weather` domain                                                             |
-| title           | string  | none         | Card title                                                                                         |
-| temp            | string  | none         | Entity_id of the temperature sensor. Show temperature value from sensor instead                    |
-| show_main       | boolean | true         | Show or hide a section with current weather condition amd temperature                              |
-| show_attributes | boolean | true         | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc   |
-| icons           | string  | none         | Path to the location of custom icons in svg format, for example `/local/weather-icons/`            |
-| icons_size      | number  | 25           | The size of custom icons in pixels                                                                 |
+| Name            | Type    | Default                  | Description                                                                                        |
+| --------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
+| type            | string  | **Required**             | Should be `custom:weather-chart-card`                                                              |
+| weather         | string  | **Required**             | An entity_id with the `weather` domain                                                             |
+| title           | string  | none                     | Card title                                                                                         |
+| temp            | string  | none                     | Entity_id of the temperature sensor. Show temperature value from sensor instead                    |
+| show_main       | boolean | true                     | Show or hide a section with current weather condition amd temperature                              |
+| show_attributes | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc   |
+| icons           | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`            |
+| icons_size      | number  | 25                       | The size of custom icons in pixels                                                                 |
+| temp1_color     | string  | rgba(230, 100, 100, 1.0) | Temperature first line chart color                                                                 |
+| temp2_color     | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color                                                                |
+| precip_color    | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color                                                                      |
 
 ###### What custom icons can I use?
 Icons should be in svg format. Icons should have names as shown [here](https://github.com/Yevgenium/weather-chart-card/blob/a9f795f2fd02028bdad9b771d383fa38c5f3148c/src/const.js#L24). Example:
