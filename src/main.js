@@ -69,10 +69,10 @@ class WeatherChartCard extends LitElement {
     return this._hass.config.unit_system[unit] || '';
   }
 
-  getWeatherIcon(condition) {
+  getWeatherIcon(condition, sun) {
     if (this.config.icons) {
       return `${this.config.icons}${
-        this.sun.state == 'below_horizon'
+        sun == 'below_horizon'
         ? weatherIconsNight[condition]
         : weatherIconsDay[condition]}.svg`
     }
@@ -120,7 +120,6 @@ class WeatherChartCard extends LitElement {
     if (this.forecastChart) {
       this.forecastChart.destroy();
     }
-	  var mode = config.mode ? config.mode : 'daily';
     var tempHiColor = config.temp1_color ? config.temp1_color : 'rgba(230, 100, 100, 1.0)';
     var tempLoColor = config.temp2_color ? config.temp2_color : 'rgba(68, 115, 158, 1.0)';
     var precipColor = config.precip_color ? config.precip_color : 'rgba(132, 209, 253, 1.0)';
@@ -139,18 +138,12 @@ class WeatherChartCard extends LitElement {
     var precip = [];
     for (i = 0; i < forecast.length; i++) {
       var d = forecast[i];
-      if (d.datetime) {
-        dateTime.push(d.datetime);
-      }
-      if (d.temperature) {
-        tempHigh.push(d.temperature);
-      }
-      if (d.templow) {
+      dateTime.push(d.datetime);
+      tempHigh.push(d.temperature);
+      if (typeof d.templow !== 'undefined') {
         tempLow.push(d.templow);
       }
-      if (d.precipitation) {
-        precip.push(d.precipitation);
-      }
+      precip.push(d.precipitation);
     }
     var style = getComputedStyle(document.body);
     var backgroundColor = style.getPropertyValue('--card-background-color');
@@ -160,6 +153,11 @@ class WeatherChartCard extends LitElement {
 
     Chart.defaults.color = textColor;
     Chart.defaults.scale.grid.color = dividerColor;
+    Chart.defaults.elements.line.fill = false;
+    Chart.defaults.elements.line.tension = 0.3;
+    Chart.defaults.elements.line.borderWidth = 1.5;
+    Chart.defaults.elements.point.radius = 2;
+    Chart.defaults.elements.point.hitRadius = 10;
 
     this.forecastChart = new Chart(ctx, {
       type: 'bar',
@@ -172,9 +170,6 @@ class WeatherChartCard extends LitElement {
           yAxisID: 'TempAxis',
           borderColor: tempHiColor,
           backgroundColor: tempHiColor,
-          borderWidth: 1.5,
-          pointHitRadius: 10,
-          fill: false
         },
         {
           label: this.ll('tempLo'),
@@ -183,9 +178,6 @@ class WeatherChartCard extends LitElement {
           yAxisID: 'TempAxis',
           borderColor: tempLoColor,
           backgroundColor: tempLoColor,
-          borderWidth: 1.5,
-          pointHitRadius: 10,
-          fill: false
         },
         {
           label: this.ll('precip'),
@@ -202,13 +194,13 @@ class WeatherChartCard extends LitElement {
             },
             formatter: function(value, context) {
               if (context.dataset.data[context.dataIndex] > 9) {
-                return Math.round(context.dataset.data[context.dataIndex]) + ' мм';
+                return Math.round(context.dataset.data[context.dataIndex]) + ' ' + precipUnit;
               }
-              return context.dataset.data[context.dataIndex].toFixed(1) + ' мм';
+              return context.dataset.data[context.dataIndex].toFixed(1) + ' ' + precipUnit;
             },
             align: 'top',
             anchor: 'start',
-            offset: -8
+            offset: -8,
           }
         }]
       },
@@ -216,7 +208,7 @@ class WeatherChartCard extends LitElement {
         maintainAspectRatio: false,
         layout: {
           padding: {
-            bottom: 10
+            bottom: 10,
           }
         },
         scales: {
@@ -228,7 +220,6 @@ class WeatherChartCard extends LitElement {
               zeroLineColor: dividerColor,
             },
             ticks: {
-              display: true,
               maxRotation: 0,
               padding: 8,
               callback: function(value, index, values) {
@@ -241,8 +232,8 @@ class WeatherChartCard extends LitElement {
                   return time;
                 }
                 return weekday;
-              },
-            },
+              }
+            }
           },
           TempAxis: {
             position: 'left',
@@ -256,7 +247,7 @@ class WeatherChartCard extends LitElement {
             },
             ticks: {
               display: false,
-            },
+            }
           },
           PrecipAxis: {
             position: 'right',
@@ -286,7 +277,7 @@ class WeatherChartCard extends LitElement {
             font: {
               size: 10,
               weight: 'bold',
-              lineHeight: 0.6
+              lineHeight: 0.6,
             },
             formatter: function(value, context) {
               return context.dataset.data[context.dataIndex] + '°';
@@ -333,18 +324,12 @@ class WeatherChartCard extends LitElement {
     var precip = [];
     for (i = 0; i < forecast.length; i++) {
       var d = forecast[i];
-      if (d.datetime) {
-        dateTime.push(d.datetime);
-      }
-      if (d.temperature) {
-        tempHigh.push(d.temperature);
-      }
-      if (d.templow) {
+      dateTime.push(d.datetime);
+      tempHigh.push(d.temperature);
+      if (typeof d.templow !== 'undefined') {
         tempLow.push(d.templow);
       }
-      if (d.precipitation) {
-        precip.push(d.precipitation);
-      }
+      precip.push(d.precipitation);
     }
     if (forecastChart) {
       forecastChart.data.labels = dateTime;
@@ -438,7 +423,6 @@ class WeatherChartCard extends LitElement {
           right: 4px;
           color: var(--secondary-text-color);
         }
-
       </style>
 
       <ha-card header="${config.title}">
@@ -471,7 +455,7 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderMain({ config, weather, temperature } = this) {
+  renderMain({ config, sun, weather, temperature } = this) {
     if (config.show_main == false)
       return html``;
     return html`
@@ -484,7 +468,7 @@ class WeatherChartCard extends LitElement {
         ${config.icons ?
           html`
             <img
-              src="${this.getWeatherIcon(weather.state)}"
+              src="${this.getWeatherIcon(weather.state, sun.state)}"
               alt=""
             >
           `:
@@ -537,7 +521,7 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderSun({ _hass, sun, language } = this) {
+  renderSun({ sun, language } = this) {
     if ( sun == undefined)
       return html``;
     return html`
