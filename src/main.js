@@ -80,7 +80,7 @@ class WeatherChartCard extends LitElement {
   }
 
   getWeatherCondition(condition) {
-    return locale[this.language][condition];
+    return ll(condition);
   }
 
   getWindDirIcon(deg) {
@@ -88,7 +88,7 @@ class WeatherChartCard extends LitElement {
   }
 
   getWindDir(deg) {
-    return locale[this.language]['cardinalDirections'][parseInt((deg + 11.25) / 22.5)];
+    return ll('cardinalDirections')[parseInt((deg + 11.25) / 22.5)];
   }
 
   firstUpdated() {
@@ -125,7 +125,7 @@ class WeatherChartCard extends LitElement {
     var precipColor = config.precip_color ? config.precip_color : 'rgba(132, 209, 253, 1.0)';
     var tempUnit = this._hass.config.unit_system.temperature;
     var lengthUnit = this._hass.config.unit_system.length;
-    var precipUnit = lengthUnit === 'km' ? locale[language]['uPrecip'][0] : locale[language]['uPrecip'][1];
+    var precipUnit = lengthUnit === 'km' ? ll('uPrecip')[0] : ll('uPrecip')[1];
     var forecast = weather.attributes.forecast.slice(0, forecastItems);
     if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) === 36e5)
       var mode = 'hourly';
