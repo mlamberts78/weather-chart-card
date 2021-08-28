@@ -27,24 +27,24 @@ class WeatherChartCard extends LitElement {
       config: {},
       language: {},
       sun: {type: Object},
-      iconSize: {type: Number},
       weather: {type: Object},
       temperature: {type: Object},
       forecastChart: {type: Object},
-      forecastItems: {type: Number}
+      forecastItems: {type: Number},
+      iconSize: {type: Number}
     };
   }
 
   setConfig(config) {
+    this.config = config;
     if (!config.weather) {
       throw new Error('Please, define "weather" entity in the card config');
     };
-    this.config = config;
   }
 
   set hass(hass) {
     this._hass = hass;
-    this.language = this._hass.selectedLanguage || this._hass.language;
+    this.language = hass.selectedLanguage || hass.language;
     this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
     this.weather = this.config.weather in hass.states ? hass.states[this.config.weather] : null;
     this.temperature = this.config.temp in hass.states ? hass.states[this.config.temp].state : null;
@@ -186,7 +186,7 @@ class WeatherChartCard extends LitElement {
           categoryPercentage: 1.0,
           datalabels: {
             display: function(context) {
-              return context.dataset.data[context.dataIndex] !== 0 ? 'auto' : false;
+              return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
             },
             formatter: function(value, context) {
               if (context.dataset.data[context.dataIndex] > 9) {
