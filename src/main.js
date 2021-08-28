@@ -79,10 +79,6 @@ class WeatherChartCard extends LitElement {
     return weatherIcons[condition];
   }
 
-  getWeatherCondition(condition) {
-    return this.ll(condition);
-  }
-
   getWindDirIcon(deg) {
     return cardinalDirectionsIcon[parseInt((deg + 22.5) / 45.0)];
   }
@@ -491,7 +487,7 @@ class WeatherChartCard extends LitElement {
               </div>
             `
           }
-          <span>${this.getWeatherCondition(weather.state)}</span>
+          <span>${this.ll(weather.state)}</span>
         </div>
       </div>
     `;
