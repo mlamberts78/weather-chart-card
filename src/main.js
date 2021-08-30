@@ -29,6 +29,8 @@ class WeatherChartCard extends LitElement {
       sun: {type: Object},
       weather: {type: Object},
       temperature: {type: Object},
+      humidity: {type: Object},
+      pressure: {type: Object},
       forecastChart: {type: Object},
       forecastItems: {type: Number},
       iconSize: {type: Number}
@@ -37,7 +39,7 @@ class WeatherChartCard extends LitElement {
 
   setConfig(config) {
     this.config = config;
-    if (!config.weather) {
+    if (!config.entities || !config.entities.weather) {
       throw new Error('Please, define "weather" entity in the card config');
     };
   }
@@ -46,8 +48,23 @@ class WeatherChartCard extends LitElement {
     this._hass = hass;
     this.language = hass.selectedLanguage || hass.language;
     this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
-    this.weather = this.config.weather in hass.states ? hass.states[this.config.weather] : null;
-    this.temperature = this.config.temp in hass.states ? hass.states[this.config.temp].state : null;
+    this.weather = this.config.entities.weather in hass.states
+      ? hass.states[this.config.entities.weather] : null;
+    if (this.config.entities.temperature in hass.states) {
+      this.temperature = hass.states[this.config.entities.temperature].state;
+    } else {
+      this.temperature = this.weather ? this.weather.attributes.temperature : null;
+    }
+    if (this.config.entities.humidity in hass.states) {
+      this.humidity = hass.states[this.config.entities.humidity].state;
+    } else {
+      this.humidity = this.weather ? this.weather.attributes.humidity : null;
+    }
+    if (this.config.entities.pressure in hass.states) {
+      this.pressure = hass.states[this.config.entities.pressure].state;
+    } else {
+      this.pressure = this.weather ? this.weather.attributes.pressure : null;
+    }
     this.iconSize = this.config.icons_size ? this.config.icons_size : 25;
   }
 
@@ -56,8 +73,7 @@ class WeatherChartCard extends LitElement {
   }
 
   ll(str) {
-    if (locale[this.language] === undefined)
-      return locale.en[str];
+    if (locale[this.language] === undefined) return locale.en[str];
     return locale[this.language][str];
   }
 
@@ -264,9 +280,7 @@ class WeatherChartCard extends LitElement {
           },
           datalabels: {
             backgroundColor: backgroundColor,
-            borderColor: function(context) {
-              return context.dataset.backgroundColor;
-            },
+            borderColor: context => context.dataset.backgroundColor,
             borderRadius: 8,
             borderWidth: 1.5,
             padding: 4,
@@ -430,7 +444,7 @@ class WeatherChartCard extends LitElement {
           </div>
           <div
             class="conditions"
-            @click="${(e) => this.showMoreInfo(config.weather)}"
+            @click="${(e) => this.showMoreInfo(config.entities.weather)}"
           >
             ${forecast.map((item) => html`
               ${config.icons ?
@@ -458,7 +472,7 @@ class WeatherChartCard extends LitElement {
       <ha-icon-button
         class="more-info"
         icon="hass:dots-vertical"
-        @click="${(e) => this.showMoreInfo(config.weather)}"
+        @click="${(e) => this.showMoreInfo(config.entities.weather)}"
       ></ha-icon-button>
       <div class="main">
         ${config.icons ?
@@ -473,44 +487,32 @@ class WeatherChartCard extends LitElement {
           `
         }
         <div>
-          ${temperature?
-            html`
-              <div>
-                ${temperature}
-                <span>${this.getUnit('temperature')}</span>
-              </div>
-            `:
-            html`
-              <div>
-                ${weather.attributes.temperature}
-                <span>${this.getUnit('temperature')}</span>
-              </div>
-            `
-          }
+          <div>
+            ${temperature}<span>
+            ${this.getUnit('temperature')}</span>
+          </div>
           <span>${this.ll(weather.state)}</span>
         </div>
       </div>
     `;
   }
 
-  renderAttributes({ config, weather } = this) {
-    const pressure = Math.round(weather.attributes.pressure);
-    const humidity = Math.round(weather.attributes.humidity);
-    const windDir = weather.attributes.wind_bearing;
+  renderAttributes({ config, weather, humidity, pressure } = this) {
+    const windDirection = weather.attributes.wind_bearing;
     const windSpeed = Math.round(weather.attributes.wind_speed * 1000 / 3600);
     if (config.show_attributes == false)
       return html``;
     return html`
       <div class="attributes">
         <div>
-          <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-          <ha-icon icon="hass:gauge"></ha-icon> ${pressure} ${this.ll('uPress')}
+          <ha-icon icon="hass:water-percent"></ha-icon> ${Math.round(humidity)} %<br>
+          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('uPress')}
         </div>
         <div>
           ${this.renderSun()}
         </div>
         <div>
-          <ha-icon icon="hass:${this.getWindDirIcon(windDir)}"></ha-icon> ${this.getWindDir(windDir)}<br>
+          <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
           <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('uSpeed')}
         </div>
       </div>
