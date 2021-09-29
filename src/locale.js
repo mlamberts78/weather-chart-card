@@ -25,6 +25,32 @@ const locale = {
     'windy': 'Windy',
     'windy-variant': 'Windy'
   },
+  hu: {
+    tempHi: 'Max. hőmérséklet',
+    tempLo: 'Min. hőmérséklet',
+    precip: 'Csapadék',
+    uPress: 'hPa',
+    uSpeed: 'km/h',
+    uPrecip: ['mm', 'in'],
+    cardinalDirections: [
+      'É', 'É-ÉK', 'ÉK', 'K-ÉK', 'K', 'K-DK', 'DK', 'D-DK',
+      'D', 'D-DNY', 'DNY', 'NY-DNY', 'NY', 'NY-ÉNY', 'ÉNY', 'É-ÉNY', 'É'
+    ],
+    'clear-night': 'Tiszta, éjszaka',
+    'cloudy': 'Felhős',
+    'fog': 'Ködös',
+    'hail': 'Jégeső',
+    'lightning': 'Villám',
+    'lightning-rainy': 'Zivatar',
+    'partlycloudy': 'Részben felhős',
+    'pouring': 'Szakadó eső',
+    'rainy': 'Esős',
+    'snowy': 'Havas',
+    'snowy-rainy': 'Havas eső',
+    'sunny': 'Napos',
+    'windy': 'Szeles',
+    'windy-variant': 'Szeles'
+  },
   ru: {
     tempHi: 'Температура',
     tempLo: 'Температура ночью',
