@@ -1,12 +1,48 @@
 const locale = {
+  cs: {
+    'tempHi': 'Teplota',
+    'tempLo': 'Teplota v noci',
+    'precip': 'Srážky',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ],
+    'clear-night': 'Jasná noc',
+    'cloudy': 'Zataženo',
+    'fog': 'Mlha',
+    'hail': 'Kroupy',
+    'lightning': 'Bouřky',
+    'lightning-rainy': 'Bouřky, déšť',
+    'partlycloudy': 'Polojasno',
+    'pouring': 'Silný déť',
+    'rainy': 'Déšť',
+    'snowy': 'Sníh',
+    'snowy-rainy': 'Sníh s deštěm',
+    'sunny': 'Jasno',
+    'windy': 'Větrno',
+    'windy-variant': 'Větrno'
+  },
   en: {
-    tempHi: 'Temperature',
-    tempLo: 'Temperature night',
-    precip: 'Precipitations',
-    uPress: 'hPa',
-    uSpeed: 'm/s',
-    uPrecip: ['mm', 'in'],
-    cardinalDirections: [
+    'tempHi': 'Temperature',
+    'tempLo': 'Temperature night',
+    'precip': 'Precipitations',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
       'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
       'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
     ],
@@ -26,13 +62,18 @@ const locale = {
     'windy-variant': 'Windy'
   },
   hu: {
-    tempHi: 'Max. hőmérséklet',
-    tempLo: 'Min. hőmérséklet',
-    precip: 'Csapadék',
-    uPress: 'hPa',
-    uSpeed: 'km/h',
-    uPrecip: ['mm', 'in'],
-    cardinalDirections: [
+    'tempHi': 'Max. hőmérséklet',
+    'tempLo': 'Min. hőmérséklet',
+    'precip': 'Csapadék',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
       'É', 'É-ÉK', 'ÉK', 'K-ÉK', 'K', 'K-DK', 'DK', 'D-DK',
       'D', 'D-DNY', 'DNY', 'NY-DNY', 'NY', 'NY-ÉNY', 'ÉNY', 'É-ÉNY', 'É'
     ],
@@ -52,13 +93,18 @@ const locale = {
     'windy-variant': 'Szeles'
   },
   ru: {
-    tempHi: 'Температура',
-    tempLo: 'Температура ночью',
-    precip: 'Осадки',
-    uPress: 'гПа',
-    uSpeed: 'м/с',
-    uPrecip: ['мм', 'дюйма'],
-    cardinalDirections: [
+    'tempHi': 'Температура',
+    'tempLo': 'Температура ночью',
+    'precip': 'Осадки',
+    'units': {
+      'km/h': 'км/ч',
+      'm/s': 'м/с',
+      'hPa': 'гПа',
+      'mmHg': 'мм рт.ст.',
+      'mm': 'мм',
+      'in': 'in'
+    },
+    'cardinalDirections': [
       'С', 'С-СВ', 'СВ', 'В-СВ', 'В', 'В-ЮВ', 'ЮВ', 'Ю-ЮВ',
       'Ю', 'Ю-ЮЗ', 'ЮЗ', 'З-ЮЗ', 'З', 'З-СЗ', 'СЗ', 'С-СЗ', 'С'
     ],
