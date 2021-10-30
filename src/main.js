@@ -5,12 +5,10 @@ import {
   weatherIconsDay,
   weatherIconsNight
 } from './const.js';
-import { Chart, registerables } from 'chart.js';
+import {LitElement, html} from 'lit';
+import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
-
-const LitElement = Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
-const html = LitElement.prototype.html;
 
 class WeatherChartCard extends LitElement {
 
@@ -123,7 +121,7 @@ class WeatherChartCard extends LitElement {
     this.forecastItems = Math.round(card.offsetWidth / 56);
   }
 
-  drawChart({ config, language, weather, forecastItems } = this) {
+  drawChart({config, language, weather, forecastItems} = this) {
     if (!weather || !weather.attributes || !weather.attributes.forecast) {
       return [];
     }
@@ -320,7 +318,7 @@ class WeatherChartCard extends LitElement {
     });
   }
 
-  updateChart({ weather, forecastItems, forecastChart } = this) {
+  updateChart({weather, forecastItems, forecastChart} = this) {
     if (!weather || !weather.attributes || !weather.attributes.forecast) {
       return [];
     }
@@ -348,7 +346,7 @@ class WeatherChartCard extends LitElement {
     }
   }
 
-  render({ config, _hass, weather, forecastItems } = this) {
+  render({config, _hass, weather, forecastItems} = this) {
     if (!config || !_hass) {
       return html``;
     }
@@ -380,7 +378,7 @@ class WeatherChartCard extends LitElement {
           height: ${this.iconSize}px;
         }
         .card {
-          padding-top: ${config.title? '0px' : '16px'};
+          padding-top: ${config.title ? '0px' : '16px'};
           padding-right: 16px;
           padding-bottom: 16px;
           padding-left: 16px;
@@ -456,7 +454,7 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderMain({ config, sun, weather, temperature } = this) {
+  renderMain({config, sun, weather, temperature} = this) {
     if (config.show_main == false)
       return html``;
     return html`
@@ -483,7 +481,7 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderAttributes({ config, humidity, pressure, windSpeed, windDirection } = this) {
+  renderAttributes({config, humidity, pressure, windSpeed, windDirection} = this) {
     if (this.unitSpeed === 'm/s') {
       windSpeed = Math.round(windSpeed * 1000 / 3600);
     }
@@ -495,8 +493,8 @@ class WeatherChartCard extends LitElement {
     return html`
       <div class="attributes">
         <div>
-          <ha-icon icon="hass:water-percent"></ha-icon> ${Math.round(humidity)} %<br>
-          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[this.unitPressure]}
+          <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
+          <ha-icon icon="hass:gauge"></ha-icon> ${pressure} ${this.ll('units')[this.unitPressure]}
         </div>
         <div>
           ${this.renderSun()}
@@ -509,7 +507,7 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderSun({ sun, language } = this) {
+  renderSun({sun, language} = this) {
     if ( sun == undefined)
       return html``;
     return html`

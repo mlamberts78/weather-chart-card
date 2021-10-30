@@ -15,6 +15,7 @@
   "author": "Yevgeniy Prokopenko",
   "license": "MIT",
   "dependencies": {
+    "lit": "^2.0.2",
     "chart.js": "^3.5.1",
     "chartjs-plugin-datalabels": "^2.0.0"
   },
