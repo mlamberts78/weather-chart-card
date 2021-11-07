@@ -14,8 +14,9 @@ class WeatherChartCard extends LitElement {
 
   static getStubConfig() {
     return {
+      "show_main": true,
       "show_attributes": true,
-      "show_main": true
+      "show_forecast_icons": true
     };
   }
 
@@ -346,7 +347,7 @@ class WeatherChartCard extends LitElement {
     }
   }
 
-  render({config, _hass, weather, forecastItems} = this) {
+  render({config, _hass, weather} = this) {
     if (!config || !_hass) {
       return html``;
     }
@@ -367,7 +368,6 @@ class WeatherChartCard extends LitElement {
         </ha-card>
       `;
     }
-    const forecast = weather.attributes.forecast.slice(0, forecastItems);
     return html`
       <style>
         ha-icon {
@@ -431,24 +431,7 @@ class WeatherChartCard extends LitElement {
           <div class="chart-container">
             <canvas id="forecastChart"></canvas>
           </div>
-          <div
-            class="conditions"
-            @click="${(e) => this.showMoreInfo(config.entity)}"
-          >
-            ${forecast.map((item) => html`
-              ${config.icons ?
-                html`
-                  <img class="icon"
-                    src="${this.getWeatherIcon(item.condition)}"
-                    alt=""
-                  >
-                `:
-                html`
-                  <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
-                `
-              }
-            `)}
-          </div>
+          ${this.renderForecastIcons()}
         </div>
       </ha-card>
     `;
@@ -517,6 +500,32 @@ class WeatherChartCard extends LitElement {
       <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
         ${new Date(sun.attributes.next_setting).toLocaleTimeString(language,
         {hour:'2-digit', minute:'2-digit'})}
+    `;
+  }
+
+  renderForecastIcons({config, weather, forecastItems} = this) {
+    const forecast = weather.attributes.forecast.slice(0, forecastItems);
+    if (config.show_forecast_icons == false)
+      return html``;
+    return html`
+      <div
+        class="conditions"
+        @click="${(e) => this.showMoreInfo(config.entity)}"
+      >
+        ${forecast.map((item) => html`
+          ${config.icons ?
+            html`
+              <img class="icon"
+                src="${this.getWeatherIcon(item.condition)}"
+                alt=""
+              >
+            `:
+            html`
+              <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
+            `
+          }
+        `)}
+      </div>
     `;
   }
 
