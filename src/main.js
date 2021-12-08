@@ -33,8 +33,7 @@ class WeatherChartCard extends LitElement {
       windSpeed: {type: Object},
       windDirection: {type: Object},
       forecastChart: {type: Object},
-      forecastItems: {type: Number},
-      iconSize: {type: Number}
+      forecastItems: {type: Number}
     };
   }
 
@@ -63,6 +62,14 @@ class WeatherChartCard extends LitElement {
       ? this.config.units.speed : 'km/h';
     this.unitPressure = this.config.units && this.config.units.pressure
       ? this.config.units.pressure : 'hPa';
+    this.chartFontSize = this.config.chart_options && this.config.chart_options.font_size
+      ? this.config.chart_options.font_size : 12;
+    this.chartTemperature1Color = this.config.chart_options && this.config.chart_options.temperature1_color
+      ? this.config.chart_options.temperature1_color : 'rgba(230, 100, 100, 1.0)';
+    this.chartTemperature2Color = this.config.chart_options && this.config.chart_options.temperature2_color
+      ? this.config.chart_options.temperature2_color : 'rgba(68, 115, 158, 1.0)';
+    this.chartPrecipitationsColor = this.config.chart_options && this.config.chart_options.precipitations_color
+      ? this.config.chart_options.precipitations_color : 'rgba(132, 209, 253, 1.0)';
   }
 
   constructor() {
@@ -119,7 +126,7 @@ class WeatherChartCard extends LitElement {
     if (!card) {
       return;
     }
-    this.forecastItems = Math.round(card.offsetWidth / 56);
+    this.forecastItems = Math.round(card.offsetWidth / (this.chartFontSize * 5.5));
   }
 
   drawChart({config, language, weather, forecastItems} = this) {
@@ -129,9 +136,6 @@ class WeatherChartCard extends LitElement {
     if (this.forecastChart) {
       this.forecastChart.destroy();
     }
-    var tempHiColor = config.temp1_color ? config.temp1_color : 'rgba(230, 100, 100, 1.0)';
-    var tempLoColor = config.temp2_color ? config.temp2_color : 'rgba(68, 115, 158, 1.0)';
-    var precipColor = config.precip_color ? config.precip_color : 'rgba(132, 209, 253, 1.0)';
     var tempUnit = this._hass.config.unit_system.temperature;
     var lengthUnit = this._hass.config.unit_system.length;
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
@@ -161,6 +165,7 @@ class WeatherChartCard extends LitElement {
     const ctx = this.renderRoot.querySelector('#forecastChart').getContext('2d');
 
     Chart.defaults.color = textColor;
+    Chart.defaults.font.size = this.chartFontSize;
     Chart.defaults.scale.grid.color = dividerColor;
     Chart.defaults.elements.line.fill = false;
     Chart.defaults.elements.line.tension = 0.3;
@@ -177,24 +182,24 @@ class WeatherChartCard extends LitElement {
           type: 'line',
           data: tempHigh,
           yAxisID: 'TempAxis',
-          borderColor: tempHiColor,
-          backgroundColor: tempHiColor,
+          borderColor: this.chartTemperature1Color,
+          backgroundColor: this.chartTemperature1Color,
         },
         {
           label: this.ll('tempLo'),
           type: 'line',
           data: tempLow,
           yAxisID: 'TempAxis',
-          borderColor: tempLoColor,
-          backgroundColor: tempLoColor,
+          borderColor: this.chartTemperature2Color,
+          backgroundColor: this.chartTemperature2Color,
         },
         {
           label: this.ll('precip'),
           type: 'bar',
           data: precip,
           yAxisID: 'PrecipAxis',
-          borderColor: precipColor,
-          backgroundColor: precipColor,
+          borderColor: this.chartPrecipitationsColor,
+          backgroundColor: this.chartPrecipitationsColor,
           barPercentage: 1.0,
           categoryPercentage: 1.0,
           datalabels: {
@@ -282,9 +287,7 @@ class WeatherChartCard extends LitElement {
             borderWidth: 1.5,
             padding: 4,
             font: {
-              size: 10,
-              weight: 'bold',
-              lineHeight: 0.6,
+              lineHeight: 0.7,
             },
             formatter: function(value, context) {
               return context.dataset.data[context.dataIndex] + '°';
