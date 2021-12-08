@@ -30,6 +30,37 @@ const locale = {
     'windy': 'Větrno',
     'windy-variant': 'Větrno'
   },
+  de: {
+    'tempHi': 'Temperatur',
+    'tempLo': 'Nachttemperatur',
+    'precip': 'Niederschlag',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NO', 'NO', 'E-NO', 'O', 'O-SO', 'SO', 'S-SO',
+      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ],
+    'clear-night': 'Sternenklar',
+    'cloudy': 'Bewölkt',
+    'fog': 'Nebel',
+    'hail': 'Hagel',
+    'lightning': 'Gewitter',
+    'lightning-rainy': 'Gewitter, Regen',
+    'partlycloudy': 'Teils bewölkt',
+    'pouring': 'Starkregen',
+    'rainy': 'Regen',
+    'snowy': 'Schnee',
+    'snowy-rainy': 'Schneeregen',
+    'sunny': 'Sonne',
+    'windy': 'Windig',
+    'windy-variant': 'Windig'
+  },
   en: {
     'tempHi': 'Temperature',
     'tempLo': 'Temperature night',
