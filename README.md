@@ -29,7 +29,7 @@ entity: weather.home
 | type            | string  | **Required**             | Should be `custom:weather-chart-card`                                                              |
 | entity          | string  | **Required**             | An entity_id with the `weather` domain                                                             |
 | title           | string  | none                     | Card title                                                                                         |
-| show_main       | boolean | true                     | Show or hide a section with current weather condition amd temperature                              |
+| show_main       | boolean | true                     | Show or hide a section with current weather condition and temperature                              |
 | show_attributes | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc   |
 | icons           | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`            |
 | icons_size      | number  | 25                       | The size of custom icons in pixels                                                                 |
