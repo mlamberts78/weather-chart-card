@@ -33,7 +33,7 @@ entity: weather.home
 | show_attributes | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc   |
 | icons           | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`            |
 | icons_size      | number  | 25                       | The size of custom icons in pixels                                                                 |
-| units           | object  | none                     | See units of measurement for available options                                                     |
+| units           | object  | none                     | See [units of measurement](#units-of-measurement) for available options                            |
 | temp1_color     | string  | rgba(230, 100, 100, 1.0) | Temperature first line chart color                                                                 |
 | temp2_color     | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color                                                                |
 | precip_color    | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color                                                                      |
