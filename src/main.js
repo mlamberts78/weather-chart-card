@@ -62,8 +62,8 @@ class WeatherChartCard extends LitElement {
       ? this.config.units.speed : 'km/h';
     this.unitPressure = this.config.units && this.config.units.pressure
       ? this.config.units.pressure : 'hPa';
-    this.chartFontSize = this.config.chart_options && this.config.chart_options.font_size
-      ? this.config.chart_options.font_size : 12;
+    this.chartLabelsFontSize = this.config.chart_options && this.config.chart_options.labels_font_size
+      ? this.config.chart_options.labels_font_size : 12;
     this.chartTemperature1Color = this.config.chart_options && this.config.chart_options.temperature1_color
       ? this.config.chart_options.temperature1_color : 'rgba(230, 100, 100, 1.0)';
     this.chartTemperature2Color = this.config.chart_options && this.config.chart_options.temperature2_color
@@ -126,7 +126,7 @@ class WeatherChartCard extends LitElement {
     if (!card) {
       return;
     }
-    this.forecastItems = Math.round(card.offsetWidth / (this.chartFontSize * 5.5));
+    this.forecastItems = Math.round(card.offsetWidth / (this.chartLabelsFontSize * 5.5));
   }
 
   drawChart({config, language, weather, forecastItems} = this) {
@@ -165,7 +165,6 @@ class WeatherChartCard extends LitElement {
     const ctx = this.renderRoot.querySelector('#forecastChart').getContext('2d');
 
     Chart.defaults.color = textColor;
-    Chart.defaults.font.size = this.chartFontSize;
     Chart.defaults.scale.grid.color = dividerColor;
     Chart.defaults.elements.line.fill = false;
     Chart.defaults.elements.line.tension = 0.3;
@@ -287,6 +286,7 @@ class WeatherChartCard extends LitElement {
             borderWidth: 1.5,
             padding: 4,
             font: {
+              size: this.chartLabelsFontSize,
               lineHeight: 0.7,
             },
             formatter: function(value, context) {
