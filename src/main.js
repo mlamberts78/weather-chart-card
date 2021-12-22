@@ -15,8 +15,7 @@ class WeatherChartCard extends LitElement {
   static getStubConfig() {
     return {
       "show_main": true,
-      "show_attributes": true,
-      "show_forecast_icons": true
+      "show_attributes": true
     };
   }
 
@@ -38,7 +37,24 @@ class WeatherChartCard extends LitElement {
   }
 
   setConfig(config) {
-    this.config = config;
+    const cardConfig = {
+      icons_size: 25,
+      ...config,
+      forecast: {
+        labels_font_size: 11,
+        temperature1_color: 'rgba(230, 100, 100, 1.0)',
+        temperature2_color: 'rgba(68, 115, 158, 1.0)',
+        precipitations_color: 'rgba(132, 209, 253, 1.0)',
+        condition_icons: true,
+        ...config.forecast,
+      },
+      units: {
+        pressure: 'hPa',
+        speed: 'km/h',
+        ...config.units,
+      }
+    };
+    this.config = cardConfig;
     if (!config.entity) {
       throw new Error('Please, define entity in the card config');
     };
@@ -57,19 +73,6 @@ class WeatherChartCard extends LitElement {
       this.windSpeed = this.weather.attributes.wind_speed;
       this.windDirection = this.weather.attributes.wind_bearing;
     }
-    this.iconSize = this.config.icons_size ? this.config.icons_size : 25;
-    this.unitSpeed = this.config.units && this.config.units.speed
-      ? this.config.units.speed : 'km/h';
-    this.unitPressure = this.config.units && this.config.units.pressure
-      ? this.config.units.pressure : 'hPa';
-    this.chartLabelsFontSize = this.config.chart_options && this.config.chart_options.labels_font_size
-      ? this.config.chart_options.labels_font_size : 11;
-    this.chartTemperature1Color = this.config.chart_options && this.config.chart_options.temperature1_color
-      ? this.config.chart_options.temperature1_color : 'rgba(230, 100, 100, 1.0)';
-    this.chartTemperature2Color = this.config.chart_options && this.config.chart_options.temperature2_color
-      ? this.config.chart_options.temperature2_color : 'rgba(68, 115, 158, 1.0)';
-    this.chartPrecipitationsColor = this.config.chart_options && this.config.chart_options.precipitations_color
-      ? this.config.chart_options.precipitations_color : 'rgba(132, 209, 253, 1.0)';
   }
 
   constructor() {
@@ -123,10 +126,11 @@ class WeatherChartCard extends LitElement {
 
   measureCard() {
     const card = this.shadowRoot.querySelector('ha-card');
+    let fontSize = this.config.forecast.labels_font_size;
     if (!card) {
       return;
     }
-    this.forecastItems = Math.round(card.offsetWidth / (this.chartLabelsFontSize * 5.5));
+    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 5.5));
   }
 
   drawChart({config, language, weather, forecastItems} = this) {
@@ -181,24 +185,24 @@ class WeatherChartCard extends LitElement {
           type: 'line',
           data: tempHigh,
           yAxisID: 'TempAxis',
-          borderColor: this.chartTemperature1Color,
-          backgroundColor: this.chartTemperature1Color,
+          borderColor: config.forecast.temperature1_color,
+          backgroundColor: config.forecast.temperature1_color,
         },
         {
           label: this.ll('tempLo'),
           type: 'line',
           data: tempLow,
           yAxisID: 'TempAxis',
-          borderColor: this.chartTemperature2Color,
-          backgroundColor: this.chartTemperature2Color,
+          borderColor: config.forecast.temperature2_color,
+          backgroundColor: config.forecast.temperature2_color,
         },
         {
           label: this.ll('precip'),
           type: 'bar',
           data: precip,
           yAxisID: 'PrecipAxis',
-          borderColor: this.chartPrecipitationsColor,
-          backgroundColor: this.chartPrecipitationsColor,
+          borderColor: config.forecast.precipitations_color,
+          backgroundColor: config.forecast.precipitations_color,
           barPercentage: 1.0,
           categoryPercentage: 1.0,
           datalabels: {
@@ -286,7 +290,7 @@ class WeatherChartCard extends LitElement {
             borderWidth: 1.5,
             padding: 4,
             font: {
-              size: this.chartLabelsFontSize,
+              size: config.forecast.labels_font_size,
               lineHeight: 0.7,
             },
             formatter: function(value, context) {
@@ -377,8 +381,8 @@ class WeatherChartCard extends LitElement {
           color: var(--paper-item-icon-color);
         }
         img {
-          width: ${this.iconSize}px;
-          height: ${this.iconSize}px;
+          width: ${config.icons_size}px;
+          height: ${config.icons_size}px;
         }
         .card {
           padding-top: ${config.title ? '0px' : '16px'};
@@ -397,8 +401,8 @@ class WeatherChartCard extends LitElement {
           margin-right: 14px;
         }
         .main img {
-          width: ${this.iconSize * 2}px;
-          height: ${this.iconSize * 2}px;
+          width: ${config.icons_size * 2}px;
+          height: ${config.icons_size * 2}px;
           margin-right: 14px;
         }
         .main div {
@@ -434,7 +438,7 @@ class WeatherChartCard extends LitElement {
           <div class="chart-container">
             <canvas id="forecastChart"></canvas>
           </div>
-          ${this.renderForecastIcons()}
+          ${this.renderForecastConditionIcons()}
         </div>
       </ha-card>
     `;
@@ -480,14 +484,14 @@ class WeatherChartCard extends LitElement {
       <div class="attributes">
         <div>
           <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-          <ha-icon icon="hass:gauge"></ha-icon> ${pressure} ${this.ll('units')[this.unitPressure]}
+          <ha-icon icon="hass:gauge"></ha-icon> ${pressure} ${this.ll('units')[config.units.pressure]}
         </div>
         <div>
           ${this.renderSun()}
         </div>
         <div>
           <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
-          <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[this.unitSpeed]}
+          <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
         </div>
       </div>
     `;
@@ -506,9 +510,9 @@ class WeatherChartCard extends LitElement {
     `;
   }
 
-  renderForecastIcons({config, weather, forecastItems} = this) {
+  renderForecastConditionIcons({config, weather, forecastItems} = this) {
     const forecast = weather.attributes.forecast.slice(0, forecastItems);
-    if (config.show_forecast_icons == false)
+    if (config.forecast.condition_icons == false)
       return html``;
     return html`
       <div
