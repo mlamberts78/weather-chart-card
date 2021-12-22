@@ -63,7 +63,7 @@ class WeatherChartCard extends LitElement {
     this.unitPressure = this.config.units && this.config.units.pressure
       ? this.config.units.pressure : 'hPa';
     this.chartLabelsFontSize = this.config.chart_options && this.config.chart_options.labels_font_size
-      ? this.config.chart_options.labels_font_size : 12;
+      ? this.config.chart_options.labels_font_size : 11;
     this.chartTemperature1Color = this.config.chart_options && this.config.chart_options.temperature1_color
       ? this.config.chart_options.temperature1_color : 'rgba(230, 100, 100, 1.0)';
     this.chartTemperature2Color = this.config.chart_options && this.config.chart_options.temperature2_color
