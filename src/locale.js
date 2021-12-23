@@ -92,6 +92,37 @@ const locale = {
     'windy': 'Windy',
     'windy-variant': 'Windy'
   },
+  es: {
+    'tempHi': 'Temperatura máxima',
+    'tempLo': 'Temperatura mínima',
+    'precip': 'Precipitación',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ],
+    'clear-night': 'Despejado, noche',
+    'cloudy': 'Nublado',
+    'fog': 'Niebla',
+    'hail': 'Granizo',
+    'lightning': 'Truenos',
+    'lightning-rainy': 'Lluvia y truenos',
+    'partlycloudy': 'Nublado parcialmente',
+    'pouring': 'Lluvia fuerte',
+    'rainy': 'Lluvia',
+    'snowy': 'Nieve',
+    'snowy-rainy': 'Aguanieve',
+    'sunny': 'Soleado',
+    'windy': 'Viento',
+    'windy-variant': 'Viento variable'
+  }, 
   hu: {
     'tempHi': 'Max. hőmérséklet',
     'tempLo': 'Min. hőmérséklet',
@@ -154,37 +185,6 @@ const locale = {
     'windy': 'Ветрено',
     'windy-variant': 'Ветрено'
   }
-  es: {
-    'tempHi': 'Temperatura máxima',
-    'tempLo': 'Temperatura mínima',
-    'precip': 'Precipitación',
-    'units': {
-      'km/h': 'km/h',
-      'm/s': 'm/s',
-      'hPa': 'hPa',
-      'mmHg': 'mm Hg',
-      'mm': 'mm',
-      'in': 'in'
-    },
-    'cardinalDirections': [
-      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
-      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
-    ],
-    'clear-night': 'Despejado, noche',
-    'cloudy': 'Nublado',
-    'fog': 'Niebla',
-    'hail': 'Granizo',
-    'lightning': 'Truenos',
-    'lightning-rainy': 'Lluvia y truenos',
-    'partlycloudy': 'Nublado parcialmente',
-    'pouring': 'Lluvia fuerte',
-    'rainy': 'Lluvia',
-    'snowy': 'Nieve',
-    'snowy-rainy': 'Aguanieve',
-    'sunny': 'Soleado',
-    'windy': 'Viento',
-    'windy-variant': 'Viento variable'
-  },  
 };
 
 export default locale;
