@@ -268,7 +268,7 @@ class WeatherChartCard extends LitElement {
           },
           PrecipAxis: {
             position: 'right',
-            suggestedMax: 20,
+            suggestedMax: lengthUnit === 'km' ? 20 : 1,
             grid: {
               display: false,
               drawBorder: false,
@@ -476,7 +476,7 @@ class WeatherChartCard extends LitElement {
       windSpeed = Math.round(windSpeed * 1000 / 3600);
     }
     if (this.unitPressure === 'mmHg') {
-      pressure = Math.round(pressure * 0.75);
+      pressure = pressure * 0.75;
     }
     if (config.show_attributes == false)
       return html``;
@@ -484,7 +484,7 @@ class WeatherChartCard extends LitElement {
       <div class="attributes">
         <div>
           <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-          <ha-icon icon="hass:gauge"></ha-icon> ${pressure} ${this.ll('units')[config.units.pressure]}
+          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
         </div>
         <div>
           ${this.renderSun()}
