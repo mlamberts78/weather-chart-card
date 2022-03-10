@@ -7,6 +7,7 @@ const cardinalDirectionsIcon = [
 const weatherIcons = {
   'clear-night': 'hass:weather-night',
   'cloudy': 'hass:weather-cloudy',
+  'exceptional': 'mdi:alert-circle-outline',
   'fog': 'hass:weather-fog',
   'hail': 'hass:weather-hail',
   'lightning': 'hass:weather-lightning',
@@ -24,6 +25,7 @@ const weatherIcons = {
 const weatherIconsDay = {
   'clear-night': 'clear-night',
   'cloudy': 'cloudy',
+  'exceptional': 'exceptional',
   'fog': 'fog',
   'hail': 'hail',
   'lightning': 'lightning',
