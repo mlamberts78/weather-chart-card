@@ -22,7 +22,7 @@ const locale = {
     'lightning': 'Bouřky',
     'lightning-rainy': 'Bouřky, déšť',
     'partlycloudy': 'Polojasno',
-    'pouring': 'Silný déť',
+    'pouring': 'Silný déšť',
     'rainy': 'Déšť',
     'snowy': 'Sníh',
     'snowy-rainy': 'Sníh s deštěm',
