@@ -85,3 +85,15 @@ units:
   pressure: mmHg
   speed: km/h
 ```
+
+###### Supported languages:
+Czech
+German
+Dutch
+English
+Spanish
+Finnish
+Hungarian
+Russian
+Swedish
+French
