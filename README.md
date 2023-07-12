@@ -87,13 +87,13 @@ units:
 ```
 
 ###### Supported languages:
-Czech
-German
-Dutch
-English
-Spanish
-Finnish
-Hungarian
-Russian
-Swedish
+Czech <br />
+German <br />
+Dutch <br />
+English <br />
+Spanish <br />
+Finnish <br />
+Hungarian <br />
+Russian <br />
+Swedish <br />
 French
