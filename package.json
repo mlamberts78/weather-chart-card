@@ -11,8 +11,8 @@
     "custom-cards"
   ],
   "module": "src/main.js",
-  "repository": "git@github.com:Yevgenium/lovelace-weather-card-chart.git",
-  "author": "Yevgeniy Prokopenko",
+  "repository": "git@github.com:mlamberts78/weather-chart-card.git",
+  "author": "Marc Lamberts",
   "license": "MIT",
   "dependencies": {
     "lit": "^2.0.2",

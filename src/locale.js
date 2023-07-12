@@ -61,6 +61,37 @@ const locale = {
     'windy': 'Windig',
     'windy-variant': 'Windig'
   },
+  nl: {
+    'tempHi': 'Temperatuur',
+    'tempLo': 'Nachttemperatuur',
+    'precip': 'Neerslag',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-ZO', 'ZO', 'Z-ZO',
+      'Z', 'Z-SW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+    ],
+    'clear-night': 'Helder nacht',
+    'cloudy': 'Bewolkt',
+    'fog': 'Mist',
+    'hail': 'Hagel',
+    'lightning': 'Bliksem',
+    'lightning-rainy': 'Bliksem, Regen',
+    'partlycloudy': 'Gedeeltelijk bewolkt',
+    'pouring': 'Regen',
+    'rainy': 'Regenachtig',
+    'snowy': 'Sneeuw',
+    'snowy-rainy': 'Sneeuw, regen',
+    'sunny': 'Zonnig',
+    'windy': 'WInderig',
+    'windy-variant': 'WInderig'
+  },
   en: {
     'tempHi': 'Temperature',
     'tempLo': 'Temperature night',
