@@ -2,7 +2,7 @@
 
 ## Configuration
 
-Download and copy `weather-chart-card.js` from the [latest release](https://github.com/Yevgenium/weather-chart-card/releases/latest) into your `config/www` directory.
+Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
 
 Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
 
