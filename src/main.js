@@ -16,6 +16,7 @@ class WeatherChartCard extends LitElement {
     return {
       "show_main": true,
       "show_attributes": true
+      "show_humid": true
     };
   }
 
@@ -497,6 +498,23 @@ class WeatherChartCard extends LitElement {
         </div>
       </div>
     `;
+    }
+    if (config.show_humid == false)
+      return html`
+        <div class="attributes">
+          <div>
+            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+          </div>
+          <div>
+            ${this.renderSun()}
+          </div>
+          <div>
+            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
+            <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+          </div>
+        </div>
+      `;
+    return html``;
   }
 
   renderSun({sun, language} = this) {
