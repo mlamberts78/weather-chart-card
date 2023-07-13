@@ -5,7 +5,7 @@
   </a>
 </p>
 
-![image](https://user-images.githubusercontent.com/33804747/155938742-67770857-33b2-4e95-9601-737677895115.png)
+![image](https://github.com/mlamberts78/weather-chart-card/assets/93537082/956ce102-5da0-414c-9a8f-7179c40fbb0d)
 
 ## Installation
 
