@@ -1,8 +1,29 @@
 ![image](https://user-images.githubusercontent.com/33804747/155938742-67770857-33b2-4e95-9601-737677895115.png)
 
-## Configuration
+## Installation
 
-Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
+### HACS (recommended)
+
+This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
+<small>_HACS is a third party community store and is not included in Home Assistant out of the box._</small>
+
+### Manual install
+
+1. Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
+
+2. Add the resource reference as decribed below.
+
+### CLI install
+
+1. Move into your `config/www` directory.
+
+2. Grab `weather-chart-card.js`:
+
+```
+$ wget https://github.com/mlamberts78/weather-chart-card/releases/download/V1.1/weather-chart-card.js
+```
+
+3. Add the resource reference as decribed below.
 
 Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
 
