@@ -64,12 +64,14 @@ class WeatherChartCard extends LitElement {
     this._hass = hass;
     this.language = hass.selectedLanguage || hass.language;
     this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
+    this.unitSpeed = this.config.units.speed ? this.config.units.speed : 'km/h';
+    this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
     this.weather = this.config.entity in hass.states
       ? hass.states[this.config.entity] : null;
     if (this.weather) {
-      this.temperature = this.weather.attributes.temperature;
-      this.humidity = this.weather.attributes.humidity;
-      this.pressure = this.weather.attributes.pressure;
+      this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
+      this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
+      this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
       this.windSpeed = this.weather.attributes.wind_speed;
       this.windDirection = this.weather.attributes.wind_bearing;
     }
