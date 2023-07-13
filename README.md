@@ -56,12 +56,15 @@ entity: weather.home
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
 | type                 | string  | **Required**             | Should be `custom:weather-chart-card`.                                                             |
 | entity               | string  | **Required**             | An entity_id with the `weather` domain.                                                            |
+| temp                 | string  | none                     | An entity_id for a custom temperature sensor.                                                      |
+| press                | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
+| humid                | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | icons_size           | number  | 25                       | The size of custom icons in pixels.                                                                |
-| forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                       |
+| forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
 | units                | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
 
 ##### Forecast options
