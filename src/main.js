@@ -15,7 +15,7 @@ class WeatherChartCard extends LitElement {
   static getStubConfig() {
     return {
       "show_main": true,
-      "show_attributes": true
+      "show_attributes": true,
       "show_humid": true
     };
   }
@@ -481,8 +481,24 @@ class WeatherChartCard extends LitElement {
     if (this.unitPressure === 'mmHg') {
       pressure = pressure * 0.75;
     }
-    if (config.show_attributes == false)
+    if (config.show_attributes == false) {
       return html``;
+    } else if (config.show_humid == false) {
+          return html`
+      <div class="attributes">
+        <div>
+          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+        </div>
+        <div>
+          ${this.renderSun()}
+        </div>
+        <div>
+          <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
+          <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+        </div>
+      </div>
+    `;
+    } else { 
     return html`
       <div class="attributes">
         <div>
@@ -499,23 +515,7 @@ class WeatherChartCard extends LitElement {
       </div>
     `;
     }
-    if (config.show_humid == false)
-      return html`
-        <div class="attributes">
-          <div>
-            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
-          </div>
-          <div>
-            ${this.renderSun()}
-          </div>
-          <div>
-            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
-            <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
-          </div>
-        </div>
-      `;
-    return html``;
-  }
+  } 
 
   renderSun({sun, language} = this) {
     if ( sun == undefined)
