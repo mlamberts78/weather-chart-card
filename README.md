@@ -27,7 +27,7 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 2. Grab `weather-chart-card.js`:
 
 ```
-$ wget https://github.com/mlamberts78/weather-chart-card/releases/download/V1.1/weather-chart-card.js
+$ wget https://github.com/mlamberts78/weather-chart-card/releases/download/V1.3/weather-chart-card.js
 ```
 
 3. Add the resource reference as decribed below.
