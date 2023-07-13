@@ -62,6 +62,7 @@ entity: weather.home
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
+| show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | icons_size           | number  | 25                       | The size of custom icons in pixels.                                                                |
 | forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
