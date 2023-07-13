@@ -1,3 +1,10 @@
+<h1 align="center">Weather Chart Card</h1>
+<p align="center">
+  <a href="https://github.com/custom-components/hacs">
+    <img src="https://img.shields.io/badge/HACS-Default-orange.svg" />
+  </a>
+</p>
+
 ![image](https://user-images.githubusercontent.com/33804747/155938742-67770857-33b2-4e95-9601-737677895115.png)
 
 ## Installation
