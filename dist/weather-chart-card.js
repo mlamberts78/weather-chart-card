@@ -15347,24 +15347,22 @@
 
   window.customCards = window.customCards || [];
   window.customCards.push({
-    type: "weather-card",
-    name: "Weather Card",
-    description: "A custom weather card with animated icons.",
+    type: "weather-chart-card",
+    name: "Weather Chart Card",
+    description: "A custom weather card with chart.",
     preview: true,
-    documentationURL: "https://github.com/bramkragten/weather-card",
+    documentationURL: "https://github.com/mlamberts78/weather-chart-card",
   });
 
   class WeatherChartCard extends s {
 
-    static getStubConfig() {
-      return {
-        "show_main": true,
-        "show_attributes": true,
-        "show_humidity": true,
-        "show_pressure": true,
-        "show_wind_direction": true,
-        "show_wind_speed": true
-      };
+
+    static getStubConfig(hass, unusedEntities, allEntities) {
+      let entity = unusedEntities.find((eid) => eid.split(".")[0] === "weather");
+      if (!entity) {
+        entity = allEntities.find((eid) => eid.split(".")[0] === "weather");
+      }
+      return { entity };
     }
 
     static get properties() {
