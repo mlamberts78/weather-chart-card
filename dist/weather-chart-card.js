@@ -322,28 +322,46 @@
     'arrow-right', 'arrow-bottom-right', 'arrow-down'
   ];
 
+  const weatherIcons = {
+    'clear-night': 'hass:weather-night',
+    'cloudy': 'hass:weather-cloudy',
+    'exceptional': 'mdi:alert-circle-outline',
+    'fog': 'hass:weather-fog',
+    'hail': 'hass:weather-hail',
+    'lightning': 'hass:weather-lightning',
+    'lightning-rainy': 'hass:weather-lightning-rainy',
+    'partlycloudy': 'hass:weather-partly-cloudy',
+    'pouring': 'hass:weather-pouring',
+    'rainy': 'hass:weather-rainy',
+    'snowy': 'hass:weather-snowy',
+    'snowy-rainy': 'hass:weather-snowy-rainy',
+    'sunny': 'hass:weather-sunny',
+    'windy': 'hass:weather-windy',
+    'windy-variant': 'hass:weather-windy-variant'
+  };
+
   const weatherIconsDay = {
-    'clear-night': 'night',
+    'clear-night': 'clear-night',
     'cloudy': 'cloudy',
-    'exceptional': '!!',
-    'fog': 'cloudy',
-    'hail': 'rainy-7',
-    'lightning': 'thunder',
-    'lightning-rainy': 'thunder',
-    'partlycloudy': 'cloudy-day-3',
-    'pouring': 'rainy-6',
-    'rainy': 'rainy-5',
-    'snowy': 'snowy-6',
-    'snowy-rainy': 'rainy-7',
-    'sunny': 'day',
-    'windy': 'cloudy',
-    'windy-variant': 'cloudy-day-3',
+    'exceptional': 'exceptional',
+    'fog': 'fog',
+    'hail': 'hail',
+    'lightning': 'lightning',
+    'lightning-rainy': 'lightning-rain',
+    'partlycloudy': 'partlycloudy-day',
+    'pouring': 'pouring',
+    'rainy': 'rain',
+    'snowy': 'snow',
+    'snowy-rainy': 'sleet',
+    'sunny': 'clear-day',
+    'windy': 'wind',
+    'windy-variant': 'wind',
   };
 
   const weatherIconsNight = {
     ...weatherIconsDay,
-    'sunny': 'night',
-    'partlycloudy': 'cloudy-night-2',
+    'sunny': 'clear-night',
+    'partlycloudy': 'partlycloudy-night',
   };
 
   /**
@@ -15097,8 +15115,7 @@
         "show_humidity": true,
         "show_pressure": true,
         "show_wind_direction": true,
-        "show_wind_speed": true,
-        "icons": "./icons/"
+        "show_wind_speed": true
       };
     }
 
@@ -15177,15 +15194,13 @@
     }
 
     getWeatherIcon(condition, sun) {
-      return `${
-      this.config.icons
-        ? this.config.icons
-        : "https://cdn.jsdelivr.net/gh/bramkragten/weather-card/dist/icons/"
-    }${
-      sun && sun.state == "below_horizon"
+      if (this.config.icons) {
+        return `${this.config.icons}${
+        sun == 'below_horizon'
         ? weatherIconsNight[condition]
-        : weatherIconsDay[condition]
-    }.svg`;
+        : weatherIconsDay[condition]}.svg`
+      }
+      return weatherIcons[condition];
     }
 
     getWindDirIcon(deg) {
