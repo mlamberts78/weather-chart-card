@@ -23,27 +23,27 @@ const weatherIcons = {
 };
 
 const weatherIconsDay = {
-  'clear-night': 'clear-night',
+  'clear-night': 'night',
   'cloudy': 'cloudy',
-  'exceptional': 'exceptional',
-  'fog': 'fog',
-  'hail': 'hail',
-  'lightning': 'lightning',
-  'lightning-rainy': 'lightning-rain',
-  'partlycloudy': 'partlycloudy-day',
-  'pouring': 'pouring',
-  'rainy': 'rain',
-  'snowy': 'snow',
-  'snowy-rainy': 'sleet',
-  'sunny': 'clear-day',
-  'windy': 'wind',
-  'windy-variant': 'wind',
+  'exceptional': '!!',
+  'fog': 'cloudy',
+  'hail': 'rainy-7',
+  'lightning': 'thunder',
+  'lightning-rainy': 'thunder',
+  'partlycloudy': 'cloudy-day-3',
+  'pouring': 'rainy-6',
+  'rainy': 'rainy-5',
+  'snowy': 'snowy-6',
+  'snowy-rainy': 'rainy-7',
+  'sunny': 'day',
+  'windy': 'cloudy',
+  'windy-variant': 'cloudy-day-3',
 };
 
 const weatherIconsNight = {
   ...weatherIconsDay,
-  'sunny': 'clear-night',
-  'partlycloudy': 'partlycloudy-night',
+  'sunny': 'night',
+  'partlycloudy': 'cloudy-night-2',
 };
 
 export {
