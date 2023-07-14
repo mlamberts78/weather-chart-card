@@ -15177,8 +15177,8 @@
 
     getWeatherIcon(condition, sun) {
       return `${
-      this._config.icons
-        ? this._config.icons
+      this.config.icons
+        ? this.config.icons
         : "https://cdn.jsdelivr.net/gh/bramkragten/weather-card/dist/icons/"
     }${
       sun && sun.state == "below_horizon"
