@@ -20,7 +20,7 @@ class WeatherChartCard extends LitElement {
       "show_pressure": true,
       "show_wind_direction": true,
       "show_wind_speed": true,
-      "icons": "https://github.com/mlamberts78/weather-chart-card/tree/master/dist/icons"
+      "icons": "./icons"
     };
   }
 
@@ -103,7 +103,7 @@ class WeatherChartCard extends LitElement {
     return `${
       this.config.icons
         ? this.config.icons
-        : "https://github.com/mlamberts78/weather-chart-card/tree/master/dist/icons"
+        : "./icons"
     }${
       sun && sun.state == "below_horizon"
         ? weatherIconsNight[condition]
