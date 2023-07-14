@@ -100,13 +100,15 @@ class WeatherChartCard extends LitElement {
   }
 
   getWeatherIcon(condition, sun) {
-    if (this.config.icons) {
-      return `${this.config.icons}${
-        sun == 'below_horizon'
+    return `${
+      this._config.icons
+        ? this._config.icons
+        : "https://cdn.jsdelivr.net/gh/bramkragten/weather-card/dist/icons/"
+    }${
+      sun && sun.state == "below_horizon"
         ? weatherIconsNight[condition]
-        : weatherIconsDay[condition]}.svg`
-    }
-    return weatherIcons[condition];
+        : weatherIconsDay[condition]
+    }.svg`;
   }
 
   getWindDirIcon(deg) {
