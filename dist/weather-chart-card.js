@@ -15097,7 +15097,8 @@
         "show_humidity": true,
         "show_pressure": true,
         "show_wind_direction": true,
-        "show_wind_speed": true
+        "show_wind_speed": true,
+        "icons": "icons"
       };
     }
 
