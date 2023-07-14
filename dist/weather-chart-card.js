@@ -3,6 +3,367 @@
   factory();
 })((function () { 'use strict';
 
+  const locale = {
+    cs: {
+      'tempHi': 'Teplota',
+      'tempLo': 'Teplota v noci',
+      'precip': 'Srážky',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Jasná noc',
+      'cloudy': 'Zataženo',
+      'fog': 'Mlha',
+      'hail': 'Kroupy',
+      'lightning': 'Bouřky',
+      'lightning-rainy': 'Bouřky, déšť',
+      'partlycloudy': 'Polojasno',
+      'pouring': 'Silný déšť',
+      'rainy': 'Déšť',
+      'snowy': 'Sníh',
+      'snowy-rainy': 'Sníh s deštěm',
+      'sunny': 'Jasno',
+      'windy': 'Větrno',
+      'windy-variant': 'Větrno'
+    },
+    de: {
+      'tempHi': 'Temperatur',
+      'tempLo': 'Nachttemperatur',
+      'precip': 'Niederschlag',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NO', 'NO', 'E-NO', 'O', 'O-SO', 'SO', 'S-SO',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Sternenklar',
+      'cloudy': 'Bewölkt',
+      'fog': 'Nebel',
+      'hail': 'Hagel',
+      'lightning': 'Gewitter',
+      'lightning-rainy': 'Gewitter, Regen',
+      'partlycloudy': 'Teils bewölkt',
+      'pouring': 'Starkregen',
+      'rainy': 'Regen',
+      'snowy': 'Schnee',
+      'snowy-rainy': 'Schneeregen',
+      'sunny': 'Sonne',
+      'windy': 'Windig',
+      'windy-variant': 'Windig'
+    },
+    nl: {
+      'tempHi': 'Temperatuur',
+      'tempLo': 'Nachttemperatuur',
+      'precip': 'Neerslag',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-ZO', 'ZO', 'Z-ZO',
+        'Z', 'Z-SW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Helder nacht',
+      'cloudy': 'Bewolkt',
+      'fog': 'Mist',
+      'hail': 'Hagel',
+      'lightning': 'Bliksem',
+      'lightning-rainy': 'Bliksem, Regen',
+      'partlycloudy': 'Gedeeltelijk bewolkt',
+      'pouring': 'Regen',
+      'rainy': 'Regenachtig',
+      'snowy': 'Sneeuw',
+      'snowy-rainy': 'Sneeuw, regen',
+      'sunny': 'Zonnig',
+      'windy': 'WInderig',
+      'windy-variant': 'WInderig'
+    },
+    en: {
+      'tempHi': 'Temperature',
+      'tempLo': 'Temperature night',
+      'precip': 'Precipitations',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Clear, night',
+      'cloudy': 'Cloudy',
+      'fog': 'Fog',
+      'hail': 'Hail',
+      'lightning': 'Lightning',
+      'lightning-rainy': 'Lightning, rainy',
+      'partlycloudy': 'Partly cloudy',
+      'pouring': 'Pouring',
+      'rainy': 'Rainy',
+      'snowy': 'Snowy',
+      'snowy-rainy': 'Snowy, rainy',
+      'sunny': 'Sunny',
+      'windy': 'Windy',
+      'windy-variant': 'Windy'
+    },
+    es: {
+      'tempHi': 'Temperatura máxima',
+      'tempLo': 'Temperatura mínima',
+      'precip': 'Precipitación',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Despejado, noche',
+      'cloudy': 'Nublado',
+      'fog': 'Niebla',
+      'hail': 'Granizo',
+      'lightning': 'Truenos',
+      'lightning-rainy': 'Lluvia y truenos',
+      'partlycloudy': 'Nublado parcialmente',
+      'pouring': 'Lluvia fuerte',
+      'rainy': 'Lluvia',
+      'snowy': 'Nieve',
+      'snowy-rainy': 'Aguanieve',
+      'sunny': 'Soleado',
+      'windy': 'Viento',
+      'windy-variant': 'Viento variable'
+    },
+    fi: {
+      'tempHi': 'Lämpötila ylin',
+      'tempLo': 'Lämpötila alin',
+      'precip': 'Sademäärä',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Y\u00f6, selke\u00e4\u00e4',
+      'cloudy': 'Pilvist\u00e4',
+      'fog': 'Sumuista',
+      'hail': 'Raekuuroja',
+      'lightning': 'Ukkoskuuroja',
+      'lightning-rainy': 'Ukkosta, sateista',
+      'partlycloudy': 'Osittain pilvist\u00e4',
+      'pouring': 'Kaatosadetta',
+      'rainy': 'Sateista',
+      'snowy': 'Lumisadetta',
+      'snowy-rainy': 'R\u00e4nt\u00e4sadetta',
+      'sunny': 'Aurinkoista',
+      'windy': 'Tuulista',
+      'windy-variant': 'Tuulista'
+    },
+    hu: {
+      'tempHi': 'Max. hőmérséklet',
+      'tempLo': 'Min. hőmérséklet',
+      'precip': 'Csapadék',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'É', 'É-ÉK', 'ÉK', 'K-ÉK', 'K', 'K-DK', 'DK', 'D-DK',
+        'D', 'D-DNY', 'DNY', 'NY-DNY', 'NY', 'NY-ÉNY', 'ÉNY', 'É-ÉNY', 'É'
+      ],
+      'clear-night': 'Tiszta, éjszaka',
+      'cloudy': 'Felhős',
+      'fog': 'Ködös',
+      'hail': 'Jégeső',
+      'lightning': 'Villám',
+      'lightning-rainy': 'Zivatar',
+      'partlycloudy': 'Részben felhős',
+      'pouring': 'Szakadó eső',
+      'rainy': 'Esős',
+      'snowy': 'Havas',
+      'snowy-rainy': 'Havas eső',
+      'sunny': 'Napos',
+      'windy': 'Szeles',
+      'windy-variant': 'Szeles'
+    },
+    ru: {
+      'tempHi': 'Температура',
+      'tempLo': 'Температура ночью',
+      'precip': 'Осадки',
+      'units': {
+        'km/h': 'км/ч',
+        'm/s': 'м/с',
+        'hPa': 'гПа',
+        'mmHg': 'мм рт.ст.',
+        'mm': 'мм',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'С', 'С-СВ', 'СВ', 'В-СВ', 'В', 'В-ЮВ', 'ЮВ', 'Ю-ЮВ',
+        'Ю', 'Ю-ЮЗ', 'ЮЗ', 'З-ЮЗ', 'З', 'З-СЗ', 'СЗ', 'С-СЗ', 'С'
+      ],
+      'clear-night': 'Ясно',
+      'cloudy': 'Облачно',
+      'fog': 'Туман',
+      'hail': 'Град',
+      'lightning': 'Гроза',
+      'lightning-rainy': 'Дождь с грозой',
+      'partlycloudy': 'Переменная облачность',
+      'pouring': 'Ливень',
+      'rainy': 'Дождь',
+      'snowy': 'Снег',
+      'snowy-rainy': 'Снег с дождем',
+      'sunny': 'Ясно',
+      'windy': 'Ветрено',
+      'windy-variant': 'Ветрено'
+    },
+    sv: {
+      'tempHi': 'Temperatur max',
+      'tempLo': 'Temperatur min',
+      'precip': 'Nederbörd',
+      'units': {
+          'km/h': 'km/h',
+          'm/s': 'm/s',
+          'hPa': 'hPa',
+          'mmHg': 'mm Hg',
+          'mm': 'mm',
+          'in': 'in'
+      },
+      'cardinalDirections': [
+          'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+          'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Klar natt',
+      'cloudy': 'Molnigt',
+      'fog': 'Dimma',
+      'hail': 'Hagel',
+      'lightning': 'Åska',
+      'lightning-rainy': 'Åska och regn',
+      'partlycloudy': 'Varierat molntäcke',
+      'pouring': 'Ösregn',
+      'rainy': 'Regnigt',
+      'snowy': 'Snöigt',
+      'snowy-rainy': 'Snöblandat regn',
+      'sunny': 'Soligt',
+      'windy': 'Blåsigt',
+      'windy-variant': 'Blåsigt'
+    },
+    fr: {
+      'tempHi': 'Temperature max',
+      'tempLo': 'Temperature min',
+      'precip': 'Précipitations',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'po'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'
+      ],
+      'clear-night': 'Nuit dégagé',
+      'cloudy': 'Nuageux',
+      'fog': 'Brouillard',
+      'hail': 'Grèle',
+      'lightning': 'Tonnère',
+      'lightning-rainy': 'Orage',
+      'partlycloudy': 'Couvert partielle',
+      'pouring': 'Forte Pluie',
+      'rainy': 'Pluie',
+      'snowy': 'Neige',
+      'snowy-rainy': 'Neige et Pluie',
+      'sunny': 'Ensoleillé',
+      'windy': 'Venteux',
+      'windy-variant': 'Venteux'
+    },
+  };
+
+  const cardinalDirectionsIcon = [
+    'arrow-down', 'arrow-bottom-left', 'arrow-left',
+    'arrow-top-left', 'arrow-up', 'arrow-top-right',
+    'arrow-right', 'arrow-bottom-right', 'arrow-down'
+  ];
+
+  const weatherIcons = {
+    'clear-night': 'hass:weather-night',
+    'cloudy': 'hass:weather-cloudy',
+    'exceptional': 'mdi:alert-circle-outline',
+    'fog': 'hass:weather-fog',
+    'hail': 'hass:weather-hail',
+    'lightning': 'hass:weather-lightning',
+    'lightning-rainy': 'hass:weather-lightning-rainy',
+    'partlycloudy': 'hass:weather-partly-cloudy',
+    'pouring': 'hass:weather-pouring',
+    'rainy': 'hass:weather-rainy',
+    'snowy': 'hass:weather-snowy',
+    'snowy-rainy': 'hass:weather-snowy-rainy',
+    'sunny': 'hass:weather-sunny',
+    'windy': 'hass:weather-windy',
+    'windy-variant': 'hass:weather-windy-variant'
+  };
+
+  const weatherIconsDay = {
+    'clear-night': 'night',
+    'cloudy': 'cloudy',
+    'exceptional': '!!',
+    'fog': 'cloudy',
+    'hail': 'rainy-7',
+    'lightning': 'thunder',
+    'lightning-rainy': 'thunder',
+    'partlycloudy': 'cloudy-day-3',
+    'pouring': 'rainy-6',
+    'rainy': 'rainy-5',
+    'snowy': 'snowy-6',
+    'snowy-rainy': 'rainy-7',
+    'sunny': 'day',
+    'windy': 'cloudy',
+    'windy-variant': 'cloudy-day-3',
+  };
+
+  const weatherIconsNight = {
+    ...weatherIconsDay,
+    'sunny': 'night',
+    'partlycloudy': 'cloudy-night-2',
+  };
+
   /**
    * @license
    * Copyright 2019 Google LLC
@@ -14743,376 +15104,38 @@
     }
   };
 
-  const locale = {
-    cs: {
-      'tempHi': 'Teplota',
-      'tempLo': 'Teplota v noci',
-      'precip': 'Srážky',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Jasná noc',
-      'cloudy': 'Zataženo',
-      'fog': 'Mlha',
-      'hail': 'Kroupy',
-      'lightning': 'Bouřky',
-      'lightning-rainy': 'Bouřky, déšť',
-      'partlycloudy': 'Polojasno',
-      'pouring': 'Silný déšť',
-      'rainy': 'Déšť',
-      'snowy': 'Sníh',
-      'snowy-rainy': 'Sníh s deštěm',
-      'sunny': 'Jasno',
-      'windy': 'Větrno',
-      'windy-variant': 'Větrno'
-    },
-    de: {
-      'tempHi': 'Temperatur',
-      'tempLo': 'Nachttemperatur',
-      'precip': 'Niederschlag',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NO', 'NO', 'E-NO', 'O', 'O-SO', 'SO', 'S-SO', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Sternenklar',
-      'cloudy': 'Bewölkt',
-      'fog': 'Nebel',
-      'hail': 'Hagel',
-      'lightning': 'Gewitter',
-      'lightning-rainy': 'Gewitter, Regen',
-      'partlycloudy': 'Teils bewölkt',
-      'pouring': 'Starkregen',
-      'rainy': 'Regen',
-      'snowy': 'Schnee',
-      'snowy-rainy': 'Schneeregen',
-      'sunny': 'Sonne',
-      'windy': 'Windig',
-      'windy-variant': 'Windig'
-    },
-    nl: {
-      'tempHi': 'Temperatuur',
-      'tempLo': 'Nachttemperatuur',
-      'precip': 'Neerslag',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NO', 'NO', 'O-NO', 'O', 'O-ZO', 'ZO', 'Z-ZO', 'Z', 'Z-SW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Helder nacht',
-      'cloudy': 'Bewolkt',
-      'fog': 'Mist',
-      'hail': 'Hagel',
-      'lightning': 'Bliksem',
-      'lightning-rainy': 'Bliksem, Regen',
-      'partlycloudy': 'Gedeeltelijk bewolkt',
-      'pouring': 'Regen',
-      'rainy': 'Regenachtig',
-      'snowy': 'Sneeuw',
-      'snowy-rainy': 'Sneeuw, regen',
-      'sunny': 'Zonnig',
-      'windy': 'WInderig',
-      'windy-variant': 'WInderig'
-    },
-    en: {
-      'tempHi': 'Temperature',
-      'tempLo': 'Temperature night',
-      'precip': 'Precipitations',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Clear, night',
-      'cloudy': 'Cloudy',
-      'fog': 'Fog',
-      'hail': 'Hail',
-      'lightning': 'Lightning',
-      'lightning-rainy': 'Lightning, rainy',
-      'partlycloudy': 'Partly cloudy',
-      'pouring': 'Pouring',
-      'rainy': 'Rainy',
-      'snowy': 'Snowy',
-      'snowy-rainy': 'Snowy, rainy',
-      'sunny': 'Sunny',
-      'windy': 'Windy',
-      'windy-variant': 'Windy'
-    },
-    es: {
-      'tempHi': 'Temperatura máxima',
-      'tempLo': 'Temperatura mínima',
-      'precip': 'Precipitación',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Despejado, noche',
-      'cloudy': 'Nublado',
-      'fog': 'Niebla',
-      'hail': 'Granizo',
-      'lightning': 'Truenos',
-      'lightning-rainy': 'Lluvia y truenos',
-      'partlycloudy': 'Nublado parcialmente',
-      'pouring': 'Lluvia fuerte',
-      'rainy': 'Lluvia',
-      'snowy': 'Nieve',
-      'snowy-rainy': 'Aguanieve',
-      'sunny': 'Soleado',
-      'windy': 'Viento',
-      'windy-variant': 'Viento variable'
-    },
-    fi: {
-      'tempHi': 'Lämpötila ylin',
-      'tempLo': 'Lämpötila alin',
-      'precip': 'Sademäärä',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Y\u00f6, selke\u00e4\u00e4',
-      'cloudy': 'Pilvist\u00e4',
-      'fog': 'Sumuista',
-      'hail': 'Raekuuroja',
-      'lightning': 'Ukkoskuuroja',
-      'lightning-rainy': 'Ukkosta, sateista',
-      'partlycloudy': 'Osittain pilvist\u00e4',
-      'pouring': 'Kaatosadetta',
-      'rainy': 'Sateista',
-      'snowy': 'Lumisadetta',
-      'snowy-rainy': 'R\u00e4nt\u00e4sadetta',
-      'sunny': 'Aurinkoista',
-      'windy': 'Tuulista',
-      'windy-variant': 'Tuulista'
-    },
-    hu: {
-      'tempHi': 'Max. hőmérséklet',
-      'tempLo': 'Min. hőmérséklet',
-      'precip': 'Csapadék',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['É', 'É-ÉK', 'ÉK', 'K-ÉK', 'K', 'K-DK', 'DK', 'D-DK', 'D', 'D-DNY', 'DNY', 'NY-DNY', 'NY', 'NY-ÉNY', 'ÉNY', 'É-ÉNY', 'É'],
-      'clear-night': 'Tiszta, éjszaka',
-      'cloudy': 'Felhős',
-      'fog': 'Ködös',
-      'hail': 'Jégeső',
-      'lightning': 'Villám',
-      'lightning-rainy': 'Zivatar',
-      'partlycloudy': 'Részben felhős',
-      'pouring': 'Szakadó eső',
-      'rainy': 'Esős',
-      'snowy': 'Havas',
-      'snowy-rainy': 'Havas eső',
-      'sunny': 'Napos',
-      'windy': 'Szeles',
-      'windy-variant': 'Szeles'
-    },
-    ru: {
-      'tempHi': 'Температура',
-      'tempLo': 'Температура ночью',
-      'precip': 'Осадки',
-      'units': {
-        'km/h': 'км/ч',
-        'm/s': 'м/с',
-        'hPa': 'гПа',
-        'mmHg': 'мм рт.ст.',
-        'mm': 'мм',
-        'in': 'in'
-      },
-      'cardinalDirections': ['С', 'С-СВ', 'СВ', 'В-СВ', 'В', 'В-ЮВ', 'ЮВ', 'Ю-ЮВ', 'Ю', 'Ю-ЮЗ', 'ЮЗ', 'З-ЮЗ', 'З', 'З-СЗ', 'СЗ', 'С-СЗ', 'С'],
-      'clear-night': 'Ясно',
-      'cloudy': 'Облачно',
-      'fog': 'Туман',
-      'hail': 'Град',
-      'lightning': 'Гроза',
-      'lightning-rainy': 'Дождь с грозой',
-      'partlycloudy': 'Переменная облачность',
-      'pouring': 'Ливень',
-      'rainy': 'Дождь',
-      'snowy': 'Снег',
-      'snowy-rainy': 'Снег с дождем',
-      'sunny': 'Ясно',
-      'windy': 'Ветрено',
-      'windy-variant': 'Ветрено'
-    },
-    sv: {
-      'tempHi': 'Temperatur max',
-      'tempLo': 'Temperatur min',
-      'precip': 'Nederbörd',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'],
-      'clear-night': 'Klar natt',
-      'cloudy': 'Molnigt',
-      'fog': 'Dimma',
-      'hail': 'Hagel',
-      'lightning': 'Åska',
-      'lightning-rainy': 'Åska och regn',
-      'partlycloudy': 'Varierat molntäcke',
-      'pouring': 'Ösregn',
-      'rainy': 'Regnigt',
-      'snowy': 'Snöigt',
-      'snowy-rainy': 'Snöblandat regn',
-      'sunny': 'Soligt',
-      'windy': 'Blåsigt',
-      'windy-variant': 'Blåsigt'
-    },
-    fr: {
-      'tempHi': 'Temperature max',
-      'tempLo': 'Temperature min',
-      'precip': 'Précipitations',
-      'units': {
-        'km/h': 'km/h',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'po'
-      },
-      'cardinalDirections': ['N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE', 'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'],
-      'clear-night': 'Nuit dégagé',
-      'cloudy': 'Nuageux',
-      'fog': 'Brouillard',
-      'hail': 'Grèle',
-      'lightning': 'Tonnère',
-      'lightning-rainy': 'Orage',
-      'partlycloudy': 'Couvert partielle',
-      'pouring': 'Forte Pluie',
-      'rainy': 'Pluie',
-      'snowy': 'Neige',
-      'snowy-rainy': 'Neige et Pluie',
-      'sunny': 'Ensoleillé',
-      'windy': 'Venteux',
-      'windy-variant': 'Venteux'
-    }
-  };
-
-  const cardinalDirectionsIcon = ['arrow-down', 'arrow-bottom-left', 'arrow-left', 'arrow-top-left', 'arrow-up', 'arrow-top-right', 'arrow-right', 'arrow-bottom-right', 'arrow-down'];
-  const weatherIcons = {
-    'clear-night': 'hass:weather-night',
-    'cloudy': 'hass:weather-cloudy',
-    'exceptional': 'mdi:alert-circle-outline',
-    'fog': 'hass:weather-fog',
-    'hail': 'hass:weather-hail',
-    'lightning': 'hass:weather-lightning',
-    'lightning-rainy': 'hass:weather-lightning-rainy',
-    'partlycloudy': 'hass:weather-partly-cloudy',
-    'pouring': 'hass:weather-pouring',
-    'rainy': 'hass:weather-rainy',
-    'snowy': 'hass:weather-snowy',
-    'snowy-rainy': 'hass:weather-snowy-rainy',
-    'sunny': 'hass:weather-sunny',
-    'windy': 'hass:weather-windy',
-    'windy-variant': 'hass:weather-windy-variant'
-  };
-  const weatherIconsDay = {
-    'clear-night': 'clear-night',
-    'cloudy': 'cloudy',
-    'exceptional': 'exceptional',
-    'fog': 'fog',
-    'hail': 'hail',
-    'lightning': 'lightning',
-    'lightning-rainy': 'lightning-rain',
-    'partlycloudy': 'partlycloudy-day',
-    'pouring': 'pouring',
-    'rainy': 'rain',
-    'snowy': 'snow',
-    'snowy-rainy': 'sleet',
-    'sunny': 'clear-day',
-    'windy': 'wind',
-    'windy-variant': 'wind'
-  };
-  const weatherIconsNight = {
-    ...weatherIconsDay,
-    'sunny': 'clear-night',
-    'partlycloudy': 'partlycloudy-night'
-  };
-
   Chart.register(...registerables, plugin);
+
   class WeatherChartCard extends s {
+
     static getStubConfig() {
       return {
-        show_main: true,
-        show_attributes: true,
-        show_humidity: true,
-        show_pressure: true,
-        show_wind_direction: true,
-        show_wind_speed: true
+        "show_main": true,
+        "show_attributes": true,
+        "show_humidity": true,
+        "show_pressure": true,
+        "show_wind_direction": true,
+        "show_wind_speed": true
       };
     }
+
     static get properties() {
       return {
         _hass: {},
         config: {},
         language: {},
-        sun: {
-          type: Object
-        },
-        weather: {
-          type: Object
-        },
-        temperature: {
-          type: Object
-        },
-        humidity: {
-          type: Object
-        },
-        pressure: {
-          type: Object
-        },
-        windSpeed: {
-          type: Object
-        },
-        windDirection: {
-          type: Object
-        },
-        forecastChart: {
-          type: Object
-        },
-        forecastItems: {
-          type: Number
-        }
+        sun: {type: Object},
+        weather: {type: Object},
+        temperature: {type: Object},
+        humidity: {type: Object},
+        pressure: {type: Object},
+        windSpeed: {type: Object},
+        windDirection: {type: Object},
+        forecastChart: {type: Object},
+        forecastItems: {type: Number}
       };
     }
+
     setConfig(config) {
       const cardConfig = {
         icons_size: 25,
@@ -15123,26 +15146,27 @@
           temperature2_color: 'rgba(68, 115, 158, 1.0)',
           precipitation_color: 'rgba(132, 209, 253, 1.0)',
           condition_icons: true,
-          ...config.forecast
+          ...config.forecast,
         },
         units: {
           pressure: 'hPa',
           speed: 'km/h',
-          ...config.units
+          ...config.units,
         }
       };
       this.config = cardConfig;
       if (!config.entity) {
-        throw new Error('Please define entity in the card config');
-      }
-    }
+        throw new Error('Please, define entity in the card config');
+      }  }
+
     set hass(hass) {
       this._hass = hass;
       this.language = hass.selectedLanguage || hass.language;
       this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
       this.unitSpeed = this.config.units.speed ? this.config.units.speed : 'km/h';
       this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
-      this.weather = this.config.entity in hass.states ? hass.states[this.config.entity] : null;
+      this.weather = this.config.entity in hass.states
+        ? hass.states[this.config.entity] : null;
       if (this.weather) {
         this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
         this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
@@ -15151,43 +15175,54 @@
         this.windDirection = this.weather.attributes.wind_bearing;
       }
     }
+
     constructor() {
       super();
     }
+
     ll(str) {
       if (locale[this.language] === undefined) return locale.en[str];
       return locale[this.language][str];
     }
+
     getCardSize() {
       return 4;
     }
+
     getUnit(unit) {
       return this._hass.config.unit_system[unit] || '';
     }
+
     getWeatherIcon(condition, sun) {
       if (this.config.icons) {
-        return `${this.config.icons}${sun == 'below_horizon' ? weatherIconsNight[condition] : weatherIconsDay[condition]}.svg`;
+        return `${this.config.icons}${
+        sun == 'below_horizon'
+        ? weatherIconsNight[condition]
+        : weatherIconsDay[condition]}.svg`
       }
       return weatherIcons[condition];
     }
+
     getWindDirIcon(deg) {
       return cardinalDirectionsIcon[parseInt((deg + 22.5) / 45.0)];
     }
+
     getWindDir(deg) {
       return this.ll('cardinalDirections')[parseInt((deg + 11.25) / 22.5)];
     }
+
     firstUpdated() {
       this.measureCard();
       this.drawChart();
     }
+
     updated(changedProperties) {
       if (changedProperties.has('config')) {
         this.drawChart();
-      }
-      if (changedProperties.has('weather')) {
+      }    if (changedProperties.has('weather')) {
         this.updateChart();
-      }
-    }
+      }  }
+
     measureCard() {
       const card = this.shadowRoot.querySelector('ha-card');
       let fontSize = this.config.forecast.labels_font_size;
@@ -15196,12 +15231,8 @@
       }
       this.forecastItems = Math.round(card.offsetWidth / (fontSize * 5.5));
     }
-    drawChart({
-      config,
-      language,
-      weather,
-      forecastItems
-    } = this) {
+
+    drawChart({config, language, weather, forecastItems} = this) {
       if (!weather || !weather.attributes || !weather.attributes.forecast) {
         return [];
       }
@@ -15212,7 +15243,10 @@
       var lengthUnit = this._hass.config.unit_system.length;
       var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
       var forecast = weather.attributes.forecast.slice(0, forecastItems);
-      if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) < 864e5) var mode = 'hourly';else var mode = 'daily';
+      if ((new Date(forecast[1].datetime) - new Date(forecast[0].datetime)) < 864e5)
+        var mode = 'hourly';
+      else
+        var mode = 'daily';
       var i;
       var dateTime = [];
       var tempHigh = [];
@@ -15232,6 +15266,7 @@
       var textColor = style.getPropertyValue('--primary-text-color');
       var dividerColor = style.getPropertyValue('--divider-color');
       const ctx = this.renderRoot.querySelector('#forecastChart').getContext('2d');
+
       Chart.defaults.color = textColor;
       Chart.defaults.scale.grid.color = dividerColor;
       Chart.defaults.elements.line.fill = false;
@@ -15239,6 +15274,7 @@
       Chart.defaults.elements.line.borderWidth = 1.5;
       Chart.defaults.elements.point.radius = 2;
       Chart.defaults.elements.point.hitRadius = 10;
+
       this.forecastChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -15249,15 +15285,17 @@
             data: tempHigh,
             yAxisID: 'TempAxis',
             borderColor: config.forecast.temperature1_color,
-            backgroundColor: config.forecast.temperature1_color
-          }, {
+            backgroundColor: config.forecast.temperature1_color,
+          },
+          {
             label: this.ll('tempLo'),
             type: 'line',
             data: tempLow,
             yAxisID: 'TempAxis',
             borderColor: config.forecast.temperature2_color,
-            backgroundColor: config.forecast.temperature2_color
-          }, {
+            backgroundColor: config.forecast.temperature2_color,
+          },
+          {
             label: this.ll('precip'),
             type: 'bar',
             data: precip,
@@ -15267,10 +15305,10 @@
             barPercentage: 1.0,
             categoryPercentage: 1.0,
             datalabels: {
-              display: function (context) {
+              display: function(context) {
                 return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
               },
-              formatter: function (value, context) {
+              formatter: function(value, context) {
                 if (context.dataset.data[context.dataIndex] > 9) {
                   return Math.round(context.dataset.data[context.dataIndex]) + ' ' + precipUnit;
                 }
@@ -15278,7 +15316,7 @@
               },
               align: 'top',
               anchor: 'start',
-              offset: -8
+              offset: -8,
             }
           }]
         },
@@ -15286,7 +15324,7 @@
           maintainAspectRatio: false,
           layout: {
             padding: {
-              bottom: 10
+              bottom: 10,
             }
           },
           scales: {
@@ -15295,21 +15333,17 @@
               grid: {
                 drawBorder: false,
                 drawTicks: false,
-                zeroLineColor: dividerColor
+                zeroLineColor: dividerColor,
               },
               ticks: {
                 maxRotation: 0,
                 padding: 8,
-                callback: function (value, index, values) {
+                callback: function(value, index, values) {
                   var datetime = this.getLabelForValue(value);
-                  var weekday = new Date(datetime).toLocaleDateString(language, {
-                    weekday: 'short'
-                  });
-                  var time = new Date(datetime).toLocaleTimeString(language, {
-                    hour12: false,
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  });
+                  var weekday = new Date(datetime).toLocaleDateString(language,
+                    { weekday: 'short' });
+                  var time = new Date(datetime).toLocaleTimeString(language,
+                    { hour12: false, hour: 'numeric', minute: 'numeric' });
                   if (mode == 'hourly') {
                     return time;
                   }
@@ -15325,10 +15359,10 @@
               grid: {
                 display: false,
                 drawBorder: false,
-                drawTicks: false
+                drawTicks: false,
               },
               ticks: {
-                display: false
+                display: false,
               }
             },
             PrecipAxis: {
@@ -15337,16 +15371,16 @@
               grid: {
                 display: false,
                 drawBorder: false,
-                drawTicks: false
+                drawTicks: false,
               },
               ticks: {
-                display: false
+                display: false,
               }
             }
           },
           plugins: {
             legend: {
-              display: false
+              display: false,
             },
             datalabels: {
               backgroundColor: backgroundColor,
@@ -15356,9 +15390,9 @@
               padding: 4,
               font: {
                 size: config.forecast.labels_font_size,
-                lineHeight: 0.7
+                lineHeight: 0.7,
               },
-              formatter: function (value, context) {
+              formatter: function(value, context) {
                 return context.dataset.data[context.dataIndex] + '°';
               }
             },
@@ -15373,10 +15407,10 @@
                     day: 'numeric',
                     weekday: 'short',
                     hour: 'numeric',
-                    minute: 'numeric'
+                    minute: 'numeric',
                   });
                 },
-                label: function (context) {
+                label: function(context) {
                   var label = context.dataset.label;
                   var value = context.formattedValue;
                   if (context.datasetIndex == 2) {
@@ -15390,11 +15424,8 @@
         }
       });
     }
-    updateChart({
-      weather,
-      forecastItems,
-      forecastChart
-    } = this) {
+
+    updateChart({weather, forecastItems, forecastChart} = this) {
       if (!weather || !weather.attributes || !weather.attributes.forecast) {
         return [];
       }
@@ -15421,11 +15452,8 @@
         forecastChart.update();
       }
     }
-    render({
-      config,
-      _hass,
-      weather
-    } = this) {
+
+    render({config, _hass, weather} = this) {
       if (!config || !_hass) {
         return x``;
       }
@@ -15433,7 +15461,7 @@
         return x`
         <style>
           .card {
-            padding-top: ${config.title ? '0px' : '16px'};
+            padding-top: ${config.title? '0px' : '16px'};
             padding-right: 16px;
             padding-bottom: 16px;
             padding-left: 16px;
@@ -15441,17 +15469,11 @@
         </style>
         <ha-card header="${config.title}">
           <div class="card">
-            Please check your weather entity
+            Please, check your weather entity
           </div>
         </ha-card>
       `;
       }
-      const showMain = config.show_main !== false;
-      const showAttributes = config.show_attributes !== false;
-      config.show_humidity !== false;
-      config.show_pressure !== false;
-      config.show_wind_direction !== false;
-      config.show_wind_speed !== false;
       return x`
       <style>
         ha-icon {
@@ -15510,8 +15532,8 @@
 
       <ha-card header="${config.title}">
         <div class="card">
-          ${showMain ? this.renderMain() : ''}
-          ${showAttributes ? this.renderAttributes() : ''}
+          ${this.renderMain()}
+          ${this.renderAttributes()}
           <div class="chart-container">
             <canvas id="forecastChart"></canvas>
           </div>
@@ -15520,125 +15542,121 @@
       </ha-card>
     `;
     }
-    renderMain({
-      config,
-      sun,
-      weather,
-      temperature
-    } = this) {
+
+    renderMain({config, sun, weather, temperature} = this) {
+      if (config.show_main == false)
+        return x``;
       return x`
       <div class="main">
-        ${config.icons ? x`
-              <img
-                src="${this.getWeatherIcon(weather.state, sun.state)}"
-                alt=""
-              />
-            ` : x`
-              <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
-            `}
+        ${config.icons ?
+          x`
+            <img
+              src="${this.getWeatherIcon(weather.state, sun.state)}"
+              alt=""
+            >
+          `:
+          x`
+            <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
+          `
+        }
         <div>
           <div>
             ${temperature}<span>
-              ${this.getUnit('temperature')}
-            </span>
+            ${this.getUnit('temperature')}</span>
           </div>
           <span>${this.ll(weather.state)}</span>
         </div>
       </div>
     `;
     }
-    renderAttributes({
-      config,
-      humidity,
-      pressure,
-      windSpeed,
-      windDirection
-    } = this) {
+
+    renderAttributes({config, humidity, pressure, windSpeed, windDirection} = this) {
       if (this.unitSpeed === 'm/s') {
         windSpeed = Math.round(windSpeed * 1000 / 3600);
       }
       if (this.unitPressure === 'mmHg') {
         pressure = pressure * 0.75;
       }
+      if (config.show_attributes == false)
+        return x``;
+
+      const showHumidity = config.show_humidity !== false;
+      const showPressure = config.show_pressure !== false;
+      const showWindDirection = config.show_wind_direction !== false;
+      const showWindSpeed = config.show_wind_speed !== false;
+
       return x`
       <div class="attributes">
         ${showHumidity || showPressure ? x`
-              <div>
-                ${showHumidity ? x`
-                      <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br />
-                    ` : ''}
-                ${showPressure ? x`
-                      <ha-icon icon="hass:gauge"></ha-icon>
-                      ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
-                    ` : ''}
-              </div>
-            ` : ''}
+          <div>
+	    ${showHumidity ? x`
+            <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
+           ` : ''}
+           ${showPressure ? x`
+            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+           ` : ''}
+          </div>
+        ` : ''}
         <div>
           ${this.renderSun()}
         </div>
         ${showWindDirection || showWindSpeed ? x`
-              <div>
-                ${showWindDirection ? x`
-                      <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
-                      ${this.getWindDir(windDirection)}<br />
-                    ` : ''}
-                ${showWindSpeed ? x`
-                      <ha-icon icon="hass:weather-windy"></ha-icon>
-                      ${windSpeed} ${this.ll('units')[config.units.speed]}
-                    ` : ''}
-              </div>
+          <div>
+            ${showWindDirection ? x`
+              <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
             ` : ''}
+            ${showWindSpeed ? x`
+              <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+            ` : ''}
+          </div>
+        ` : ''}
       </div>
-    `;
+     `;
     }
-    renderSun({
-      sun,
-      language
-    } = this) {
-      if (sun == undefined) return x``;
+
+    renderSun({sun, language} = this) {
+      if ( sun == undefined)
+        return x``;
       return x`
       <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, {
-      hour: '2-digit',
-      minute: '2-digit'
-    })}<br />
+        ${new Date(sun.attributes.next_rising).toLocaleTimeString(language,
+        {hour:'2-digit', minute:'2-digit'})}<br>
       <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, {
-      hour: '2-digit',
-      minute: '2-digit'
-    })}
+        ${new Date(sun.attributes.next_setting).toLocaleTimeString(language,
+        {hour:'2-digit', minute:'2-digit'})}
     `;
     }
-    renderForecastConditionIcons({
-      config,
-      weather,
-      forecastItems
-    } = this) {
+
+    renderForecastConditionIcons({config, weather, forecastItems} = this) {
       const forecast = weather.attributes.forecast.slice(0, forecastItems);
-      if (config.forecast.condition_icons == false) return x``;
+      if (config.forecast.condition_icons == false)
+        return x``;
       return x`
       <div
         class="conditions"
-        @click="${e => this.showMoreInfo(config.entity)}"
+        @click="${(e) => this.showMoreInfo(config.entity)}"
       >
-        ${forecast.map(item => x`
-            ${config.icons ? x`
-                  <img
-                    class="icon"
-                    src="${this.getWeatherIcon(item.condition)}"
-                    alt=""
-                  />
-                ` : x`
-                  <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
-                `}
-          `)}
+        ${forecast.map((item) => x`
+          ${config.icons ?
+            x`
+              <img class="icon"
+                src="${this.getWeatherIcon(item.condition)}"
+                alt=""
+              >
+            `:
+            x`
+              <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
+            `
+          }
+        `)}
       </div>
     `;
     }
+
     _fire(type, detail, options) {
       const node = this.shadowRoot;
       options = options || {};
-      detail = detail === null || detail === undefined ? {} : detail;
+      detail = (detail === null || detail === undefined) ? {} : detail;
       const event = new Event(type, {
         bubbles: options.bubbles === undefined ? true : options.bubbles,
         cancelable: Boolean(options.cancelable),
@@ -15648,12 +15666,12 @@
       node.dispatchEvent(event);
       return event;
     }
+
     showMoreInfo(entity) {
-      this._fire('hass-more-info', {
-        entityId: entity
-      });
+      this._fire('hass-more-info', { entityId: entity });
     }
   }
+
   customElements.define('weather-chart-card', WeatherChartCard);
 
 }));
