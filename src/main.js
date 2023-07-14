@@ -8,7 +8,6 @@ import {
 import {LitElement, html} from 'lit';
 import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import WeatherCardEditor from './editor.js';
 Chart.register(...registerables, ChartDataLabels);
 
 window.customCards = window.customCards || [];
