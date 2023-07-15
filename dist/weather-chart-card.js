@@ -80,7 +80,7 @@
       },
       'cardinalDirections': [
         'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-ZO', 'ZO', 'Z-ZO',
-        'Z', 'Z-SW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+        'Z', 'Z-ZW', 'ZW', 'W-ZW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
       ],
       'clear-night': 'Helder nacht',
       'cloudy': 'Bewolkt',
