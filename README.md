@@ -20,16 +20,6 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 
 2. Add the resource reference as decribed below.
 
-### CLI install
-
-1. Move into your `config/www` directory.
-
-2. Grab `weather-chart-card.js`:
-
-```
-$ wget https://github.com/mlamberts78/weather-chart-card/releases/download/V1.3/weather-chart-card.js
-```
-
 3. Add the resource reference as decribed below.
 
 Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
