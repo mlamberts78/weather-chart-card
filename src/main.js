@@ -21,14 +21,21 @@ window.customCards.push({
 
 class WeatherChartCard extends LitElement {
 
-
-  static getStubConfig(hass, unusedEntities, allEntities) {
-    let entity = unusedEntities.find((eid) => eid.split(".")[0] === "weather");
-    if (!entity) {
-      entity = allEntities.find((eid) => eid.split(".")[0] === "weather");
-    }
-    return { entity };
+static getStubConfig(hass, unusedEntities, allEntities) {
+  let entity = unusedEntities.find((eid) => eid.split(".")[0] === "weather");
+  if (!entity) {
+    entity = allEntities.find((eid) => eid.split(".")[0] === "weather");
   }
+  return {
+    entity,
+    show_main: true,
+    show_attributes: true,
+    show_humidity: true,
+    show_pressure: true,
+    show_wind_direction: true,
+    show_wind_speed: true
+  };
+}
 
   static get properties() {
     return {
