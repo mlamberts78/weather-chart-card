@@ -15129,7 +15129,8 @@
       show_humidity: true,
       show_pressure: true,
       show_wind_direction: true,
-      show_wind_speed: true
+      show_wind_speed: true,
+      show_wind_forecast: true
     };
   }
 
@@ -15539,6 +15540,7 @@
         .conditions {
           display: flex;
           justify-content: space-around;
+          align-items: center;
           margin: 0px 5px 0px 5px;
           cursor: pointer;
         }
@@ -15546,22 +15548,26 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin: 6px;
+          margin: 1px;
         }
         .wind-detail {
           display: flex;
           align-items: center;
           font-size: 11px;
         }
-
         .wind-detail ha-icon {
-          margin-right: 4px;
+	  --mdc-icon-size: 16px;
+          margin-right: 2px;
         }
-
         .wind-detail span {
           margin-right: 2px;
         }
-
+        .wind-icon {
+          margin-right: 2px;
+        }
+        .wind-speed {
+          margin-right: 2px;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -15694,10 +15700,9 @@
   }
 
   renderWind({ config, windSpeed, windDirection } = this) {
-    const showWindDirection = config.show_wind_direction !== false;
-    const showWindSpeed = config.show_wind_speed !== false;
+    const showWindForecast = config.show_wind_forecast !== false;
 
-    if (!showWindDirection && !showWindSpeed) {
+    if (!showWindForecast) {
       return x``;
     }
 
@@ -15706,9 +15711,9 @@
 
     return x`
     <div class="wind-details">
-      ${showWindDirection ? x`
+      ${showWindForecast ? x`
         <div class="wind-detail">
-          <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
+          <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
           <span class="wind-speed">${roundedWindSpeed}</span>
           ${this.ll('units')[config.units.speed]}
         </div>
