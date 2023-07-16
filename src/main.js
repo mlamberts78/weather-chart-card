@@ -449,6 +449,26 @@ static getStubConfig(hass, unusedEntities, allEntities) {
           margin: 0px 5px 0px 5px;
           cursor: pointer;
         }
+        .forecast-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 6px;
+        }
+        .wind-detail {
+          display: flex;
+          align-items: center;
+          font-size: 11px;
+        }
+
+        .wind-detail ha-icon {
+          margin-right: 4px;
+        }
+
+        .wind-detail span {
+          margin-right: 2px;
+        }
+
       </style>
 
       <ha-card header="${config.title}">
@@ -548,31 +568,61 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     `;
   }
 
-  renderForecastConditionIcons({config, weather, forecastItems} = this) {
-    const forecast = weather.attributes.forecast.slice(0, forecastItems);
-    if (config.forecast.condition_icons == false)
-      return html``;
-    return html`
-      <div
-        class="conditions"
-        @click="${(e) => this.showMoreInfo(config.entity)}"
-      >
-        ${forecast.map((item) => html`
+renderForecastConditionIcons({ config, weather, forecastItems } = this) {
+  const forecast = weather.attributes.forecast.slice(0, forecastItems);
+
+  if (config.forecast.condition_icons === false) {
+    return html``;
+  }
+
+  return html`
+    <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
+      ${forecast.map((item) => html`
+        <div class="forecast-item">
           ${config.icons ?
             html`
-              <img class="icon"
-                src="${this.getWeatherIcon(item.condition)}"
-                alt=""
-              >
-            `:
+              <img class="icon" src="${this.getWeatherIcon(item.condition)}" alt="">
+            ` :
             html`
               <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
             `
           }
-        `)}
-      </div>
-    `;
+          <div class="wind-details">
+            ${this.renderWind({
+              config,
+              windSpeed: item.wind_speed,
+              windDirection: item.wind_bearing,
+            })}
+          </div>
+        </div>
+      `)}
+    </div>
+  `;
+}
+
+renderWind({ config, windSpeed, windDirection } = this) {
+  const showWindDirection = config.show_wind_direction !== false;
+  const showWindSpeed = config.show_wind_speed !== false;
+
+  if (!showWindDirection && !showWindSpeed) {
+    return html``;
   }
+
+  // Round the wind speed value
+  const roundedWindSpeed = Math.round(windSpeed);
+
+  return html`
+    <div class="wind-details">
+      ${showWindDirection ? html`
+        <div class="wind-detail">
+          <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
+          <span class="wind-speed">${roundedWindSpeed}</span>
+          ${this.ll('units')[config.units.speed]}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
 
   _fire(type, detail, options) {
     const node = this.shadowRoot;

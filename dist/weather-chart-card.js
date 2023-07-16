@@ -15542,6 +15542,26 @@
           margin: 0px 5px 0px 5px;
           cursor: pointer;
         }
+        .forecast-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 6px;
+        }
+        .wind-detail {
+          display: flex;
+          align-items: center;
+          font-size: 11px;
+        }
+
+        .wind-detail ha-icon {
+          margin-right: 4px;
+        }
+
+        .wind-detail span {
+          margin-right: 2px;
+        }
+
       </style>
 
       <ha-card header="${config.title}">
@@ -15641,31 +15661,61 @@
     `;
     }
 
-    renderForecastConditionIcons({config, weather, forecastItems} = this) {
-      const forecast = weather.attributes.forecast.slice(0, forecastItems);
-      if (config.forecast.condition_icons == false)
-        return x``;
-      return x`
-      <div
-        class="conditions"
-        @click="${(e) => this.showMoreInfo(config.entity)}"
-      >
-        ${forecast.map((item) => x`
+  renderForecastConditionIcons({ config, weather, forecastItems } = this) {
+    const forecast = weather.attributes.forecast.slice(0, forecastItems);
+
+    if (config.forecast.condition_icons === false) {
+      return x``;
+    }
+
+    return x`
+    <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
+      ${forecast.map((item) => x`
+        <div class="forecast-item">
           ${config.icons ?
             x`
-              <img class="icon"
-                src="${this.getWeatherIcon(item.condition)}"
-                alt=""
-              >
-            `:
+              <img class="icon" src="${this.getWeatherIcon(item.condition)}" alt="">
+            ` :
             x`
               <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
             `
           }
-        `)}
-      </div>
-    `;
+          <div class="wind-details">
+            ${this.renderWind({
+              config,
+              windSpeed: item.wind_speed,
+              windDirection: item.wind_bearing,
+            })}
+          </div>
+        </div>
+      `)}
+    </div>
+  `;
+  }
+
+  renderWind({ config, windSpeed, windDirection } = this) {
+    const showWindDirection = config.show_wind_direction !== false;
+    const showWindSpeed = config.show_wind_speed !== false;
+
+    if (!showWindDirection && !showWindSpeed) {
+      return x``;
     }
+
+    // Round the wind speed value
+    const roundedWindSpeed = Math.round(windSpeed);
+
+    return x`
+    <div class="wind-details">
+      ${showWindDirection ? x`
+        <div class="wind-detail">
+          <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
+          <span class="wind-speed">${roundedWindSpeed}</span>
+          ${this.ll('units')[config.units.speed]}
+        </div>
+      ` : ''}
+    </div>
+  `;
+  }
 
     _fire(type, detail, options) {
       const node = this.shadowRoot;
