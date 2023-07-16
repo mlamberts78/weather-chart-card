@@ -607,21 +607,25 @@ renderForecastConditionIcons({ config, weather, forecastItems } = this) {
 }
 
 renderWind({ config, windSpeed, windDirection } = this) {
+  let dWindSpeed = windSpeed;
+  if (config.units.speed === 'm/s') {
+    dWindSpeed = Math.round(windSpeed * 1000 / 3600);
+  } else {
+    dWindSpeed = Math.round(windSpeed);
+  }
+
   const showWindForecast = config.show_wind_forecast !== false;
 
   if (!showWindForecast) {
     return html``;
   }
 
-  // Round the wind speed value
-  const roundedWindSpeed = Math.round(windSpeed);
-
   return html`
     <div class="wind-details">
       ${showWindForecast ? html`
         <div class="wind-detail">
           <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
-          <span class="wind-speed">${roundedWindSpeed}</span>
+          <span class="wind-speed">${dWindSpeed}</span>
           ${this.ll('units')[config.units.speed]}
         </div>
       ` : ''}
