@@ -314,6 +314,37 @@
       'windy': 'Venteux',
       'windy-variant': 'Venteux'
     },
+    pl: {
+      'tempHi': 'Temperatura',
+      'tempLo': 'Temperatura w nocy',
+      'precip': 'Opady',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Bezchmurna noc',
+      'cloudy': 'Pochmurnie',
+      'fog': 'Mgła',
+      'hail': 'Grad',
+      'lightning': 'Błyskawice',
+      'lightning-rainy': 'Burza z błyskawicami',
+      'partlycloudy': 'Częściowe zachmurzenie',
+      'pouring': 'Ulewa',
+      'rainy': 'Deszczowo',
+      'snowy': 'Śnieg',
+      'snowy-rainy': 'Śnieg z deszczem',
+      'sunny': 'Słonecznie',
+      'windy': 'Wietrznie',
+      'windy-variant': 'Zmienny wiatr'
+    },
   };
 
   const cardinalDirectionsIcon = [
@@ -15553,21 +15584,24 @@
         .wind-detail {
           display: flex;
           align-items: center;
-          font-size: 11px;
+          font-size: 10px;
         }
         .wind-detail ha-icon {
-	  --mdc-icon-size: 16px;
-          margin-right: 2px;
+	  --mdc-icon-size: 15px;
+          margin-right: 1px;
         }
         .wind-detail span {
           margin-right: 2px;
         }
         .wind-icon {
-          margin-right: 2px;
+          margin-right: 1px;
         }
         .wind-speed {
           margin-right: 2px;
         }
+        .wind-unit {
+          font-size: 8px;
+  }
       </style>
 
       <ha-card header="${config.title}">
@@ -15718,14 +15752,12 @@
     ${showWindForecast ? x`
       <div class="wind-detail">
         <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
-        <br>
         <span class="wind-speed">${dWindSpeed}</span>
-        ${this.ll('units')[config.units.speed]}
+        <span class="wind-unit">${this.ll('units')[config.units.speed]}</span>
       </div>
     ` : ''}
   </div>
 `;
-
   }
 
     _fire(type, detail, options) {
