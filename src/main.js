@@ -447,9 +447,9 @@ static getStubConfig(hass, unusedEntities, allEntities) {
         .conditions {
           display: flex;
           justify-content: space-around;
-          align-items: center;
+          align-items: centery
           margin: 0px 5px 0px 5px;
-          cursor: pointer;
+	  cursor: pointer;
         }
         .forecast-item {
           display: flex;
@@ -457,27 +457,35 @@ static getStubConfig(hass, unusedEntities, allEntities) {
           align-items: center;
           margin: 1px;
         }
+        .wind-details {
+          display: flex;
+          justify-content: space-around;
+          margin: 0px 5px 0px 5px;
+        }
         .wind-detail {
           display: flex;
           align-items: center;
-          font-size: 10px;
+          margin: 1px;
         }
         .wind-detail ha-icon {
-	  --mdc-icon-size: 15px;
+          --mdc-icon-size: 15px;
           margin-right: 1px;
         }
         .wind-detail span {
-          margin-right: 2px;
+          display: flex;
+          align-items: center;
         }
         .wind-icon {
-          margin-right: 1px;
+          margin-right: 2px;
         }
         .wind-speed {
-          margin-right: 2px;
+          font-size: 11px;
+          margin-right: 1px;
         }
         .wind-unit {
           font-size: 8px;
-  }
+          margin-left: 1px;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -488,6 +496,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
             <canvas id="forecastChart"></canvas>
           </div>
           ${this.renderForecastConditionIcons()}
+          ${this.renderWind()}
         </div>
       </ha-card>
     `;
@@ -596,44 +605,44 @@ renderForecastConditionIcons({ config, weather, forecastItems } = this) {
               <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
             `
           }
-          <div class="wind-details">
-            ${this.renderWind({
-              config,
-              windSpeed: item.wind_speed,
-              windDirection: item.wind_bearing,
-            })}
-          </div>
         </div>
       `)}
     </div>
   `;
 }
 
-renderWind({ config, windSpeed, windDirection } = this) {
-  let dWindSpeed = windSpeed;
-  if (config.units.speed === 'm/s') {
-    dWindSpeed = Math.round(windSpeed * 1000 / 3600);
-  } else {
-    dWindSpeed = Math.round(windSpeed);
-  }
-
+renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) {
   const showWindForecast = config.show_wind_forecast !== false;
 
   if (!showWindForecast) {
     return html``;
   }
 
-return html`
-  <div class="wind-details">
-    ${showWindForecast ? html`
-      <div class="wind-detail">
-        <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
-        <span class="wind-speed">${dWindSpeed}</span>
-        <span class="wind-unit">${this.ll('units')[config.units.speed]}</span>
-      </div>
-    ` : ''}
-  </div>
-`;
+  const forecast = weather.attributes.forecast.slice(0, forecastItems);
+
+  return html`
+    <div class="wind-details">
+      ${showWindForecast ? html`
+        ${forecast.map((item) => {
+          let dWindSpeed = item.wind_speed; // Initialize with the original wind_speed value
+
+          if (config.units.speed === 'm/s') {
+            dWindSpeed = Math.round(item.wind_speed * 1000 / 3600); // Convert to m/s
+          } else {
+            dWindSpeed = Math.round(item.wind_speed); // Keep the original value (assuming it's in the desired unit)
+          }
+
+          return html`
+            <div class="wind-detail">
+              <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(item.wind_bearing)}"></ha-icon>
+              <span class="wind-speed">${dWindSpeed}</span>
+              <span class="wind-unit">${this.ll('units')[config.units.speed]}</span>
+            </div>
+          `;
+        })}
+      ` : ''}
+    </div>
+  `;
 }
 
   _fire(type, detail, options) {
