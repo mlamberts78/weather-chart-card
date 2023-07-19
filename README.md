@@ -121,4 +121,5 @@ Finnish <br />
 Hungarian <br />
 Russian <br />
 Swedish <br />
-French
+French <br />
+Polish
