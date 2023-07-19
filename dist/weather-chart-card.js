@@ -15713,17 +15713,19 @@
       return x``;
     }
 
-    return x`
-    <div class="wind-details">
-      ${showWindForecast ? x`
-        <div class="wind-detail">
-          <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
-          <span class="wind-speed">${dWindSpeed}</span>
-          ${this.ll('units')[config.units.speed]}
-        </div>
-      ` : ''}
-    </div>
-  `;
+  return x`
+  <div class="wind-details">
+    ${showWindForecast ? x`
+      <div class="wind-detail">
+        <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon>
+        <br>
+        <span class="wind-speed">${dWindSpeed}</span>
+        ${this.ll('units')[config.units.speed]}
+      </div>
+    ` : ''}
+  </div>
+`;
+
   }
 
     _fire(type, detail, options) {
