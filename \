@@ -621,7 +621,7 @@ renderForecastConditionIcons({ config, weather, forecastItems } = this) {
 }
 
 renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) {
-  const showWindForecast = config.forecast.show_wind_forecast !== false;
+  const showWindForecast = config.show_wind_forecast !== false;
 
   if (!showWindForecast) {
     return html``;
@@ -633,12 +633,12 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
     <div class="wind-details">
       ${showWindForecast ? html`
         ${forecast.map((item) => {
-          let dWindSpeed = item.wind_speed;
+          let dWindSpeed = item.wind_speed; // Initialize with the original wind_speed value
 
           if (config.units.speed === 'm/s') {
             dWindSpeed = Math.round(item.wind_speed * 1000 / 3600); // Convert to m/s
           } else {
-            dWindSpeed = Math.round(item.wind_speed);
+            dWindSpeed = Math.round(item.wind_speed); // Keep the original value (assuming it's in the desired unit)
           }
 
           return html`

@@ -15161,7 +15161,15 @@
       show_pressure: true,
       show_wind_direction: true,
       show_wind_speed: true,
-      show_wind_forecast: true
+      forecast: {
+        labels_font_size: '11',
+        show_wind_forecast: true,
+        condition_icons: true,
+      },
+      units: { 
+        pressure: 'hPa',
+        speed: 'km/h',
+      },
     };
   }
 
@@ -15192,6 +15200,7 @@
           temperature2_color: 'rgba(68, 115, 158, 1.0)',
           precipitation_color: 'rgba(132, 209, 253, 1.0)',
           condition_icons: true,
+          show_wind_forecast: true,
           ...config.forecast,
         },
         units: {
@@ -15736,7 +15745,7 @@
   }
 
   renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) {
-    const showWindForecast = config.show_wind_forecast !== false;
+    const showWindForecast = config.forecast.show_wind_forecast !== false;
 
     if (!showWindForecast) {
       return x``;
@@ -15748,12 +15757,12 @@
     <div class="wind-details">
       ${showWindForecast ? x`
         ${forecast.map((item) => {
-          let dWindSpeed = item.wind_speed; // Initialize with the original wind_speed value
+          let dWindSpeed = item.wind_speed;
 
           if (config.units.speed === 'm/s') {
             dWindSpeed = Math.round(item.wind_speed * 1000 / 3600); // Convert to m/s
           } else {
-            dWindSpeed = Math.round(item.wind_speed); // Keep the original value (assuming it's in the desired unit)
+            dWindSpeed = Math.round(item.wind_speed);
           }
 
           return x`
