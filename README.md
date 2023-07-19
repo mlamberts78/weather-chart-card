@@ -81,8 +81,7 @@ entity: weather.home
 
 ###### What custom icons can I use?
 Icons should be in svg format. Icons should have names as shown [here](https://github.com/mlamberts78/weather-chart-card/blob/master/src/const.js#L24). Example:
-![image](https://user-images.githubusercontent.com/33804747/130360372-76d70c42-986c-46e3-b9b5-810f0317f94f.png)
-
+![130360372-76d70c42-986c-46e3-b9b5-810f0317f94f](https://github.com/mlamberts78/weather-chart-card/assets/93537082/d3ee55a2-e64f-4354-b36d-9faf6ea37361)
 
 #### Example usage:
 ###### Basic
