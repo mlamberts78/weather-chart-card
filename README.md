@@ -56,7 +56,6 @@ entity: weather.home
 | show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
 | show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed      | boolean | true                     | Show or hide wind_speed on the card.                                                               |
-| show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | icons_size           | number  | 25                       | The size of custom icons in pixels.                                                                |
 | forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
@@ -71,6 +70,7 @@ entity: weather.home
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
+| show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 
 ##### Units of measurement
 
@@ -80,7 +80,7 @@ entity: weather.home
 | speed                | string  | 'km/h'                   | Can be 'km/h' or 'm/s'                                                                             |
 
 ###### What custom icons can I use?
-Icons should be in svg format. Icons should have names as shown [here](https://github.com/Yevgenium/weather-chart-card/blob/a9f795f2fd02028bdad9b771d383fa38c5f3148c/src/const.js#L24). Example:
+Icons should be in svg format. Icons should have names as shown [here](https://github.com/mlamberts78/weather-chart-card/blob/master/src/const.js#L24). Example:
 ![image](https://user-images.githubusercontent.com/33804747/130360372-76d70c42-986c-46e3-b9b5-810f0317f94f.png)
 
 
