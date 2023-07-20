@@ -1,11 +1,16 @@
 import { LitElement, html } from 'lit';
 
 class ContentCardEditor extends LitElement {
-
   static get properties() {
     return {
       config: {},
+      currentPage: { type: String }, // Add a property to store the current page
     };
+  }
+
+  constructor() {
+    super();
+    this.currentPage = 'card'; // Set the initial page as 'card'
   }
 
   setConfig(config) {
@@ -21,33 +26,37 @@ class ContentCardEditor extends LitElement {
     this.dispatchEvent(event);
   }
 
-_valueChanged(event, key) {
-  if (!this._config) {
-    return;
-  }
-
-  const newConfig = JSON.parse(JSON.stringify(this._config)); // Deep clone to prevent mutation of the original object
-
-  const keys = key.split('.'); // Split the key to handle nested properties
-  let targetConfig = newConfig;
-
-  for (let i = 0; i < keys.length - 1; i++) {
-    const currentKey = keys[i];
-    if (!targetConfig[currentKey]) {
-      targetConfig[currentKey] = {}; // Create an empty object if the nested property doesn't exist
+  _valueChanged(event, key) {
+    if (!this._config) {
+      return;
     }
-    targetConfig = targetConfig[currentKey];
+
+    const newConfig = JSON.parse(JSON.stringify(this._config)); // Deep clone to prevent mutation of the original object
+
+    const keys = key.split('.'); // Split the key to handle nested properties
+    let targetConfig = newConfig;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      const currentKey = keys[i];
+      if (!targetConfig[currentKey]) {
+        targetConfig[currentKey] = {}; // Create an empty object if the nested property doesn't exist
+      }
+      targetConfig = targetConfig[currentKey];
+    }
+
+    const lastKey = keys[keys.length - 1];
+    if (lastKey === 'entity') {
+      targetConfig[lastKey] = event.target.value;
+    } else {
+      targetConfig[lastKey] = event.target.checked !== undefined ? event.target.checked : event.target.value;
+    }
+
+    this.configChanged(newConfig);
   }
 
-  const lastKey = keys[keys.length - 1];
-  if (lastKey === 'entity') {
-    targetConfig[lastKey] = event.target.value;
-  } else {
-    targetConfig[lastKey] = event.target.checked !== undefined ? event.target.checked : event.target.value;
+  showPage(pageName) {
+    this.currentPage = pageName;
   }
-
-  this.configChanged(newConfig);
-}
 
   render() {
     const forecastConfig = this._config.forecast || {};
@@ -61,6 +70,12 @@ _valueChanged(event, key) {
         .switch-container {
           margin-bottom: 12px;
         }
+        .page-container {
+          display: none;
+        }
+        .page-container.active {
+          display: block;
+        }
       </style>
       <div>
         <paper-input
@@ -73,62 +88,81 @@ _valueChanged(event, key) {
           .value="${this._config.title || ''}"
           @value-changed="${(e) => this._valueChanged(e, 'title')}"
         ></paper-input>
-        <h4>Card setting</h4>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_main')}"
-            .checked="${this._config.show_main !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Main
-          </label>
-        </div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_attributes')}"
-            .checked="${this._config.show_attributes !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Attributes
-          </label>
-        </div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_humidity')}"
-            .checked="${this._config.show_humidity !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Humidity
-          </label>
-        </div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_pressure')}"
-            .checked="${this._config.show_pressure !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Pressure
-          </label>
-        </div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
-            .checked="${this._config.show_wind_direction !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Wind Direction
-          </label>
-        </div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'show_wind_speed')}"
-            .checked="${this._config.show_wind_speed !== false}"
-          ></ha-switch>
-          <label class="switch-label">
-            Show Wind Speed
-          </label>
-        </div>
+
+        <!-- Buttons to switch between pages -->
         <div>
+          <button @click="${() => this.showPage('card')}">Main</button>
+          <button @click="${() => this.showPage('forecast')}">Forecast</button>
+          <button @click="${() => this.showPage('units')}">Units</button>
+          <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
+        </div>
+
+        <!-- Card Settings Page -->
+        <div class="page-container ${this.currentPage === 'card' ? 'active' : ''}">
+          <h4>Card setting</h4>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_main')}"
+              .checked="${this._config.show_main !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Main
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_attributes')}"
+              .checked="${this._config.show_attributes !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Attributes
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_humidity')}"
+              .checked="${this._config.show_humidity !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Humidity
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_pressure')}"
+              .checked="${this._config.show_pressure !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Pressure
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
+              .checked="${this._config.show_wind_direction !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Wind Direction
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_wind_speed')}"
+              .checked="${this._config.show_wind_speed !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Wind Speed
+            </label>
+        <paper-input
+          label="Custom icon path"
+          .value="${this._config.icons || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'icons')}"
+        ></paper-input>
+          </div>
+        </div>
+
+        <!-- Forecast Settings Page -->
+        <div class="page-container ${this.currentPage === 'forecast' ? 'active' : ''}">
           <h4>Forecast settings</h4>
           <paper-input
             label="Labels Font Size"
@@ -154,8 +188,10 @@ _valueChanged(event, key) {
             </label>
           </div>
         </div>
-        <div>
-          <h4>Units</h4>
+
+        <!-- Units Page -->
+        <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
+          <h4>Units settings</h4>
           <paper-input
             label="Pressure"
             .value="${unitsConfig.pressure || 'hPa'}"
@@ -166,6 +202,25 @@ _valueChanged(event, key) {
             .value="${unitsConfig.speed || 'km/h'}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
+        </div>
+        <!-- Alternate Page -->
+        <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
+          <h4>Alternate entities</h4>
+        <paper-input
+          label="Alternative temperature sensor"
+          .value="${this._config.temp || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'temp')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative pressure sensor"
+          .value="${this._config.press || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'press')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative humidity sensor"
+          .value="${this._config.humid || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'humid')}"
+        ></paper-input>
         </div>
       </div>
     `;
