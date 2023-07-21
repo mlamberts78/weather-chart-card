@@ -614,12 +614,12 @@
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
           <h4>Units settings</h4>
           <paper-input
-            label="Pressure"
+            label="Pressure 'hPa' or 'mmHg'"
             .value="${unitsConfig.pressure || 'hPa'}"
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Speed"
+            label="Speed 'km/h' or 'm/s'"
             .value="${unitsConfig.speed || 'km/h'}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
