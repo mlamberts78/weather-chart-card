@@ -85,30 +85,30 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 
 #### Example usage:
 ###### Basic
-![130359790-e2a7bceb-29d5-494e-9f6e-d679a3e41222](https://user-images.githubusercontent.com/33804747/139556131-a7547ed3-1e7a-4761-9486-4fba4f070736.png)
+![hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/499df59b-3c1a-42c0-8540-e62a15467cbe)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.home_hourly
 ```
 ###### Chart only
-![image](https://user-images.githubusercontent.com/33804747/130359944-2f68a668-07ab-4a0a-bd9e-43ea9bf738a3.png)
+![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/45f118c9-d71f-4494-9b78-46d1321b3270)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
 show_main: false
 show_attributes: false
-icons: /local/weather-icons/
+forecast:
+  condition_icons: false
 ```
 
 ###### Custom units
-![image](https://user-images.githubusercontent.com/33804747/139555950-221c5d69-1106-4db8-b0a4-0db020d0b56a.png)
+![Custom-units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/dfec83d5-285a-48fe-970b-e33ad5bb2429)
 ```yaml
 type: custom:weather-chart-card
-entity: weather.home_hourly
-show_attributes: true
+entity: weather.openweathermap
 units:
   pressure: mmHg
-  speed: km/h
+  speed: m/s
 ```
 
 ###### Supported languages:
