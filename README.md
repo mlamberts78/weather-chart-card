@@ -91,7 +91,7 @@ type: custom:weather-chart-card
 entity: weather.home_hourly
 ```
 ###### Chart only
-![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/45f118c9-d71f-4494-9b78-46d1321b3270)
+![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e9b2d160-cfae-40eb-b9b6-b4fdcbdece24)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -99,6 +99,7 @@ show_main: false
 show_attributes: false
 forecast:
   condition_icons: false
+  show_wind_forecast: false
 ```
 
 ###### Custom units
