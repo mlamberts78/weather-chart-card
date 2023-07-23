@@ -15509,11 +15509,11 @@
 
     measureCard() {
       const card = this.shadowRoot.querySelector('ha-card');
-      this.config.forecast.labels_font_size;
+      let fontSize = this.config.forecast.labels_font_size;
       if (!card) {
         return;
       }
-      this.forecastItems = 7;
+      this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
     }
 
     drawChart({config, language, weather, forecastItems} = this) {
@@ -15713,7 +15713,7 @@
       if (!weather || !weather.attributes || !weather.attributes.forecast) {
         return [];
       }
-      var forecast = weather.attributes.forecast.slice(0, 7);
+      var forecast = weather.attributes.forecast.slice(0, forecastItems);
       var i;
       var dateTime = [];
       var tempHigh = [];
