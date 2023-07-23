@@ -157,7 +157,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     if (!card) {
       return;
     }
-    this.forecastItems = 7;
+    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
   }
 
   drawChart({config, language, weather, forecastItems} = this) {
@@ -357,7 +357,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     if (!weather || !weather.attributes || !weather.attributes.forecast) {
       return [];
     }
-    var forecast = weather.attributes.forecast.slice(0, 7);
+    var forecast = weather.attributes.forecast.slice(0, forecastItems);
     var i;
     var dateTime = [];
     var tempHigh = [];
