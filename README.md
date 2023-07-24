@@ -99,6 +99,7 @@ show_main: false
 show_attributes: false
 forecast:
   condition_icons: false
+  show_wind_forecast: false
 ```
 
 ###### Custom units
