@@ -54,6 +54,7 @@ entity: weather.home
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
 | show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
+| show_sun             | boolean | true                     | Show or hide sun on the card.                                                                      |
 | show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed      | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
