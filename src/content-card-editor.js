@@ -138,6 +138,15 @@ class ContentCardEditor extends LitElement {
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_sun')}"
+              .checked="${this._config.show_sun !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Sun
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
               .checked="${this._config.show_wind_direction !== false}"
             ></ha-switch>
@@ -171,20 +180,20 @@ class ContentCardEditor extends LitElement {
           ></paper-input>
           <div class="switch-container">
             <ha-switch
-              @change="${(e) => this._valueChanged(e, 'forecast.show_wind_forecast')}"
-              .checked="${forecastConfig.show_wind_forecast !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Show Wind Forecast
-            </label>
-          </div>
-          <div class="switch-container">
-            <ha-switch
               @change="${(e) => this._valueChanged(e, 'forecast.condition_icons')}"
               .checked="${forecastConfig.condition_icons !== false}"
             ></ha-switch>
             <label class="switch-label">
               Condition Icons
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_wind_forecast')}"
+              .checked="${forecastConfig.show_wind_forecast !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Wind Forecast
             </label>
           </div>
         </div>

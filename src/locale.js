@@ -340,6 +340,68 @@ const locale = {
     'windy': 'Wietrznie',
     'windy-variant': 'Zmienny wiatr'
   },
+  nb: {
+    'tempHi': 'Maksimumstemperatur',
+    'tempLo': 'Minimumstemperatur',
+    'precip': 'Nedbør',
+    'units': {
+        'km/h': 'km/t',
+        'm/s': 'm/s',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+    },
+    'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'Ø-NØ', 'Ø', 'Ø-SØ', 'SØ', 'S-SØ',
+        'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
+    ],
+    'clear-night': 'Klar natt',
+    'cloudy': 'Overskyet',
+    'fog': 'Tåke',
+    'hail': 'Hagl',
+    'lightning': 'Lyn',
+    'lightning-rainy': 'Lyn og regn',
+    'partlycloudy': 'Varierende skydekke',
+    'pouring': 'Styrtregn',
+    'rainy': 'Regn',
+    'snowy': 'Snø',
+    'snowy-rainy': 'Sludd',
+    'sunny': 'Sol',
+    'windy': 'Vind',
+    'windy-variant': 'Vind'
+  },
+  da: {
+    'tempHi': 'Temperatur',
+    'tempLo': 'Nattemperatur',
+    'precip': 'Nedbør',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NØ', 'NO', 'Ø-NØ', 'Ø', 'Ø-SØ', 'SØ', 'S-SØ',
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
+    ],
+    'clear-night': 'Klart',
+    'cloudy': 'Overskyet',
+    'fog': 'Tåget',
+    'hail': 'Hagl',
+    'lightning': 'Lyn',
+    'lightning-rainy': 'Lyn, regnvejr',
+    'partlycloudy': 'Delvist overskyet',
+    'pouring': 'Styrtregn',
+    'rainy': 'Regn',
+    'snowy': 'Sne',
+    'snowy-rainy': 'Slud',
+    'sunny': 'Sol',
+    'windy': 'Blæsende',
+    'windy-variant': 'Blæsende'
+  },
 };
 
 export default locale;

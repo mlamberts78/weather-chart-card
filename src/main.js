@@ -31,6 +31,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_pressure: true,
     show_wind_direction: true,
     show_wind_speed: true,
+    show_sun: true,
     forecast: {
       labels_font_size: '11',
       show_wind_forecast: true,
@@ -265,15 +266,13 @@ static getStubConfig(hass, unusedEntities, allEntities) {
             },
             ticks: {
               maxRotation: 0,
-              padding: 8,
               callback: function(value, index, values) {
-                var datetime = this.getLabelForValue(value);
-                var weekday = new Date(datetime).toLocaleDateString(language,
-                  { weekday: 'short' });
-                var time = new Date(datetime).toLocaleTimeString(language,
-                  { hour12: false, hour: 'numeric', minute: 'numeric' });
-                if (mode == 'hourly') {
-                  return time;
+              var datetime = this.getLabelForValue(value);
+              var dateObj = new Date(datetime);
+              var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+              var time = dateObj.toLocaleTimeString(language, { hour12: false, hour: 'numeric', minute: 'numeric' });
+              if (mode == 'hourly') {
+                return time;
                 }
                 return weekday;
               }
@@ -313,7 +312,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
           datalabels: {
             backgroundColor: backgroundColor,
             borderColor: context => context.dataset.backgroundColor,
-            borderRadius: 8,
+            borderRadius: 0,
             borderWidth: 1.5,
             padding: 4,
             font: {
@@ -328,14 +327,14 @@ static getStubConfig(hass, unusedEntities, allEntities) {
             caretSize: 0,
             caretPadding: 15,
             callbacks: {
-              title: function (TooltipItem) {
-                var datetime = TooltipItem[0].label;
-                return new Date(datetime).toLocaleDateString(language, {
-                  month: 'short',
-                  day: 'numeric',
-                  weekday: 'short',
-                  hour: 'numeric',
-                  minute: 'numeric',
+             title: function (TooltipItem) {
+               var datetime = TooltipItem[0].label;
+               return new Date(datetime).toLocaleDateString(language, {
+                 month: 'short',
+                 day: 'numeric',
+                 weekday: 'short',
+                 hour: 'numeric',
+                 minute: 'numeric',
                 });
               },
               label: function(context) {
@@ -444,6 +443,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 6px;
+	  font-weight: 300;
         }
         .chart-container {
           position: relative;
@@ -466,7 +466,8 @@ static getStubConfig(hass, unusedEntities, allEntities) {
         .wind-details {
           display: flex;
           justify-content: space-around;
-          margin: 0px 5px 0px 5px;
+          align-items: centery
+          font-weight: 300;
         }
         .wind-detail {
           display: flex;
@@ -477,19 +478,15 @@ static getStubConfig(hass, unusedEntities, allEntities) {
           --mdc-icon-size: 15px;
           margin-right: 1px;
         }
-        .wind-detail span {
-          display: flex;
-          align-items: center;
-        }
         .wind-icon {
-          margin-right: 2px;
+          margin-right: 1px;
         }
         .wind-speed {
-          font-size: 11px;
+          font-size: 10px;
           margin-right: 1px;
         }
         .wind-unit {
-          font-size: 8px;
+          font-size: 9px;
           margin-left: 1px;
         }
       </style>
@@ -535,62 +532,64 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     `;
   }
 
-  renderAttributes({config, humidity, pressure, windSpeed, windDirection} = this) {
-    if (this.unitSpeed === 'm/s') {
-      windSpeed = Math.round(windSpeed * 1000 / 3600);
-    }
-    if (this.unitPressure === 'mmHg') {
-      pressure = pressure * 0.75;
-    }
-    if (config.show_attributes == false)
-      return html``;
+renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
+  if (this.unitSpeed === 'm/s') {
+    windSpeed = Math.round(windSpeed * 1000 / 3600);
+  }
+  if (this.unitPressure === 'mmHg') {
+    pressure = pressure * 0.75;
+  }
+  if (config.show_attributes == false)
+    return html``;
 
-    const showHumidity = config.show_humidity !== false;
-    const showPressure = config.show_pressure !== false;
-    const showWindDirection = config.show_wind_direction !== false;
-    const showWindSpeed = config.show_wind_speed !== false;
+  const showHumidity = config.show_humidity !== false;
+  const showPressure = config.show_pressure !== false;
+  const showWindDirection = config.show_wind_direction !== false;
+  const showWindSpeed = config.show_wind_speed !== false;
+  const showSun = config.show_sun !== false;
 
-    return html`
-      <div class="attributes">
-        ${showHumidity || showPressure ? html`
-          <div>
-	    ${showHumidity ? html`
-            <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-           ` : ''}
-           ${showPressure ? html`
-            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
-           ` : ''}
-          </div>
-        ` : ''}
+  return html`
+    <div class="attributes">
+      ${showHumidity || showPressure ? html`
         <div>
-          ${this.renderSun()}
+          ${showHumidity ? html`
+          <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
+         ` : ''}
+         ${showPressure ? html`
+          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+         ` : ''}
         </div>
-        ${showWindDirection || showWindSpeed ? html`
-          <div>
-            ${showWindDirection ? html`
-              <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
-            ` : ''}
-            ${showWindSpeed ? html`
-              <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
-            ` : ''}
-          </div>
-        ` : ''}
-      </div>
-     `;
-  }
+      ` : ''}
+      ${showSun ? html`
+        <div>
+          ${this.renderSun({ sun, language })}
+        </div>
+      ` : ''}
+      ${showWindDirection || showWindSpeed ? html`
+        <div>
+          ${showWindDirection ? html`
+            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
+          ` : ''}
+          ${showWindSpeed ? html`
+            <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+          ` : ''}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
 
-  renderSun({sun, language} = this) {
-    if ( sun == undefined)
-      return html``;
-    return html`
-      <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-        ${new Date(sun.attributes.next_rising).toLocaleTimeString(language,
-        {hour:'2-digit', minute:'2-digit'})}<br>
-      <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-        ${new Date(sun.attributes.next_setting).toLocaleTimeString(language,
-        {hour:'2-digit', minute:'2-digit'})}
-    `;
+renderSun({ sun, language } = this) {
+  if (sun == undefined) {
+    return html``;
   }
+  return html`
+    <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
+      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}<br>
+    <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
+      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}
+  `;
+}
 
 renderForecastConditionIcons({ config, weather, forecastItems } = this) {
   const forecast = weather.attributes.forecast.slice(0, forecastItems);
