@@ -345,6 +345,37 @@
       'windy': 'Wietrznie',
       'windy-variant': 'Zmienny wiatr'
     },
+    nb: {
+      'tempHi': 'Maksimumstemperatur',
+      'tempLo': 'Minimumstemperatur',
+      'precip': 'Nedbør',
+      'units': {
+          'km/h': 'km/t',
+          'm/s': 'm/s',
+          'hPa': 'hPa',
+          'mmHg': 'mm Hg',
+          'mm': 'mm',
+          'in': 'in'
+      },
+      'cardinalDirections': [
+          'N', 'N-NE', 'NE', 'Ø-NØ', 'Ø', 'Ø-SØ', 'SØ', 'S-SØ',
+          'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
+      ],
+      'clear-night': 'Klar natt',
+      'cloudy': 'Overskyet',
+      'fog': 'Tåke',
+      'hail': 'Hagl',
+      'lightning': 'Lyn',
+      'lightning-rainy': 'Lyn og regn',
+      'partlycloudy': 'Varierende skydekke',
+      'pouring': 'Styrtregn',
+      'rainy': 'Regn',
+      'snowy': 'Snø',
+      'snowy-rainy': 'Sludd',
+      'sunny': 'Sol',
+      'windy': 'Vind',
+      'windy-variant': 'Vind'
+    },
   };
 
   const cardinalDirectionsIcon = [
@@ -559,6 +590,15 @@
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_sun')}"
+              .checked="${this._config.show_sun !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Sun
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
               .checked="${this._config.show_wind_direction !== false}"
             ></ha-switch>
@@ -592,20 +632,20 @@
           ></paper-input>
           <div class="switch-container">
             <ha-switch
-              @change="${(e) => this._valueChanged(e, 'forecast.show_wind_forecast')}"
-              .checked="${forecastConfig.show_wind_forecast !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Show Wind Forecast
-            </label>
-          </div>
-          <div class="switch-container">
-            <ha-switch
               @change="${(e) => this._valueChanged(e, 'forecast.condition_icons')}"
               .checked="${forecastConfig.condition_icons !== false}"
             ></ha-switch>
             <label class="switch-label">
               Condition Icons
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_wind_forecast')}"
+              .checked="${forecastConfig.show_wind_forecast !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Wind Forecast
             </label>
           </div>
         </div>
@@ -15390,6 +15430,7 @@
       show_pressure: true,
       show_wind_direction: true,
       show_wind_speed: true,
+      show_sun: true,
       forecast: {
         labels_font_size: '11',
         show_wind_forecast: true,
@@ -15621,15 +15662,13 @@
               },
               ticks: {
                 maxRotation: 0,
-                padding: 8,
                 callback: function(value, index, values) {
-                  var datetime = this.getLabelForValue(value);
-                  var weekday = new Date(datetime).toLocaleDateString(language,
-                    { weekday: 'short' });
-                  var time = new Date(datetime).toLocaleTimeString(language,
-                    { hour12: false, hour: 'numeric', minute: 'numeric' });
-                  if (mode == 'hourly') {
-                    return time;
+                var datetime = this.getLabelForValue(value);
+                var dateObj = new Date(datetime);
+                var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+                var time = dateObj.toLocaleTimeString(language, { hour12: false, hour: 'numeric', minute: 'numeric' });
+                if (mode == 'hourly') {
+                  return time;
                   }
                   return weekday;
                 }
@@ -15669,7 +15708,7 @@
             datalabels: {
               backgroundColor: backgroundColor,
               borderColor: context => context.dataset.backgroundColor,
-              borderRadius: 8,
+              borderRadius: 0,
               borderWidth: 1.5,
               padding: 4,
               font: {
@@ -15684,14 +15723,14 @@
               caretSize: 0,
               caretPadding: 15,
               callbacks: {
-                title: function (TooltipItem) {
-                  var datetime = TooltipItem[0].label;
-                  return new Date(datetime).toLocaleDateString(language, {
-                    month: 'short',
-                    day: 'numeric',
-                    weekday: 'short',
-                    hour: 'numeric',
-                    minute: 'numeric',
+               title: function (TooltipItem) {
+                 var datetime = TooltipItem[0].label;
+                 return new Date(datetime).toLocaleDateString(language, {
+                   month: 'short',
+                   day: 'numeric',
+                   weekday: 'short',
+                   hour: 'numeric',
+                   minute: 'numeric',
                   });
                 },
                 label: function(context) {
@@ -15800,6 +15839,7 @@
           justify-content: space-between;
           align-items: center;
           margin-bottom: 6px;
+	  font-weight: 300;
         }
         .chart-container {
           position: relative;
@@ -15822,7 +15862,8 @@
         .wind-details {
           display: flex;
           justify-content: space-around;
-          margin: 0px 5px 0px 5px;
+          align-items: centery
+          font-weight: 300;
         }
         .wind-detail {
           display: flex;
@@ -15833,19 +15874,15 @@
           --mdc-icon-size: 15px;
           margin-right: 1px;
         }
-        .wind-detail span {
-          display: flex;
-          align-items: center;
-        }
         .wind-icon {
-          margin-right: 2px;
+          margin-right: 1px;
         }
         .wind-speed {
-          font-size: 11px;
+          font-size: 10px;
           margin-right: 1px;
         }
         .wind-unit {
-          font-size: 8px;
+          font-size: 9px;
           margin-left: 1px;
         }
       </style>
@@ -15891,62 +15928,64 @@
     `;
     }
 
-    renderAttributes({config, humidity, pressure, windSpeed, windDirection} = this) {
-      if (this.unitSpeed === 'm/s') {
-        windSpeed = Math.round(windSpeed * 1000 / 3600);
-      }
-      if (this.unitPressure === 'mmHg') {
-        pressure = pressure * 0.75;
-      }
-      if (config.show_attributes == false)
-        return x``;
+  renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
+    if (this.unitSpeed === 'm/s') {
+      windSpeed = Math.round(windSpeed * 1000 / 3600);
+    }
+    if (this.unitPressure === 'mmHg') {
+      pressure = pressure * 0.75;
+    }
+    if (config.show_attributes == false)
+      return x``;
 
-      const showHumidity = config.show_humidity !== false;
-      const showPressure = config.show_pressure !== false;
-      const showWindDirection = config.show_wind_direction !== false;
-      const showWindSpeed = config.show_wind_speed !== false;
+    const showHumidity = config.show_humidity !== false;
+    const showPressure = config.show_pressure !== false;
+    const showWindDirection = config.show_wind_direction !== false;
+    const showWindSpeed = config.show_wind_speed !== false;
+    const showSun = config.show_sun !== false;
 
-      return x`
-      <div class="attributes">
-        ${showHumidity || showPressure ? x`
-          <div>
-	    ${showHumidity ? x`
-            <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-           ` : ''}
-           ${showPressure ? x`
-            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
-           ` : ''}
-          </div>
-        ` : ''}
+    return x`
+    <div class="attributes">
+      ${showHumidity || showPressure ? x`
         <div>
-          ${this.renderSun()}
+          ${showHumidity ? x`
+          <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
+         ` : ''}
+         ${showPressure ? x`
+          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+         ` : ''}
         </div>
-        ${showWindDirection || showWindSpeed ? x`
-          <div>
-            ${showWindDirection ? x`
-              <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
-            ` : ''}
-            ${showWindSpeed ? x`
-              <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
-            ` : ''}
-          </div>
-        ` : ''}
-      </div>
-     `;
-    }
+      ` : ''}
+      ${showSun ? x`
+        <div>
+          ${this.renderSun({ sun, language })}
+        </div>
+      ` : ''}
+      ${showWindDirection || showWindSpeed ? x`
+        <div>
+          ${showWindDirection ? x`
+            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
+          ` : ''}
+          ${showWindSpeed ? x`
+            <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+          ` : ''}
+        </div>
+      ` : ''}
+    </div>
+  `;
+  }
 
-    renderSun({sun, language} = this) {
-      if ( sun == undefined)
-        return x``;
-      return x`
-      <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-        ${new Date(sun.attributes.next_rising).toLocaleTimeString(language,
-        {hour:'2-digit', minute:'2-digit'})}<br>
-      <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-        ${new Date(sun.attributes.next_setting).toLocaleTimeString(language,
-        {hour:'2-digit', minute:'2-digit'})}
-    `;
+  renderSun({ sun, language } = this) {
+    if (sun == undefined) {
+      return x``;
     }
+    return x`
+    <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
+      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}<br>
+    <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
+      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}
+  `;
+  }
 
   renderForecastConditionIcons({ config, weather, forecastItems } = this) {
     const forecast = weather.attributes.forecast.slice(0, forecastItems);

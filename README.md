@@ -5,7 +5,7 @@
   </a>
 </p>
 
-![image](https://github.com/mlamberts78/weather-chart-card/assets/93537082/2f35383c-a566-4035-9cc3-6b70d2c461d0)
+![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b)
 
 ## Installation
 
@@ -85,13 +85,13 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 
 #### Example usage:
 ###### Basic
-![hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/499df59b-3c1a-42c0-8540-e62a15467cbe)
+![Hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.home_hourly
 ```
 ###### Chart only
-![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e9b2d160-cfae-40eb-b9b6-b4fdcbdece24)
+![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -103,7 +103,7 @@ forecast:
 ```
 
 ###### Custom units
-![Custom-units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/dfec83d5-285a-48fe-970b-e33ad5bb2429)
+![Units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -114,13 +114,17 @@ units:
 
 ###### Supported languages:
 Czech <br />
-German <br />
+Danish <br />
 Dutch <br />
 English <br />
-Spanish <br />
 Finnish <br />
-Hungarian <br />
-Russian <br />
-Swedish <br />
 French <br />
-Polish
+German <br />
+Hungarian <br />
+Norwegian <br />
+Polish <br />
+Russian <br />
+Spanish <br />
+Swedish
+
+
