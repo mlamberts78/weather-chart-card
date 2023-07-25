@@ -5,7 +5,7 @@
   </a>
 </p>
 
-<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b" height="50%" width="50%" >
+![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b)
 
 ## Installation
 
@@ -54,7 +54,6 @@ entity: weather.home
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
 | show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
-| show_sun             | boolean | true                     | Show or hide sun on the card.                                                                      |
 | show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed      | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
@@ -86,15 +85,13 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 
 #### Example usage:
 ###### Basic
-<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962" height="50%" width="50%" >
-
+![Hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.home_hourly
 ```
 ###### Chart only
-<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b" height="50%" width="50%" >
-
+![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -106,8 +103,7 @@ forecast:
 ```
 
 ###### Custom units
-<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa" height="50%" width="50%" >
-
+![Units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -130,5 +126,3 @@ Polish <br />
 Russian <br />
 Spanish <br />
 Swedish
-
-
