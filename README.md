@@ -5,7 +5,7 @@
   </a>
 </p>
 
-![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b)
+<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b" height="50%" width="50%" >
 
 ## Installation
 
@@ -86,13 +86,15 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 
 #### Example usage:
 ###### Basic
-![Hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962)
+<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962" height="50%" width="50%" >
+
 ```yaml
 type: custom:weather-chart-card
 entity: weather.home_hourly
 ```
 ###### Chart only
-![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
+<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b" height="50%" width="50%" >
+
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
@@ -104,7 +106,8 @@ forecast:
 ```
 
 ###### Custom units
-![Units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
+<img src="https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa" height="50%" width="50%" >
+
 ```yaml
 type: custom:weather-chart-card
 entity: weather.openweathermap
