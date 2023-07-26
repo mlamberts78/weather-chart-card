@@ -6,6 +6,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -37,6 +38,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -68,6 +70,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -89,8 +92,8 @@ const locale = {
     'snowy': 'Sneeuw',
     'snowy-rainy': 'Sneeuw, regen',
     'sunny': 'Zonnig',
-    'windy': 'WInderig',
-    'windy-variant': 'WInderig'
+    'windy': 'Winderig',
+    'windy-variant': 'Winderig'
   },
   en: {
     'tempHi': 'Temperature',
@@ -99,6 +102,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -130,6 +134,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -161,6 +166,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -192,6 +198,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -223,6 +230,7 @@ const locale = {
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
+      'Bft': 'Bft',
       'hPa': 'гПа',
       'mmHg': 'мм рт.ст.',
       'mm': 'мм',
@@ -254,6 +262,7 @@ const locale = {
     'units': {
         'km/h': 'km/h',
         'm/s': 'm/s',
+      'Bft': 'Bft',
         'hPa': 'hPa',
         'mmHg': 'mm Hg',
         'mm': 'mm',
@@ -285,6 +294,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -305,7 +315,7 @@ const locale = {
     'rainy': 'Pluie',
     'snowy': 'Neige',
     'snowy-rainy': 'Neige et Pluie',
-    'sunny': 'Ensoleillé',
+    'sunny': 'Ensoleillée',
     'windy': 'Venteux',
     'windy-variant': 'Venteux'
   },
@@ -316,6 +326,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',
@@ -345,12 +356,13 @@ const locale = {
     'tempLo': 'Minimumstemperatur',
     'precip': 'Nedbør',
     'units': {
-        'km/h': 'km/t',
-        'm/s': 'm/s',
-        'hPa': 'hPa',
-        'mmHg': 'mm Hg',
-        'mm': 'mm',
-        'in': 'in'
+      'km/h': 'km/t',
+      'm/s': 'm/s',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
     },
     'cardinalDirections': [
         'N', 'N-NE', 'NE', 'Ø-NØ', 'Ø', 'Ø-SØ', 'SØ', 'S-SØ',
@@ -378,6 +390,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
       'mm': 'mm',

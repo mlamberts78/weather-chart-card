@@ -207,7 +207,7 @@ class ContentCardEditor extends LitElement {
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Speed 'km/h' or 'm/s'"
+            label="Speed 'km/h' or 'm/s' or 'Bft'"
             .value="${unitsConfig.speed || 'km/h'}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>

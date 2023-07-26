@@ -138,6 +138,22 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     return this.ll('cardinalDirections')[parseInt((deg + 11.25) / 22.5)];
   }
 
+calculateBeaufortScale(windSpeed) {
+  if (windSpeed < 1) return 0;
+  else if (windSpeed < 6) return 1;
+  else if (windSpeed < 12) return 2;
+  else if (windSpeed < 20) return 3;
+  else if (windSpeed < 29) return 4;
+  else if (windSpeed < 39) return 5;
+  else if (windSpeed < 50) return 6;
+  else if (windSpeed < 62) return 7;
+  else if (windSpeed < 75) return 8;
+  else if (windSpeed < 89) return 9;
+  else if (windSpeed < 103) return 10;
+  else if (windSpeed < 118) return 11;
+  else return 12;
+}
+
   firstUpdated() {
     this.measureCard();
     this.drawChart();
@@ -480,9 +496,11 @@ static getStubConfig(hass, unusedEntities, allEntities) {
         }
         .wind-icon {
           margin-right: 1px;
+          position: relative;
+	  bottom: 1px;
         }
         .wind-speed {
-          font-size: 10px;
+          font-size: 11px;
           margin-right: 1px;
         }
         .wind-unit {
@@ -533,14 +551,23 @@ static getStubConfig(hass, unusedEntities, allEntities) {
   }
 
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
+  let dWindSpeed;
+
   if (this.unitSpeed === 'm/s') {
-    windSpeed = Math.round(windSpeed * 1000 / 3600);
+    dWindSpeed = Math.round(windSpeed * 1000 / 3600);
+  } else if (this.unitSpeed === 'Bft') {
+    dWindSpeed = this.calculateBeaufortScale(windSpeed);
+  } else {
+    dWindSpeed = Math.round(windSpeed);
   }
+
   if (this.unitPressure === 'mmHg') {
-    pressure = pressure * 0.75;
+    pressure *= 0.75;
   }
-  if (config.show_attributes == false)
+
+  if (!config.show_attributes) {
     return html``;
+  }
 
   const showHumidity = config.show_humidity !== false;
   const showPressure = config.show_pressure !== false;
@@ -553,11 +580,11 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
       ${showHumidity || showPressure ? html`
         <div>
           ${showHumidity ? html`
-          <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
-         ` : ''}
-         ${showPressure ? html`
-          <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
-         ` : ''}
+            <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
+          ` : ''}
+          ${showPressure ? html`
+            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+          ` : ''}
         </div>
       ` : ''}
       ${showSun ? html`
@@ -571,7 +598,8 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
             <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
           ` : ''}
           ${showWindSpeed ? html`
-            <ha-icon icon="hass:weather-windy"></ha-icon> ${windSpeed} ${this.ll('units')[config.units.speed]}
+            <ha-icon icon="hass:weather-windy"></ha-icon>
+            ${dWindSpeed} ${this.unitSpeed}
           ` : ''}
         </div>
       ` : ''}
@@ -629,10 +657,12 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
     <div class="wind-details">
       ${showWindForecast ? html`
         ${forecast.map((item) => {
-          let dWindSpeed = item.wind_speed;
+          let dWindSpeed;
 
-          if (config.units.speed === 'm/s') {
+          if (this.unitSpeed === 'm/s') {
             dWindSpeed = Math.round(item.wind_speed * 1000 / 3600); // Convert to m/s
+          } else if (this.unitSpeed === 'Bft') {
+            dWindSpeed = this.calculateBeaufortScale(item.wind_speed);
           } else {
             dWindSpeed = Math.round(item.wind_speed);
           }
@@ -641,7 +671,7 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
             <div class="wind-detail">
               <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(item.wind_bearing)}"></ha-icon>
               <span class="wind-speed">${dWindSpeed}</span>
-              <span class="wind-unit">${this.ll('units')[config.units.speed]}</span>
+              <span class="wind-unit">${this.unitSpeed}</span>
             </div>
           `;
         })}
