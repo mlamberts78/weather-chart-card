@@ -1,4 +1,4 @@
-name: Hacs action
+name: HACS Action
 
 on:
   push:
