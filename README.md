@@ -4,7 +4,7 @@
   <a href="https://github.com/custom-components/hacs">
     <img src="https://img.shields.io/badge/HACS-Default-orange.svg" style="margin-right: 20px;" />
   </a>
-  <a href="https://www.buymeacoffee.com/mlamberts7I" target="_blank">
+  <a href="https://www.buymeacoffee.com/mlamberts7I">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-orange.png" alt="Buy Me a Coffee" style="height: 40px !important; width: 170px !important;" >
   </a>
 </p>
