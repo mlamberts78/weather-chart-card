@@ -1,8 +1,6 @@
 <h1 align="center">Weather Chart Card</h1>
 <p align="center">
-  <a href="https://github.com/custom-components/hacs">
-    <img src="https://img.shields.io/badge/HACS-Default-orange.svg" />
-  </a>
+  <img src="https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge">
   <a href="https://www.buymeacoffee.com/mlamberts7I" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 </p>
 
