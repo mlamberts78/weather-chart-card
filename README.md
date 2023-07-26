@@ -1,12 +1,9 @@
 <h1 align="center">Weather Chart Card</h1>
-
-<p align="center" style="display: flex; align-items: center; justify-content: center;">
+<p align="center">
   <a href="https://github.com/custom-components/hacs">
-    <img src="https://img.shields.io/badge/HACS-Default-orange.svg" style="margin-right: 20px;" />
+    <img src="https://img.shields.io/badge/HACS-Default-orange.svg" />
   </a>
-  <a href="https://www.buymeacoffee.com/mlamberts7I">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-orange.png" alt="Buy Me a Coffee" style="height: 40px !important; width: 170px !important;" >
-  </a>
+  <a href="https://www.buymeacoffee.com/mlamberts7I" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 35px !important;width: 110px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 </p>
 
 ![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b)
