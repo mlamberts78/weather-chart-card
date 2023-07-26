@@ -6,8 +6,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlamberts78/weather-chart-card?style=flat-square)
 ![GitHub downloads](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/total?style=flat-square)
 [![HACS Validate](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml/badge.svg)](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml)
-[![maintained](https://img.shields.io/maintenance/yes/2023.svg)](#)
-
+![maintained](https://img.shields.io/maintenance/yes/2023.svg)
 
 ![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/0f000dcd-c469-4029-96f2-ece6ea11e47b)
 
