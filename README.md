@@ -1,6 +1,5 @@
 <h1 align="center">Weather Chart Card</h1>
 
-<!-- Flexbox layout for the badge and button with increased spacing -->
 <p align="center" style="display: flex; align-items: center; justify-content: center;">
   <a href="https://github.com/custom-components/hacs">
     <img src="https://img.shields.io/badge/HACS-Default-orange.svg" style="margin-right: 20px;" />
