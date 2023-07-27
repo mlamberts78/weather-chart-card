@@ -55,6 +55,9 @@ entity: weather.home
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
+| show_time            | boolean | false                    | Show or hide the current time on the card.                                                         |
+| show_day             | boolean | false                    | Show or hide the current day of the week on the card. (Only visible when show_time is true.        |
+| show_date            | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.                      |
 | show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
 | show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |

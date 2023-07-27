@@ -4,13 +4,13 @@ class ContentCardEditor extends LitElement {
   static get properties() {
     return {
       config: {},
-      currentPage: { type: String }, // Add a property to store the current page
+      currentPage: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.currentPage = 'card'; // Set the initial page as 'card'
+    this.currentPage = 'card';
   }
 
   setConfig(config) {
@@ -31,15 +31,15 @@ class ContentCardEditor extends LitElement {
       return;
     }
 
-    const newConfig = JSON.parse(JSON.stringify(this._config)); // Deep clone to prevent mutation of the original object
+    const newConfig = JSON.parse(JSON.stringify(this._config));
 
-    const keys = key.split('.'); // Split the key to handle nested properties
+    const keys = key.split('.');
     let targetConfig = newConfig;
 
     for (let i = 0; i < keys.length - 1; i++) {
       const currentKey = keys[i];
       if (!targetConfig[currentKey]) {
-        targetConfig[currentKey] = {}; // Create an empty object if the nested property doesn't exist
+        targetConfig[currentKey] = {}; 
       }
       targetConfig = targetConfig[currentKey];
     }
@@ -58,9 +58,11 @@ class ContentCardEditor extends LitElement {
     this.currentPage = pageName;
   }
 
+
   render() {
     const forecastConfig = this._config.forecast || {};
     const unitsConfig = this._config.units || {};
+const isShowTimeOn = this._config.show_time !== false;
 
     return html`
       <style>
@@ -75,6 +77,16 @@ class ContentCardEditor extends LitElement {
         }
         .page-container.active {
           display: block;
+        }
+        .time-container {
+          display: flex;
+          margin-bottom: 8px;
+          margin-top: 12px;
+          flex-direction: row;
+        }
+        .switch-right {
+          display: flex;
+          align-items: center;
         }
       </style>
       <div>
@@ -95,6 +107,35 @@ class ContentCardEditor extends LitElement {
           <button @click="${() => this.showPage('forecast')}">Forecast</button>
           <button @click="${() => this.showPage('units')}">Units</button>
           <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
+        </div>
+        <div class="time-container">
+          <div class="switch-right">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_time')}"
+              .checked="${this._config.show_time !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Time
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_day')}"
+              .checked="${this._config.show_day !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Day
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_date')}"
+              .checked="${this._config.show_date !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Date
+            </label>
+          </div>
         </div>
 
         <!-- Card Settings Page -->

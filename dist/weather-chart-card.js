@@ -500,13 +500,13 @@
     static get properties() {
       return {
         config: {},
-        currentPage: { type: String }, // Add a property to store the current page
+        currentPage: { type: String },
       };
     }
 
     constructor() {
       super();
-      this.currentPage = 'card'; // Set the initial page as 'card'
+      this.currentPage = 'card';
     }
 
     setConfig(config) {
@@ -527,15 +527,15 @@
         return;
       }
 
-      const newConfig = JSON.parse(JSON.stringify(this._config)); // Deep clone to prevent mutation of the original object
+      const newConfig = JSON.parse(JSON.stringify(this._config));
 
-      const keys = key.split('.'); // Split the key to handle nested properties
+      const keys = key.split('.');
       let targetConfig = newConfig;
 
       for (let i = 0; i < keys.length - 1; i++) {
         const currentKey = keys[i];
         if (!targetConfig[currentKey]) {
-          targetConfig[currentKey] = {}; // Create an empty object if the nested property doesn't exist
+          targetConfig[currentKey] = {}; 
         }
         targetConfig = targetConfig[currentKey];
       }
@@ -554,9 +554,11 @@
       this.currentPage = pageName;
     }
 
+
     render() {
       const forecastConfig = this._config.forecast || {};
       const unitsConfig = this._config.units || {};
+  this._config.show_time !== false;
 
       return x`
       <style>
@@ -571,6 +573,16 @@
         }
         .page-container.active {
           display: block;
+        }
+        .time-container {
+          display: flex;
+          margin-bottom: 8px;
+          margin-top: 12px;
+          flex-direction: row;
+        }
+        .switch-right {
+          display: flex;
+          align-items: center;
         }
       </style>
       <div>
@@ -591,6 +603,35 @@
           <button @click="${() => this.showPage('forecast')}">Forecast</button>
           <button @click="${() => this.showPage('units')}">Units</button>
           <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
+        </div>
+        <div class="time-container">
+          <div class="switch-right">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_time')}"
+              .checked="${this._config.show_time !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Time
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_day')}"
+              .checked="${this._config.show_day !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Day
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_date')}"
+              .checked="${this._config.show_date !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Date
+            </label>
+          </div>
         </div>
 
         <!-- Card Settings Page -->
@@ -15470,6 +15511,9 @@
       entity,
       show_main: true,
       show_attributes: true,
+      show_time: false,
+      show_day: false,
+      show_date: false,
       show_humidity: true,
       show_pressure: true,
       show_wind_direction: true,
@@ -15947,6 +15991,13 @@
           font-size: 9px;
           margin-left: 1px;
         }
+        .current-time {
+          position: absolute;
+          top: 20px;
+          right: 16px;
+          font-size: 24px;
+          color: var(--secondary-text-color);
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -15963,32 +16014,49 @@
     `;
     }
 
-    renderMain({config, sun, weather, temperature} = this) {
-      if (config.show_main == false)
-        return x``;
-      return x`
-      <div class="main">
-        ${config.icons ?
-          x`
-            <img
-              src="${this.getWeatherIcon(weather.state, sun.state)}"
-              alt=""
-            >
-          `:
-          x`
-            <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
-          `
-        }
+  renderMain({ config, sun, weather, temperature } = this) {
+    if (config.show_main === false)
+      return x``;
+
+    const currentDate = new Date();
+    const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
+    const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
+    const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
+    const showTime = config.show_time === true;
+    const showDay = config.show_day === true;
+    const showDate = config.show_date === true;
+
+    return x`
+    <div class="main">
+      ${config.icons ?
+        x`
+          <img
+            src="${this.getWeatherIcon(weather.state, sun.state)}"
+            alt=""
+          >
+        ` :
+        x`
+          <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
+        `
+      }
+      <div>
         <div>
-          <div>
-            ${temperature}<span>
-            ${this.getUnit('temperature')}</span>
-          </div>
-          <span>${this.ll(weather.state)}</span>
+          ${temperature}<span>
+          ${this.getUnit('temperature')}</span>
         </div>
+        <span>${this.ll(weather.state)}</span>
+        ${showTime ? x`
+          <div class="current-time">
+            ${showDay ? x`${currentDayOfWeek}` : ''}
+            ${showDay && showDate ? x` ` : ''}
+            ${showDate ? x`${currentDateFormatted}` : ''}
+            ${currentTime}
+          </div>
+        ` : ''}
       </div>
-    `;
-    }
+    </div>
+  `;
+  }
 
   renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
     let dWindSpeed;

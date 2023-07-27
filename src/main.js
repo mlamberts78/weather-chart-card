@@ -27,6 +27,9 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     entity,
     show_main: true,
     show_attributes: true,
+    show_time: false,
+    show_day: false,
+    show_date: false,
     show_humidity: true,
     show_pressure: true,
     show_wind_direction: true,
@@ -507,6 +510,13 @@ calculateBeaufortScale(windSpeed) {
           font-size: 9px;
           margin-left: 1px;
         }
+        .current-time {
+          position: absolute;
+          top: 20px;
+          right: 16px;
+          font-size: 24px;
+          color: var(--secondary-text-color);
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -523,32 +533,49 @@ calculateBeaufortScale(windSpeed) {
     `;
   }
 
-  renderMain({config, sun, weather, temperature} = this) {
-    if (config.show_main == false)
-      return html``;
-    return html`
-      <div class="main">
-        ${config.icons ?
-          html`
-            <img
-              src="${this.getWeatherIcon(weather.state, sun.state)}"
-              alt=""
-            >
-          `:
-          html`
-            <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
-          `
-        }
+renderMain({ config, sun, weather, temperature } = this) {
+  if (config.show_main === false)
+    return html``;
+
+  const currentDate = new Date();
+  const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
+  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
+  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
+  const showTime = config.show_time === true;
+  const showDay = config.show_day === true;
+  const showDate = config.show_date === true;
+
+  return html`
+    <div class="main">
+      ${config.icons ?
+        html`
+          <img
+            src="${this.getWeatherIcon(weather.state, sun.state)}"
+            alt=""
+          >
+        ` :
+        html`
+          <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
+        `
+      }
+      <div>
         <div>
-          <div>
-            ${temperature}<span>
-            ${this.getUnit('temperature')}</span>
-          </div>
-          <span>${this.ll(weather.state)}</span>
+          ${temperature}<span>
+          ${this.getUnit('temperature')}</span>
         </div>
+        <span>${this.ll(weather.state)}</span>
+        ${showTime ? html`
+          <div class="current-time">
+            ${showDay ? html`${currentDayOfWeek}` : ''}
+            ${showDay && showDate ? html` ` : ''}
+            ${showDate ? html`${currentDateFormatted}` : ''}
+            ${currentTime}
+          </div>
+        ` : ''}
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
   let dWindSpeed;
