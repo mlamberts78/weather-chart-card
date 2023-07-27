@@ -15995,7 +15995,7 @@
           position: absolute;
           top: 20px;
           right: 16px;
-          font-size: clamp(12px, 2.5vw, 24px);
+          font-size: clamp(18px, 80%, 30px);
           color: var(--secondary-text-color);
         }
       </style>
