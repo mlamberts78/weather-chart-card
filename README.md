@@ -55,6 +55,9 @@ entity: weather.home
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
+| show_time            | boolean | false                    | Show or hide the current time on the card.                                                         |
+| show_day             | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
+| show_date            | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
 | show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
 | show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |
@@ -87,17 +90,22 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 ![130360372-76d70c42-986c-46e3-b9b5-810f0317f94f](https://github.com/mlamberts78/weather-chart-card/assets/93537082/d3ee55a2-e64f-4354-b36d-9faf6ea37361)
 
 #### Example usage:
-###### Basic
-![Hourly](https://github.com/mlamberts78/weather-chart-card/assets/93537082/976da712-b316-42b6-a156-f2e036253962)
+###### Card with current time, date and day
+![Time](https://github.com/mlamberts78/weather-chart-card/assets/93537082/fa823cf1-aec7-41d7-9216-098fd6f8e388)
 ```yaml
 type: custom:weather-chart-card
-entity: weather.home_hourly
+entity: weather.my_home
+show_time: true
+show_date: true
+show_date: true
+units:
+  speed: Bft
 ```
 ###### Chart only
 ![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
 ```yaml
 type: custom:weather-chart-card
-entity: weather.openweathermap
+entity: weather.my_home
 show_main: false
 show_attributes: false
 forecast:
@@ -109,7 +117,7 @@ forecast:
 ![Units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
 ```yaml
 type: custom:weather-chart-card
-entity: weather.openweathermap
+entity: weather.my_home
 units:
   pressure: mmHg
   speed: m/s
