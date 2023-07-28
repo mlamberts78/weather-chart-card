@@ -5,6 +5,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlamberts78/weather-chart-card?style=flat-square)
 ![GitHub downloads](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/total?style=flat-square)
+![GitHub release (latest by SemVer including pre-releases)](https://img.shields.io/github/downloads-pre/mlamberts78/weather-chart-card/latest/total)
 [![HACS Validate](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml/badge.svg)](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml)
 ![maintained](https://img.shields.io/maintenance/yes/2023.svg)
 
@@ -12,18 +13,25 @@
 
 ## Installation
 
-### HACS (recommended)
+### HACS --Comming Soon!-- (recommended)
 
 This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
 <small>_HACS is a third party community store and is not included in Home Assistant out of the box._</small>
+
+### HACS Custom (recommended untill available in HACS default)
+
+1. Go to any of the sections (integrations, frontend).
+2. Click on the 3 dots in the top right corner.
+3. Select "Custom repositories"
+4. Add the URL to the repository: https://github.com/mlamberts78/weather-chart-card
+5. Select the category "Lovelace".
+6. Click the "ADD" button.
 
 ### Manual install
 
 1. Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
 
 2. Add the resource reference as decribed below.
-
-3. Add the resource reference as decribed below.
 
 Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
 
@@ -77,6 +85,7 @@ entity: weather.home
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
+| round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 
 ##### Units of measurement
 
@@ -131,9 +140,12 @@ English <br />
 Finnish <br />
 French <br />
 German <br />
+Greek <br />
 Hungarian <br />
+Italian <br />
 Norwegian <br />
 Polish <br />
+Portuguese <br />
 Russian <br />
 Spanish <br />
 Swedish

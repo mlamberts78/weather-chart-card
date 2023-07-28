@@ -420,6 +420,102 @@
       'windy': 'Blæsende',
       'windy-variant': 'Blæsende'
     },
+    it: {
+      'tempHi': 'Temperatura massima',
+      'tempLo': 'Temperatura notte',
+      'precip': 'Precipitazioni',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Sereno, notte',
+      'cloudy': 'Nuvoloso',
+      'fog': 'Nebbia',
+      'hail': 'Grandine',
+      'lightning': 'Tuoni',
+      'lightning-rainy': 'Tuoni e pioggia',
+      'partlycloudy': 'Parzialmente nuvoloso',
+      'pouring': 'Forti piogge',
+      'rainy': 'Pioggia',
+      'snowy': 'Neve',
+      'snowy-rainy': 'Neve e pioggia',
+      'sunny': 'Soleggiato',
+      'windy': 'Ventoso',
+      'windy-variant': 'Ventoso'
+    },
+    pt: {
+      'tempHi': 'Temperatura máxima',
+      'tempLo': 'Temperatura noite',
+      'precip': 'Precipitação',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Céu limpo, noite',
+      'cloudy': 'Nublado',
+      'fog': 'Nevoeiro',
+      'hail': 'Granizo',
+      'lightning': 'Trovão',
+      'lightning-rainy': 'Trovões, chuva',
+      'partlycloudy': 'Parcialmente nublado',
+      'pouring': 'Chuva forte',
+      'rainy': 'Chuva',
+      'snowy': 'Neve',
+      'snowy-rainy': 'Neve e chuva',
+      'sunny': 'Ensolarado',
+      'windy': 'Ventoso',
+      'windy-variant': 'Ventoso'
+    },
+    el: {
+      'tempHi': 'Μέγιστη θερμοκρασία',
+      'tempLo': 'Ελάχιστη θερμοκρασία νύχτας',
+      'precip': 'Υετός',
+      'units': {
+        'km/h': 'χλμ/ώρα',
+        'm/s': 'μ/δ',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'χιλ. υδράργυρου',
+        'mm': 'χιλ.',
+        'in': 'ίντσες'
+      },
+      'cardinalDirections': [
+        'Β', 'Β-ΒΔ', 'ΒΔ', 'Δ-ΒΔ', 'Δ', 'Δ-ΝΔ', 'ΝΔ', 'Ν-ΝΔ',
+        'Ν', 'Ν-ΒΔ', 'ΒΔ', 'Β-ΒΔ', 'Β', 'Β-ΒΔ', 'ΒΔ', 'Β-ΒΔ', 'Β'
+      ],
+      'clear-night': 'Καθαρός ουρανός, νύχτα',
+      'cloudy': 'Συννεφιά',
+      'fog': 'Ομίχλη',
+      'hail': 'Χαλάζι',
+      'lightning': 'Κεραυνοί',
+      'lightning-rainy': 'Κεραυνοί και βροχή',
+      'partlycloudy': 'Μερικώς συννεφιασμένο',
+      'pouring': 'Πολύ δυνατή βροχή',
+      'rainy': 'Βροχερό',
+      'snowy': 'Χιονισμένο',
+      'snowy-rainy': 'Χιονόνερο',
+      'sunny': 'Ηλιόλουστο',
+      'windy': 'Ανεμώδης',
+      'windy-variant': 'Ανεμώδης'
+    },
   };
 
   const cardinalDirectionsIcon = [
@@ -604,6 +700,8 @@
           <button @click="${() => this.showPage('units')}">Units</button>
           <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
         </div>
+
+        <!-- Time settings -->
         <div class="time-container">
           <div class="switch-right">
             <ha-switch
@@ -721,7 +819,7 @@
               .checked="${forecastConfig.condition_icons !== false}"
             ></ha-switch>
             <label class="switch-label">
-              Condition Icons
+              Show Condition Icons
             </label>
           </div>
           <div class="switch-container">
@@ -731,6 +829,15 @@
             ></ha-switch>
             <label class="switch-label">
               Show Wind Forecast
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.round_temp')}"
+              .checked="${forecastConfig.round_temp !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Rounding Temperatures
             </label>
           </div>
         </div>
@@ -15523,6 +15630,7 @@
         labels_font_size: '11',
         show_wind_forecast: true,
         condition_icons: true,
+        round_temp: false,
       },
       units: {
         pressure: 'hPa',
@@ -15559,6 +15667,7 @@
           precipitation_color: 'rgba(132, 209, 253, 1.0)',
           condition_icons: true,
           show_wind_forecast: true,
+          round_temp: false,
           ...config.forecast,
         },
         units: {
@@ -15676,6 +15785,7 @@
         var mode = 'hourly';
       else
         var mode = 'daily';
+      var roundTemp = config.forecast.round_temp == true;
       var i;
       var dateTime = [];
       var tempHigh = [];
@@ -15688,6 +15798,12 @@
         if (typeof d.templow !== 'undefined') {
           tempLow.push(d.templow);
         }
+      if (roundTemp) {
+        tempHigh[i] = Math.round(tempHigh[i]);
+        if (typeof d.templow !== 'undefined') {
+          tempLow[i] = Math.round(tempLow[i]);
+        }
+      }
         precip.push(d.precipitation);
       }
       var style = getComputedStyle(document.body);
@@ -15861,6 +15977,12 @@
       var dateTime = [];
       var tempHigh = [];
       var tempLow = [];
+      if (roundTemp) {
+        tempHigh[i] = Math.round(tempHigh[i]);
+        if (typeof d.templow !== 'undefined') {
+          tempLow[i] = Math.round(tempLow[i]);
+        }
+      }
       var precip = [];
       for (i = 0; i < forecast.length; i++) {
         var d = forecast[i];
@@ -15995,7 +16117,7 @@
           position: absolute;
           top: 20px;
           right: 16px;
-          font-size: clamp(18px, 2.5vw, 24px);
+          font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
       </style>
@@ -16070,12 +16192,11 @@
     }
 
     if (this.unitPressure === 'mmHg') {
-      pressure *= 0.75;
+      pressure = pressure * 0.75;
     }
 
-    if (!config.show_attributes) {
+    if (config.show_attributes == false)
       return x``;
-    }
 
     const showHumidity = config.show_humidity !== false;
     const showPressure = config.show_pressure !== false;

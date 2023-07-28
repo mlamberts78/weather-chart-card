@@ -39,6 +39,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       labels_font_size: '11',
       show_wind_forecast: true,
       condition_icons: true,
+      round_temp: false,
     },
     units: {
       pressure: 'hPa',
@@ -75,6 +76,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
         precipitation_color: 'rgba(132, 209, 253, 1.0)',
         condition_icons: true,
         show_wind_forecast: true,
+        round_temp: false,
         ...config.forecast,
       },
       units: {
@@ -195,6 +197,7 @@ calculateBeaufortScale(windSpeed) {
       var mode = 'hourly';
     else
       var mode = 'daily';
+    var roundTemp = config.forecast.round_temp == true;
     var i;
     var dateTime = [];
     var tempHigh = [];
@@ -207,6 +210,12 @@ calculateBeaufortScale(windSpeed) {
       if (typeof d.templow !== 'undefined') {
         tempLow.push(d.templow);
       }
+    if (roundTemp) {
+      tempHigh[i] = Math.round(tempHigh[i]);
+      if (typeof d.templow !== 'undefined') {
+        tempLow[i] = Math.round(tempLow[i]);
+      }
+    }
       precip.push(d.precipitation);
     }
     var style = getComputedStyle(document.body);
@@ -380,6 +389,12 @@ calculateBeaufortScale(windSpeed) {
     var dateTime = [];
     var tempHigh = [];
     var tempLow = [];
+    if (roundTemp) {
+      tempHigh[i] = Math.round(tempHigh[i]);
+      if (typeof d.templow !== 'undefined') {
+        tempLow[i] = Math.round(tempLow[i]);
+      }
+    }
     var precip = [];
     for (i = 0; i < forecast.length; i++) {
       var d = forecast[i];
@@ -514,7 +529,7 @@ calculateBeaufortScale(windSpeed) {
           position: absolute;
           top: 20px;
           right: 16px;
-          font-size: clamp(18px, 2.5vw, 24px);
+          font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
       </style>
@@ -589,12 +604,11 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   }
 
   if (this.unitPressure === 'mmHg') {
-    pressure *= 0.75;
+    pressure = pressure * 0.75;
   }
 
-  if (!config.show_attributes) {
+  if (config.show_attributes == false)
     return html``;
-  }
 
   const showHumidity = config.show_humidity !== false;
   const showPressure = config.show_pressure !== false;
