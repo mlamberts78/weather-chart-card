@@ -23,8 +23,6 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 
 2. Add the resource reference as decribed below.
 
-3. Add the resource reference as decribed below.
-
 Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
 
 [![Open your Home Assistant instance and show your Lovelace resources.](https://my.home-assistant.io/badges/lovelace_resources.svg)](https://my.home-assistant.io/redirect/lovelace_resources/)
