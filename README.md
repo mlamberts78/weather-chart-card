@@ -75,6 +75,7 @@ entity: weather.home
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
+| round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 
 ##### Units of measurement
 

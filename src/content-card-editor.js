@@ -108,6 +108,8 @@ const isShowTimeOn = this._config.show_time !== false;
           <button @click="${() => this.showPage('units')}">Units</button>
           <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
         </div>
+
+        <!-- Time settings -->
         <div class="time-container">
           <div class="switch-right">
             <ha-switch
@@ -225,7 +227,7 @@ const isShowTimeOn = this._config.show_time !== false;
               .checked="${forecastConfig.condition_icons !== false}"
             ></ha-switch>
             <label class="switch-label">
-              Condition Icons
+              Show Condition Icons
             </label>
           </div>
           <div class="switch-container">
@@ -235,6 +237,15 @@ const isShowTimeOn = this._config.show_time !== false;
             ></ha-switch>
             <label class="switch-label">
               Show Wind Forecast
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.round_temp')}"
+              .checked="${forecastConfig.round_temp !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Rounding Temperatures
             </label>
           </div>
         </div>

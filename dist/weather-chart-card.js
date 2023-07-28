@@ -700,6 +700,8 @@
           <button @click="${() => this.showPage('units')}">Units</button>
           <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
         </div>
+
+        <!-- Time settings -->
         <div class="time-container">
           <div class="switch-right">
             <ha-switch
@@ -817,7 +819,7 @@
               .checked="${forecastConfig.condition_icons !== false}"
             ></ha-switch>
             <label class="switch-label">
-              Condition Icons
+              Show Condition Icons
             </label>
           </div>
           <div class="switch-container">
@@ -827,6 +829,15 @@
             ></ha-switch>
             <label class="switch-label">
               Show Wind Forecast
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.round_temp')}"
+              .checked="${forecastConfig.round_temp !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Rounding Temperatures
             </label>
           </div>
         </div>
@@ -15619,6 +15630,7 @@
         labels_font_size: '11',
         show_wind_forecast: true,
         condition_icons: true,
+        round_temp: false,
       },
       units: {
         pressure: 'hPa',
@@ -15655,6 +15667,7 @@
           precipitation_color: 'rgba(132, 209, 253, 1.0)',
           condition_icons: true,
           show_wind_forecast: true,
+          round_temp: false,
           ...config.forecast,
         },
         units: {
@@ -15772,6 +15785,7 @@
         var mode = 'hourly';
       else
         var mode = 'daily';
+      var roundTemp = config.forecast.round_temp == true;
       var i;
       var dateTime = [];
       var tempHigh = [];
@@ -15784,6 +15798,12 @@
         if (typeof d.templow !== 'undefined') {
           tempLow.push(d.templow);
         }
+      if (roundTemp) {
+        tempHigh[i] = Math.round(tempHigh[i]);
+        if (typeof d.templow !== 'undefined') {
+          tempLow[i] = Math.round(tempLow[i]);
+        }
+      }
         precip.push(d.precipitation);
       }
       var style = getComputedStyle(document.body);
@@ -15957,6 +15977,12 @@
       var dateTime = [];
       var tempHigh = [];
       var tempLow = [];
+      if (roundTemp) {
+        tempHigh[i] = Math.round(tempHigh[i]);
+        if (typeof d.templow !== 'undefined') {
+          tempLow[i] = Math.round(tempLow[i]);
+        }
+      }
       var precip = [];
       for (i = 0; i < forecast.length; i++) {
         var d = forecast[i];
