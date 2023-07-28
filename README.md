@@ -129,9 +129,12 @@ English <br />
 Finnish <br />
 French <br />
 German <br />
+Greek <br />
 Hungarian <br />
+Italian <br />
 Norwegian <br />
 Polish <br />
+Portuguese <br />
 Russian <br />
 Spanish <br />
 Swedish

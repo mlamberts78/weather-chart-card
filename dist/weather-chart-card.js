@@ -420,6 +420,102 @@
       'windy': 'Blæsende',
       'windy-variant': 'Blæsende'
     },
+    it: {
+      'tempHi': 'Temperatura massima',
+      'tempLo': 'Temperatura notte',
+      'precip': 'Precipitazioni',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Sereno, notte',
+      'cloudy': 'Nuvoloso',
+      'fog': 'Nebbia',
+      'hail': 'Grandine',
+      'lightning': 'Tuoni',
+      'lightning-rainy': 'Tuoni e pioggia',
+      'partlycloudy': 'Parzialmente nuvoloso',
+      'pouring': 'Forti piogge',
+      'rainy': 'Pioggia',
+      'snowy': 'Neve',
+      'snowy-rainy': 'Neve e pioggia',
+      'sunny': 'Soleggiato',
+      'windy': 'Ventoso',
+      'windy-variant': 'Ventoso'
+    },
+    pt: {
+      'tempHi': 'Temperatura máxima',
+      'tempLo': 'Temperatura noite',
+      'precip': 'Precipitação',
+      'units': {
+        'km/h': 'km/h',
+        'm/s': 'm/s',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'mm Hg',
+        'mm': 'mm',
+        'in': 'in'
+      },
+      'cardinalDirections': [
+        'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+        'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      ],
+      'clear-night': 'Céu limpo, noite',
+      'cloudy': 'Nublado',
+      'fog': 'Nevoeiro',
+      'hail': 'Granizo',
+      'lightning': 'Trovão',
+      'lightning-rainy': 'Trovões, chuva',
+      'partlycloudy': 'Parcialmente nublado',
+      'pouring': 'Chuva forte',
+      'rainy': 'Chuva',
+      'snowy': 'Neve',
+      'snowy-rainy': 'Neve e chuva',
+      'sunny': 'Ensolarado',
+      'windy': 'Ventoso',
+      'windy-variant': 'Ventoso'
+    },
+    el: {
+      'tempHi': 'Μέγιστη θερμοκρασία',
+      'tempLo': 'Ελάχιστη θερμοκρασία νύχτας',
+      'precip': 'Υετός',
+      'units': {
+        'km/h': 'χλμ/ώρα',
+        'm/s': 'μ/δ',
+        'Bft': 'Bft',
+        'hPa': 'hPa',
+        'mmHg': 'χιλ. υδράργυρου',
+        'mm': 'χιλ.',
+        'in': 'ίντσες'
+      },
+      'cardinalDirections': [
+        'Β', 'Β-ΒΔ', 'ΒΔ', 'Δ-ΒΔ', 'Δ', 'Δ-ΝΔ', 'ΝΔ', 'Ν-ΝΔ',
+        'Ν', 'Ν-ΒΔ', 'ΒΔ', 'Β-ΒΔ', 'Β', 'Β-ΒΔ', 'ΒΔ', 'Β-ΒΔ', 'Β'
+      ],
+      'clear-night': 'Καθαρός ουρανός, νύχτα',
+      'cloudy': 'Συννεφιά',
+      'fog': 'Ομίχλη',
+      'hail': 'Χαλάζι',
+      'lightning': 'Κεραυνοί',
+      'lightning-rainy': 'Κεραυνοί και βροχή',
+      'partlycloudy': 'Μερικώς συννεφιασμένο',
+      'pouring': 'Πολύ δυνατή βροχή',
+      'rainy': 'Βροχερό',
+      'snowy': 'Χιονισμένο',
+      'snowy-rainy': 'Χιονόνερο',
+      'sunny': 'Ηλιόλουστο',
+      'windy': 'Ανεμώδης',
+      'windy-variant': 'Ανεμώδης'
+    },
   };
 
   const cardinalDirectionsIcon = [
