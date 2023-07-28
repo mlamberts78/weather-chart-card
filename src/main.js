@@ -589,12 +589,11 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   }
 
   if (this.unitPressure === 'mmHg') {
-    pressure *= 0.75;
+    pressure = pressure * 0.75;
   }
 
-  if (!config.show_attributes) {
+  if (config.show_attributes == false)
     return html``;
-  }
 
   const showHumidity = config.show_humidity !== false;
   const showPressure = config.show_pressure !== false;
