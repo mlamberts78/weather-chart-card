@@ -19,7 +19,7 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 
 ### HACS Custom (recommended untill available in HACS default)
 
-1. Go to any of the sections (integrations, frontend, automation).
+1. Go to any of the sections (integrations, frontend).
 2. Click on the 3 dots in the top right corner.
 3. Select "Custom repositories"
 4. Add the URL to the repository: https://github.com/mlamberts78/weather-chart-card
