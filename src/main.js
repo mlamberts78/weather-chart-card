@@ -103,6 +103,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
       this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
       this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
+      this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
       this.windSpeed = this.weather.attributes.wind_speed;
       this.windDirection = this.weather.attributes.wind_bearing;
     }
@@ -592,7 +593,7 @@ renderMain({ config, sun, weather, temperature } = this) {
   `;
 }
 
-renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
+renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) { // Added uv_index as a parameter
   let dWindSpeed;
 
   if (this.unitSpeed === 'm/s') {
@@ -631,6 +632,11 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
       ${showSun ? html`
         <div>
           ${this.renderSun({ sun, language })}
+        </div>
+      ` : ''}
+      ${typeof uv_index !== 'undefined' ? html`
+        <div>
+          <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
         </div>
       ` : ''}
       ${showWindDirection || showWindSpeed ? html`

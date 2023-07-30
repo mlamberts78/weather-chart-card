@@ -844,7 +844,7 @@
 
         <!-- Units Page -->
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
-          <h4>Units settings</h4>
+          <h4>Unit settings</h4>
           <paper-input
             label="Pressure 'hPa' or 'mmHg'"
             .value="${unitsConfig.pressure || 'hPa'}"
@@ -856,6 +856,7 @@
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
         </div>
+
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
           <h4>Alternate entities</h4>
@@ -873,6 +874,11 @@
           label="Alternative humidity sensor"
           .value="${this._config.humid || ''}"
           @value-changed="${(e) => this._valueChanged(e, 'humid')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative UV index sensor"
+          .value="${this._config.uv || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'uv')}"
         ></paper-input>
         </div>
       </div>
@@ -15693,6 +15699,7 @@
         this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
         this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
         this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
+        this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
         this.windSpeed = this.weather.attributes.wind_speed;
         this.windDirection = this.weather.attributes.wind_bearing;
       }
@@ -16180,7 +16187,7 @@
   `;
   }
 
-  renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language } = this) {
+  renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) { // Added uv_index as a parameter
     let dWindSpeed;
 
     if (this.unitSpeed === 'm/s') {
@@ -16219,6 +16226,11 @@
       ${showSun ? x`
         <div>
           ${this.renderSun({ sun, language })}
+        </div>
+      ` : ''}
+      ${typeof uv_index !== 'undefined' ? x`
+        <div>
+          <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
         </div>
       ` : ''}
       ${showWindDirection || showWindSpeed ? x`

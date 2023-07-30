@@ -252,7 +252,7 @@ const isShowTimeOn = this._config.show_time !== false;
 
         <!-- Units Page -->
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
-          <h4>Units settings</h4>
+          <h4>Unit settings</h4>
           <paper-input
             label="Pressure 'hPa' or 'mmHg'"
             .value="${unitsConfig.pressure || 'hPa'}"
@@ -264,6 +264,7 @@ const isShowTimeOn = this._config.show_time !== false;
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
         </div>
+
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
           <h4>Alternate entities</h4>
@@ -281,6 +282,11 @@ const isShowTimeOn = this._config.show_time !== false;
           label="Alternative humidity sensor"
           .value="${this._config.humid || ''}"
           @value-changed="${(e) => this._valueChanged(e, 'humid')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative UV index sensor"
+          .value="${this._config.uv || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'uv')}"
         ></paper-input>
         </div>
       </div>
