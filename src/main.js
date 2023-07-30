@@ -593,7 +593,7 @@ renderMain({ config, sun, weather, temperature } = this) {
   `;
 }
 
-renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) { // Added uv_index as a parameter
+renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
   let dWindSpeed;
 
   if (this.unitSpeed === 'm/s') {
@@ -629,14 +629,18 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
           ` : ''}
         </div>
       ` : ''}
-      ${showSun ? html`
+      ${showSun || typeof uv_index !== 'undefined' ? html`
         <div>
-          ${this.renderSun({ sun, language })}
-        </div>
-      ` : ''}
-      ${typeof uv_index !== 'undefined' ? html`
-        <div>
-          <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+          ${typeof uv_index !== 'undefined' ? html`
+            <div>
+              <ha-icon icon="hass:sun-wireless"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+            </div>
+          ` : ''}
+          ${showSun ? html`
+            <div>
+              ${this.renderSun({ sun, language })}
+            </div>
+          ` : ''}
         </div>
       ` : ''}
       ${showWindDirection || showWindSpeed ? html`

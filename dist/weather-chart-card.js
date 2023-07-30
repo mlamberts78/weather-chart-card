@@ -16223,14 +16223,18 @@
           ` : ''}
         </div>
       ` : ''}
-      ${showSun ? x`
+      ${showSun || typeof uv_index !== 'undefined' ? x`
         <div>
-          ${this.renderSun({ sun, language })}
-        </div>
-      ` : ''}
-      ${typeof uv_index !== 'undefined' ? x`
-        <div>
-          <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+          ${typeof uv_index !== 'undefined' ? x`
+            <div>
+              <ha-icon icon="hass:sun-wireless"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+            </div>
+          ` : ''}
+          ${showSun ? x`
+            <div>
+              ${this.renderSun({ sun, language })}
+            </div>
+          ` : ''}
         </div>
       ` : ''}
       ${showWindDirection || showWindSpeed ? x`
