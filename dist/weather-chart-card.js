@@ -16187,7 +16187,7 @@
   `;
   }
 
-  renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) { // Added uv_index as a parameter
+  renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
     let dWindSpeed;
 
     if (this.unitSpeed === 'm/s') {
@@ -16227,7 +16227,7 @@
         <div>
           ${typeof uv_index !== 'undefined' ? x`
             <div>
-              <ha-icon icon="hass:sun-wireless"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+              <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
             </div>
           ` : ''}
           ${showSun ? x`

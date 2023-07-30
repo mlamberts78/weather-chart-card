@@ -633,7 +633,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
         <div>
           ${typeof uv_index !== 'undefined' ? html`
             <div>
-              <ha-icon icon="hass:sun-wireless"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
+              <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
             </div>
           ` : ''}
           ${showSun ? html`
