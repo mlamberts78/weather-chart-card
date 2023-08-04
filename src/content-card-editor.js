@@ -254,13 +254,13 @@ const isShowTimeOn = this._config.show_time !== false;
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
           <h4>Unit settings</h4>
           <paper-input
-            label="Pressure 'hPa' or 'mmHg'"
-            .value="${unitsConfig.pressure || 'hPa'}"
+            label="Convert pressure to 'hPa' or 'mmHg' or 'inHg'"
+            .value="${unitsConfig.pressure || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Speed 'km/h' or 'm/s' or 'Bft'"
-            .value="${unitsConfig.speed || 'km/h'}"
+            label="Convert wind speed to 'km/h' or 'm/s' or 'Bft' or 'mph'"
+            .value="${unitsConfig.speed || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
         </div>
@@ -287,6 +287,16 @@ const isShowTimeOn = this._config.show_time !== false;
           label="Alternative UV index sensor"
           .value="${this._config.uv || ''}"
           @value-changed="${(e) => this._valueChanged(e, 'uv')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative wind bearing sensor"
+          .value="${this._config.winddir || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'winddir')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative wind speed sensor"
+          .value="${this._config.windspeed || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'windspeed')}"
         ></paper-input>
         </div>
       </div>

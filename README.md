@@ -61,6 +61,8 @@ entity: weather.home
 | press                | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
 | humid                | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
 | uv                   | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
+| winddir              | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
+| windspeed            | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
@@ -92,8 +94,8 @@ entity: weather.home
 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
-| pressure             | string  | 'hPa'                    | Can be 'hPa' or 'mmHg'                                                                             |
-| speed                | string  | 'km/h'                   | Can be 'km/h' or 'm/s' or 'Bft'                                                                    |
+| pressure             | string  | none                     | Convert to 'hPa' or 'mmHg' or 'inHg'                                                               |
+| speed                | string  | none                     | Convert to 'km/h' or 'm/s' or 'Bft' or 'mph'                                                       |
 
 ###### What custom icons can I use?
 Icons should be in svg format. Icons should have names as shown [here](https://github.com/mlamberts78/weather-chart-card/blob/master/src/const.js#L24). Example:
