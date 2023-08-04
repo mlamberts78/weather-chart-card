@@ -254,12 +254,12 @@ const isShowTimeOn = this._config.show_time !== false;
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
           <h4>Unit settings</h4>
           <paper-input
-            label="Pressure 'hPa' or 'mmHg'"
-            .value="${unitsConfig.pressure || 'hPa'}"
+            label="Convert pressure to 'hPa' or 'mmHg' or 'inHg'"
+            .value="${unitsConfig.pressure || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Convert wind speed 'km/h' or 'm/s' or 'Bft' or 'mph'"
+            label="Convert wind speed to 'km/h' or 'm/s' or 'Bft' or 'mph'"
             .value="${unitsConfig.speed || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>

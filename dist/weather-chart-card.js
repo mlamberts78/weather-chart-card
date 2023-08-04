@@ -846,12 +846,12 @@
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
           <h4>Unit settings</h4>
           <paper-input
-            label="Pressure 'hPa' or 'mmHg'"
-            .value="${unitsConfig.pressure || 'hPa'}"
+            label="Convert pressure to 'hPa' or 'mmHg' or 'inHg'"
+            .value="${unitsConfig.pressure || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Convert wind speed 'km/h' or 'm/s' or 'Bft' or 'mph'"
+            label="Convert wind speed to 'km/h' or 'm/s' or 'Bft' or 'mph'"
             .value="${unitsConfig.speed || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
@@ -15648,9 +15648,6 @@
         condition_icons: true,
         round_temp: false,
       },
-      units: {
-        pressure: 'hPa',
-      },
     };
   }
 
@@ -15704,7 +15701,7 @@
     this.language = hass.selectedLanguage || hass.language;
     this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
     this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
-    this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
+    this.unitPressure = this.config.units.pressure ? this.config.units.pressure : this.weather && this.weather.attributes.pressure_unit;
     this.weather = this.config.entity in hass.states
       ? hass.states[this.config.entity]
       : null;
@@ -16269,6 +16266,7 @@
 
   renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
     let dWindSpeed = windSpeed;
+    let dPressure = pressure;
 
     if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
       if (this.unitSpeed === 'm/s') {
@@ -16293,11 +16291,34 @@
         dWindSpeed = this.calculateBeaufortScale(windSpeed);
       }
     } else {
-      dWindSpeed = Math.round(dWindSpeed); // Round when using the original value
+      dWindSpeed = Math.round(dWindSpeed);
     }
 
-    if (this.unitPressure === 'mmHg') {
-      pressure = pressure * 0.75;
+    if (this.unitPressure !== this.weather.attributes.pressure_unit) {
+      if (this.unitPressure === 'mmHg') {
+        if (this.weather.attributes.pressure_unit === 'hPa') {
+          dPressure = Math.round(pressure * 0.75006);
+        } else if (this.weather.attributes.pressure_unit === 'inHg') {
+          dPressure = Math.round(pressure * 25.4);
+        }
+      } else if (this.unitPressure === 'hPa') {
+        if (this.weather.attributes.pressure_unit === 'mmHg') {
+          dPressure = Math.round(pressure / 0.75006);
+        } else if (this.weather.attributes.pressure_unit === 'inHg') {
+          dPressure = Math.round(pressure * 33.8639);
+        }
+      } else if (this.unitPressure === 'inHg') {
+        if (this.weather.attributes.pressure_unit === 'mmHg') {
+          dPressure = pressure / 25.4;
+        } else if (this.weather.attributes.pressure_unit === 'hPa') {
+          dPressure = pressure / 33.8639;
+        }
+        dPressure = dPressure.toFixed(2);
+      }
+    } else {
+      if (this.unitPressure === 'hPa' || this.unitPressure === 'mmHg') {
+        dPressure = Math.round(dPressure);
+      }
     }
 
     if (config.show_attributes == false)
@@ -16317,7 +16338,7 @@
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
           ${showPressure ? x`
-            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.unitPressure}
           ` : ''}
         </div>
       ` : ''}

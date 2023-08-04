@@ -41,9 +41,6 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
     },
-    units: {
-      pressure: 'hPa',
-    },
   };
 }
 
@@ -97,7 +94,7 @@ set hass(hass) {
   this.language = hass.selectedLanguage || hass.language;
   this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
   this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
-  this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
+  this.unitPressure = this.config.units.pressure ? this.config.units.pressure : this.weather && this.weather.attributes.pressure_unit;
   this.weather = this.config.entity in hass.states
     ? hass.states[this.config.entity]
     : null;
@@ -664,6 +661,7 @@ renderMain({ config, sun, weather, temperature } = this) {
 
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
   let dWindSpeed = windSpeed;
+  let dPressure = pressure;
 
   if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
     if (this.unitSpeed === 'm/s') {
@@ -688,11 +686,34 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
       dWindSpeed = this.calculateBeaufortScale(windSpeed);
     }
   } else {
-    dWindSpeed = Math.round(dWindSpeed); // Round when using the original value
+    dWindSpeed = Math.round(dWindSpeed);
   }
 
-  if (this.unitPressure === 'mmHg') {
-    pressure = pressure * 0.75;
+  if (this.unitPressure !== this.weather.attributes.pressure_unit) {
+    if (this.unitPressure === 'mmHg') {
+      if (this.weather.attributes.pressure_unit === 'hPa') {
+        dPressure = Math.round(pressure * 0.75006);
+      } else if (this.weather.attributes.pressure_unit === 'inHg') {
+        dPressure = Math.round(pressure * 25.4);
+      }
+    } else if (this.unitPressure === 'hPa') {
+      if (this.weather.attributes.pressure_unit === 'mmHg') {
+        dPressure = Math.round(pressure / 0.75006);
+      } else if (this.weather.attributes.pressure_unit === 'inHg') {
+        dPressure = Math.round(pressure * 33.8639);
+      }
+    } else if (this.unitPressure === 'inHg') {
+      if (this.weather.attributes.pressure_unit === 'mmHg') {
+        dPressure = pressure / 25.4;
+      } else if (this.weather.attributes.pressure_unit === 'hPa') {
+        dPressure = pressure / 33.8639;
+      }
+      dPressure = dPressure.toFixed(2);
+    }
+  } else {
+    if (this.unitPressure === 'hPa' || this.unitPressure === 'mmHg') {
+      dPressure = Math.round(dPressure);
+    }
   }
 
   if (config.show_attributes == false)
@@ -712,7 +733,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
           ${showPressure ? html`
-            <ha-icon icon="hass:gauge"></ha-icon> ${Math.round(pressure)} ${this.ll('units')[config.units.pressure]}
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.unitPressure}
           ` : ''}
         </div>
       ` : ''}
