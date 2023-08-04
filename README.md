@@ -61,6 +61,8 @@ entity: weather.home
 | press                | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
 | humid                | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
 | uv                   | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
+| winddir              | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
+| windspeed            | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
 | title                | string  | none                     | Card title.                                                                                        |
 | show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |

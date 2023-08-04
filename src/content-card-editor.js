@@ -288,6 +288,16 @@ const isShowTimeOn = this._config.show_time !== false;
           .value="${this._config.uv || ''}"
           @value-changed="${(e) => this._valueChanged(e, 'uv')}"
         ></paper-input>
+        <paper-input
+          label="Alternative wind bearing sensor"
+          .value="${this._config.winddir || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'winddir')}"
+        ></paper-input>
+        <paper-input
+          label="Alternative wind speed sensor"
+          .value="${this._config.windspeed || ''}"
+          @value-changed="${(e) => this._valueChanged(e, 'windspeed')}"
+        ></paper-input>
         </div>
       </div>
     `;

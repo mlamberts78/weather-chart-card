@@ -104,8 +104,8 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
       this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
       this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
-      this.windSpeed = this.weather.attributes.wind_speed;
-      this.windDirection = this.weather.attributes.wind_bearing;
+      this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
+      this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
     }
   }
 
@@ -136,13 +136,61 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     return weatherIcons[condition];
   }
 
-  getWindDirIcon(deg) {
+getWindDirIcon(deg) {
+  if ( typeof deg == 'number' ) {
     return cardinalDirectionsIcon[parseInt((deg + 22.5) / 45.0)];
+  } else {
+    var i = 9;
+    switch (deg) {
+      case "N":
+        i = 0;
+        break;
+      case "NNE":
+      case "NE":
+        i = 1;
+        break;
+      case "ENE":
+      case "E":
+        i = 2;
+        break;
+      case "ESE":
+      case "SE":
+        i = 3;
+        break;
+      case "SSE":
+      case "S":
+        i = 4;
+        break;
+      case "SSW":
+      case "SW":
+        i = 5;
+        break;
+      case "WSW":
+      case "W":
+        i = 6;
+        break;
+      case "WNW":
+      case "NW":
+        i = 7;
+        break;
+      case "NNW":
+        i = 8;
+        break;
+      default:
+        i = 9;
+        break;
+    }
+    return cardinalDirectionsIcon[i];
   }
+}
 
-  getWindDir(deg) {
+getWindDir(deg) {
+  if ( typeof deg == 'number' ) {
     return this.ll('cardinalDirections')[parseInt((deg + 11.25) / 22.5)];
+  } else {
+    return deg;
   }
+}
 
 calculateBeaufortScale(windSpeed) {
   if (windSpeed < 1) return 0;
