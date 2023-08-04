@@ -43,7 +43,6 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     },
     units: {
       pressure: 'hPa',
-      speed: 'km/h',
     },
   };
 }
@@ -65,49 +64,52 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     };
   }
 
-  setConfig(config) {
-    const cardConfig = {
-      icons_size: 25,
-      ...config,
-      forecast: {
-        labels_font_size: 11,
-        temperature1_color: 'rgba(255, 152, 0, 1.0)',
-        temperature2_color: 'rgba(68, 115, 158, 1.0)',
-        precipitation_color: 'rgba(132, 209, 253, 1.0)',
-        condition_icons: true,
-        show_wind_forecast: true,
-        round_temp: false,
-        ...config.forecast,
-      },
-      units: {
-        pressure: 'hPa',
-        speed: 'km/h',
-        ...config.units,
-      }
-    };
-    this.config = cardConfig;
-    if (!config.entity) {
-      throw new Error('Please, define entity in the card config');
-    };
-  }
-
-  set hass(hass) {
-    this._hass = hass;
-    this.language = hass.selectedLanguage || hass.language;
-    this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
-    this.unitSpeed = this.config.units.speed ? this.config.units.speed : 'km/h';
-    this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
-    this.weather = this.config.entity in hass.states
-      ? hass.states[this.config.entity] : null;
-    if (this.weather) {
-      this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
-      this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
-      this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
-      this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
-      this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
-      this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
+setConfig(config) {
+  const cardConfig = {
+    icons_size: 25,
+    ...config,
+    forecast: {
+      labels_font_size: 11,
+      temperature1_color: 'rgba(255, 152, 0, 1.0)',
+      temperature2_color: 'rgba(68, 115, 158, 1.0)',
+      precipitation_color: 'rgba(132, 209, 253, 1.0)',
+      condition_icons: true,
+      show_wind_forecast: true,
+      round_temp: false,
+      ...config.forecast,
+    },
+    units: {
+      pressure: 'hPa',
+      ...config.units,
     }
+  };
+
+  cardConfig.units.speed = config.speed ? config.speed : cardConfig.units.speed;
+
+  this.config = cardConfig;
+  if (!config.entity) {
+    throw new Error('Please, define entity in the card config');
   }
+}
+
+set hass(hass) {
+  this._hass = hass;
+  this.language = hass.selectedLanguage || hass.language;
+  this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
+  this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
+  this.unitPressure = this.config.units.pressure ? this.config.units.pressure : 'hPa';
+  this.weather = this.config.entity in hass.states
+    ? hass.states[this.config.entity]
+    : null;
+  if (this.weather) {
+    this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
+    this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
+    this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
+    this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
+    this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
+    this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
+  }
+}
 
   constructor() {
     super();
@@ -193,18 +195,37 @@ getWindDir(deg) {
 }
 
 calculateBeaufortScale(windSpeed) {
-  if (windSpeed < 1) return 0;
-  else if (windSpeed < 6) return 1;
-  else if (windSpeed < 12) return 2;
-  else if (windSpeed < 20) return 3;
-  else if (windSpeed < 29) return 4;
-  else if (windSpeed < 39) return 5;
-  else if (windSpeed < 50) return 6;
-  else if (windSpeed < 62) return 7;
-  else if (windSpeed < 75) return 8;
-  else if (windSpeed < 89) return 9;
-  else if (windSpeed < 103) return 10;
-  else if (windSpeed < 118) return 11;
+  const unitConversion = {
+    'km/h': 1,
+    'm/s': 3.6,
+    'mph': 1.60934,
+  };
+
+  if (!this.weather || !this.weather.attributes.wind_speed_unit) {
+    throw new Error('wind_speed_unit not available in weather attributes.');
+  }
+
+  const wind_speed_unit = this.weather.attributes.wind_speed_unit;
+  const conversionFactor = unitConversion[wind_speed_unit];
+
+  if (typeof conversionFactor !== 'number') {
+    throw new Error(`Unknown wind_speed_unit: ${wind_speed_unit}`);
+  }
+
+  const windSpeedInKmPerHour = windSpeed * conversionFactor;
+
+  if (windSpeedInKmPerHour < 1) return 0;
+  else if (windSpeedInKmPerHour < 6) return 1;
+  else if (windSpeedInKmPerHour < 12) return 2;
+  else if (windSpeedInKmPerHour < 20) return 3;
+  else if (windSpeedInKmPerHour < 29) return 4;
+  else if (windSpeedInKmPerHour < 39) return 5;
+  else if (windSpeedInKmPerHour < 50) return 6;
+  else if (windSpeedInKmPerHour < 62) return 7;
+  else if (windSpeedInKmPerHour < 75) return 8;
+  else if (windSpeedInKmPerHour < 89) return 9;
+  else if (windSpeedInKmPerHour < 103) return 10;
+  else if (windSpeedInKmPerHour < 118) return 11;
   else return 12;
 }
 
@@ -642,14 +663,32 @@ renderMain({ config, sun, weather, temperature } = this) {
 }
 
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
-  let dWindSpeed;
+  let dWindSpeed = windSpeed;
 
-  if (this.unitSpeed === 'm/s') {
-    dWindSpeed = Math.round(windSpeed * 1000 / 3600);
-  } else if (this.unitSpeed === 'Bft') {
-    dWindSpeed = this.calculateBeaufortScale(windSpeed);
+  if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
+    if (this.unitSpeed === 'm/s') {
+      if (this.weather.attributes.wind_speed_unit === 'km/h') {
+        dWindSpeed = Math.round(windSpeed * 1000 / 3600);
+      } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+        dWindSpeed = Math.round(windSpeed * 0.44704);
+      }
+    } else if (this.unitSpeed === 'km/h') {
+      if (this.weather.attributes.wind_speed_unit === 'm/s') {
+        dWindSpeed = Math.round(windSpeed * 3.6);
+      } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+        dWindSpeed = Math.round(windSpeed * 1.60934);
+      }
+    } else if (this.unitSpeed === 'mph') {
+      if (this.weather.attributes.wind_speed_unit === 'm/s') {
+        dWindSpeed = Math.round(windSpeed / 0.44704);
+      } else if (this.weather.attributes.wind_speed_unit === 'km/h') {
+        dWindSpeed = Math.round(windSpeed / 1.60934);
+      }
+    } else if (this.unitSpeed === 'Bft') {
+      dWindSpeed = this.calculateBeaufortScale(windSpeed);
+    }
   } else {
-    dWindSpeed = Math.round(windSpeed);
+    dWindSpeed = Math.round(dWindSpeed); // Round when using the original value
   }
 
   if (this.unitPressure === 'mmHg') {
@@ -756,14 +795,32 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
     <div class="wind-details">
       ${showWindForecast ? html`
         ${forecast.map((item) => {
-          let dWindSpeed;
+          let dWindSpeed = item.wind_speed;
 
-          if (this.unitSpeed === 'm/s') {
-            dWindSpeed = Math.round(item.wind_speed * 1000 / 3600); // Convert to m/s
-          } else if (this.unitSpeed === 'Bft') {
-            dWindSpeed = this.calculateBeaufortScale(item.wind_speed);
+          if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
+            if (this.unitSpeed === 'm/s') {
+              if (this.weather.attributes.wind_speed_unit === 'km/h') {
+                dWindSpeed = Math.round(item.wind_speed * 1000 / 3600);
+              } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+                dWindSpeed = Math.round(item.wind_speed * 0.44704);
+              }
+            } else if (this.unitSpeed === 'km/h') {
+              if (this.weather.attributes.wind_speed_unit === 'm/s') {
+                dWindSpeed = Math.round(item.wind_speed * 3.6);
+              } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+                dWindSpeed = Math.round(item.wind_speed * 1.60934);
+              }
+            } else if (this.unitSpeed === 'mph') {
+              if (this.weather.attributes.wind_speed_unit === 'm/s') {
+                dWindSpeed = Math.round(item.wind_speed / 0.44704);
+              } else if (this.weather.attributes.wind_speed_unit === 'km/h') {
+                dWindSpeed = Math.round(item.wind_speed / 1.60934);
+              }
+            } else if (this.unitSpeed === 'Bft') {
+              dWindSpeed = this.calculateBeaufortScale(item.wind_speed);
+            }
           } else {
-            dWindSpeed = Math.round(item.wind_speed);
+            dWindSpeed = Math.round(dWindSpeed);
           }
 
           return html`

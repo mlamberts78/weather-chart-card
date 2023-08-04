@@ -259,8 +259,8 @@ const isShowTimeOn = this._config.show_time !== false;
             @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
           ></paper-input>
           <paper-input
-            label="Speed 'km/h' or 'm/s' or 'Bft'"
-            .value="${unitsConfig.speed || 'km/h'}"
+            label="Convert wind speed 'km/h' or 'm/s' or 'Bft' or 'mph'"
+            .value="${unitsConfig.speed || ''}"
             @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
           ></paper-input>
         </div>

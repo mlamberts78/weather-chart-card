@@ -95,7 +95,7 @@ entity: weather.home
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
 | pressure             | string  | 'hPa'                    | Can be 'hPa' or 'mmHg'                                                                             |
-| speed                | string  | 'km/h'                   | Can be 'km/h' or 'm/s' or 'Bft'                                                                    |
+| speed                | string  | ''                       | Can be 'km/h' or 'm/s' or 'Bft' or 'mph'                                                           |
 
 ###### What custom icons can I use?
 Icons should be in svg format. Icons should have names as shown [here](https://github.com/mlamberts78/weather-chart-card/blob/master/src/const.js#L24). Example:
