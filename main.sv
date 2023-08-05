@@ -37,7 +37,6 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_sun: true,
     forecast: {
       labels_font_size: '11',
-      style: 'style1',
       show_wind_forecast: true,
       condition_icons: true,
       round_temp: false,
@@ -68,7 +67,6 @@ setConfig(config) {
     ...config,
     forecast: {
       labels_font_size: 11,
-      style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
       temperature2_color: 'rgba(68, 115, 158, 1.0)',
       precipitation_color: 'rgba(132, 209, 253, 1.0)',
