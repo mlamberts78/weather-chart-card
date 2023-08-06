@@ -89,6 +89,7 @@ entity: weather.home
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
+| style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 
 ##### Units of measurement
 
@@ -112,6 +113,14 @@ show_date: true
 show_date: true
 units:
   speed: Bft
+```
+###### Style2 chart
+![style2](https://github.com/mlamberts78/weather-chart-card/assets/93537082/3067cc43-0e80-492c-b4a5-771b1e44ea17)
+```yaml
+type: custom:weather-chart-card
+entity: weather.my_home
+forecast:
+  style: style2
 ```
 ###### Chart only
 ![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
