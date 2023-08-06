@@ -397,15 +397,18 @@ drawChart({ config, language, weather, forecastItems } = this) {
         },
       },
       scales: {
-        DateTimeAxis: {
+        x: {
           position: 'top',
+          border: {
+            width: 0,
+          },
           grid: {
-            drawBorder: false,
             drawTicks: false,
-            zeroLineColor: dividerColor,
+            color: dividerColor,
           },
           ticks: {
             maxRotation: 0,
+            padding: 10,
             callback: function (value, index, values) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
@@ -425,7 +428,6 @@ drawChart({ config, language, weather, forecastItems } = this) {
           suggestedMax: Math.max(...tempHigh, ...tempLow) + 3,
           grid: {
             display: false,
-            drawBorder: false,
             drawTicks: false,
           },
           ticks: {
@@ -437,7 +439,6 @@ drawChart({ config, language, weather, forecastItems } = this) {
           suggestedMax: lengthUnit === 'km' ? 20 : 1,
           grid: {
             display: false,
-            drawBorder: false,
             drawTicks: false,
           },
           ticks: {
