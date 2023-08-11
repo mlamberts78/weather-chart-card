@@ -75,6 +75,7 @@ entity: weather.home
 | show_wind_speed      | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | icons_size           | number  | 25                       | The size of custom icons in pixels.                                                                |
+| current_temp_size    | number  | 28                       | The size of the current temperature in pixels.                                                     |
 | forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
 | units                | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
 
@@ -86,6 +87,7 @@ entity: weather.home
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
+| chart_datetime_color | string  | primary-text-color       | Chart day or hour color                                                                            |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
