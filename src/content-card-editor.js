@@ -205,6 +205,11 @@ const isShowTimeOn = this._config.show_time !== false;
             <label class="switch-label">
               Show Wind Speed
             </label>
+          <paper-input
+            label="Curent temperature Font Size"
+            .value="${this._config.current_temp_size || '28'}"
+            @value-changed="${(e) => this._valueChanged(e, 'current_temp_size')}"
+          ></paper-input>
         <paper-input
           label="Custom icon path"
           .value="${this._config.icons || ''}"

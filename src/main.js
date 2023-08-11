@@ -64,6 +64,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
 setConfig(config) {
   const cardConfig = {
     icons_size: 25,
+    current_temp_size: 28,
     ...config,
     forecast: {
       labels_font_size: 11,
@@ -361,6 +362,7 @@ calculateBeaufortScale(windSpeed) {
             },
             ticks: {
               maxRotation: 0,
+	      color: config.forecast.chart_datetime_color || textColor,
               callback: function(value, index, values) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
@@ -520,7 +522,7 @@ calculateBeaufortScale(windSpeed) {
         .main {
           display: flex;
           align-items: center;
-          font-size: 28px;
+          font-size: ${config.current_temp_size}px;
           margin-bottom: 10px;
         }
         .main ha-icon {
