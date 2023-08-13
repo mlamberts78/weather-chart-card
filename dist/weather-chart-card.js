@@ -746,6 +746,15 @@
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_current_condition')}"
+              .checked="${this._config.show_current_condition !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Weather Condition
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_attributes')}"
               .checked="${this._config.show_attributes !== false}"
             ></ha-switch>
@@ -15638,6 +15647,7 @@
     return {
       entity,
       show_main: true,
+      show_current_condition: true,
       show_attributes: true,
       show_time: false,
       show_day: false,
@@ -16228,16 +16238,18 @@
     }
 
   renderMain({ config, sun, weather, temperature } = this) {
-    if (config.show_main === false)
+    if (!config.show_main)
       return x``;
 
     const currentDate = new Date();
     const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
     const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
     const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
-    const showTime = config.show_time === true;
-    const showDay = config.show_day === true;
-    const showDate = config.show_date === true;
+    const showTime = config.show_time;
+    const showDay = config.show_day;
+    const showDate = config.show_date;
+    const showCurrentCondition = config.show_current_condition !== false;
+
 
     return x`
     <div class="main">
@@ -16257,7 +16269,9 @@
           ${temperature}<span>
           ${this.getUnit('temperature')}</span>
         </div>
-        <span>${this.ll(weather.state)}</span>
+        ${showCurrentCondition ? x`
+          <span>${this.ll(weather.state)}</span>
+        ` : ''}
         ${showTime ? x`
           <div class="current-time">
             ${showDay ? x`${currentDayOfWeek}` : ''}

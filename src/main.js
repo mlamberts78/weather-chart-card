@@ -26,6 +26,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
   return {
     entity,
     show_main: true,
+    show_current_condition: true,
     show_attributes: true,
     show_time: false,
     show_day: false,
@@ -618,16 +619,18 @@ calculateBeaufortScale(windSpeed) {
   }
 
 renderMain({ config, sun, weather, temperature } = this) {
-  if (config.show_main === false)
+  if (!config.show_main)
     return html``;
 
   const currentDate = new Date();
   const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
   const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
   const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
-  const showTime = config.show_time === true;
-  const showDay = config.show_day === true;
-  const showDate = config.show_date === true;
+  const showTime = config.show_time;
+  const showDay = config.show_day;
+  const showDate = config.show_date;
+  const showCurrentCondition = config.show_current_condition !== false;
+
 
   return html`
     <div class="main">
@@ -647,7 +650,9 @@ renderMain({ config, sun, weather, temperature } = this) {
           ${temperature}<span>
           ${this.getUnit('temperature')}</span>
         </div>
-        <span>${this.ll(weather.state)}</span>
+        ${showCurrentCondition ? html`
+          <span>${this.ll(weather.state)}</span>
+        ` : ''}
         ${showTime ? html`
           <div class="current-time">
             ${showDay ? html`${currentDayOfWeek}` : ''}

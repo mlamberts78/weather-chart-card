@@ -154,6 +154,15 @@ const isShowTimeOn = this._config.show_time !== false;
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_current_condition')}"
+              .checked="${this._config.show_current_condition !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Weather Condition
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_attributes')}"
               .checked="${this._config.show_attributes !== false}"
             ></ha-switch>
