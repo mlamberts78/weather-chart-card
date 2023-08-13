@@ -53,31 +53,32 @@ entity: weather.home
 
 ##### Card options
 
-| Name                 | Type    | Default                  | Description                                                                                        |
-| -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
-| type                 | string  | **Required**             | Should be `custom:weather-chart-card`.                                                             |
-| entity               | string  | **Required**             | An entity_id with the `weather` domain.                                                            |
-| temp                 | string  | none                     | An entity_id for a custom temperature sensor.                                                      |
-| press                | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
-| humid                | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
-| uv                   | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
-| winddir              | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
-| windspeed            | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
-| title                | string  | none                     | Card title.                                                                                        |
-| show_main            | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
-| show_attributes      | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
-| show_time            | boolean | false                    | Show or hide the current time on the card.                                                         |
-| show_day             | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
-| show_date            | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
-| show_humid           | boolean | true                     | Show or hide humidity on the card.                                                                 |
-| show_pressure        | boolean | true                     | Show or hide pressure on the card.                                                                 |
-| show_wind_direction  | boolean | true                     | Show or hide wind_direction on the card.                                                           |
-| show_wind_speed      | boolean | true                     | Show or hide wind_speed on the card.                                                               |
-| icons                | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
-| icons_size           | number  | 25                       | The size of custom icons in pixels.                                                                |
-| current_temp_size    | number  | 28                       | The size of the current temperature in pixels.                                                     |
-| forecast             | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
-| units                | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
+| Name                  | Type    | Default                  | Description                                                                                        |
+| ----------------------| ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
+| type                  | string  | **Required**             | Should be `custom:weather-chart-card`.                                                             |
+| entity                | string  | **Required**             | An entity_id with the `weather` domain.                                                            |
+| temp                  | string  | none                     | An entity_id for a custom temperature sensor.                                                      |
+| press                 | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
+| humid                 | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
+| uv                    | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
+| winddir               | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
+| windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
+| title                 | string  | none                     | Card title.                                                                                        |
+| show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
+| show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
+| show_attributes       | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
+| show_time             | boolean | false                    | Show or hide the current time on the card.                                                         |
+| show_day              | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
+| show_date             | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
+| show_humid            | boolean | true                     | Show or hide humidity on the card.                                                                 |
+| show_pressure         | boolean | true                     | Show or hide pressure on the card.                                                                 |
+| show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
+| show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
+| icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
+| icons_size            | number  | 25                       | The size of custom icons in pixels.                                                                |
+| current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
+| forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
+| units                 | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
 
 ##### Forecast options
 
