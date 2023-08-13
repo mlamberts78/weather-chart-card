@@ -16238,7 +16238,7 @@
     }
 
   renderMain({ config, sun, weather, temperature } = this) {
-    if (!config.show_main)
+    if (config.show_main === false)
       return x``;
 
     const currentDate = new Date();

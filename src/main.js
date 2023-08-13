@@ -619,7 +619,7 @@ calculateBeaufortScale(windSpeed) {
   }
 
 renderMain({ config, sun, weather, temperature } = this) {
-  if (!config.show_main)
+  if (config.show_main === false)
     return html``;
 
   const currentDate = new Date();
