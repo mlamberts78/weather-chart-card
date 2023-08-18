@@ -16,18 +16,17 @@
   "license": "MIT",
   "dependencies": {
     "@polymer/paper-checkbox": "^3.1.0",
-    "chart.js": "3.9.1",
+    "chart.js": "^4.3.3",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "lit": "^2.7.6",
-    "lodash": "^4.17.21"
+    "lit": "^2.8.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.0",
     "acorn": "^8.10.0",
-    "eslint": "^5.16.0",
-    "rollup": "^2.79.1",
+    "eslint": "^8.47.0",
+    "rollup": "^3.28.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-serve": "^1.1.0"
+    "rollup-plugin-serve": "^2.0.2"
   },
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
