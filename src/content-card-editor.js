@@ -54,6 +54,15 @@ class ContentCardEditor extends LitElement {
     this.configChanged(newConfig);
   }
 
+  _handleStyleChange(event) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+    newConfig.forecast.style = event.target.value;
+    this.configChanged(newConfig);
+  }
+
   showPage(pageName) {
     this.currentPage = pageName;
   }
@@ -139,6 +148,16 @@ const isShowTimeOn = this._config.show_time !== false;
             </label>
           </div>
         </div>
+    <div>
+      <label>
+        <input type="radio" name="style" value="style1" ?checked="${forecastConfig.style === 'style1'}" @change="${this._handleStyleChange}">
+        Chart style 1
+      </label>
+      <label>
+        <input type="radio" name="style" value="style2" ?checked="${forecastConfig.style === 'style2'}" @change="${this._handleStyleChange}">
+        Chart style 2
+      </label>
+    </div>
 
         <!-- Card Settings Page -->
         <div class="page-container ${this.currentPage === 'card' ? 'active' : ''}">
