@@ -359,7 +359,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.temperature1_color,
+      color: config.forecast.chart_text_color || config.forecast.temperature1_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -377,7 +377,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.temperature2_color,
+      color: config.forecast.chart_text_color || config.forecast.temperature2_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -459,6 +459,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderRadius: 0,
           borderWidth: 1.5,
           padding: 4,
+	  color: config.forecast.chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,
             lineHeight: 0.7,
