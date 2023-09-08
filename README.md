@@ -89,6 +89,7 @@ entity: weather.home
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
 | chart_datetime_color | string  | primary-text-color       | Chart day or hour color                                                                            |
+| chart_text_color     | string  | none                     | Chart text color                                                                                   |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
