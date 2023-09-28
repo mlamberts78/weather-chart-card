@@ -13,12 +13,7 @@
 
 ## Installation
 
-### HACS --Comming Soon!-- (recommended)
-
-This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
-<small>_HACS is a third party community store and is not included in Home Assistant out of the box._</small>
-
-### HACS Custom (recommended untill available in HACS default)
+### HACS Custom
 
 1. Go to any of the sections (integrations, frontend).
 2. Click on the 3 dots in the top right corner.
