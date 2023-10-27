@@ -3,7 +3,8 @@ import {
   cardinalDirectionsIcon,
   weatherIcons,
   weatherIconsDay,
-  weatherIconsNight
+  weatherIconsNight,
+  WeatherEntityFeature
 } from './const.js';
 import {LitElement, html} from 'lit';
 import './content-card-editor.js';
@@ -42,6 +43,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       show_wind_forecast: true,
       condition_icons: true,
       round_temp: false,
+      type: 'daily',
     },
   };
 }
@@ -59,7 +61,8 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       windSpeed: {type: Object},
       windDirection: {type: Object},
       forecastChart: {type: Object},
-      forecastItems: {type: Number}
+      forecastItems: {type: Number},
+      forecasts: { type: Array }
     };
   }
 
@@ -77,6 +80,7 @@ setConfig(config) {
       condition_icons: true,
       show_wind_forecast: true,
       round_temp: false,
+      type: 'daily',
       ...config.forecast,
     },
     units: {
@@ -102,6 +106,7 @@ set hass(hass) {
   this.weather = this.config.entity in hass.states
     ? hass.states[this.config.entity]
     : null;
+
   if (this.weather) {
     this.temperature = this.config.temp ? hass.states[this.config.temp].state : this.weather.attributes.temperature;
     this.humidity = this.config.humid ? hass.states[this.config.humid].state : this.weather.attributes.humidity;
@@ -110,7 +115,45 @@ set hass(hass) {
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
     this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
   }
+
+  if (this.weather && !this.forecastSubscriber) {
+    this.subscribeForecastEvents();
+  }
 }
+
+subscribeForecastEvents() {
+  const forecastType = this.config.forecast.type || 'daily';
+  const isHourly = forecastType === 'hourly';
+
+  const feature = isHourly ? WeatherEntityFeature.FORECAST_HOURLY : WeatherEntityFeature.FORECAST_DAILY;
+  if (!this.supportsFeature(feature)) {
+    console.error(`Weather entity "${this.config.entity}" does not support ${isHourly ? 'hourly' : 'daily'} forecasts.`);
+    return;
+  }
+
+  const callback = (event) => {
+    this.forecasts = event.forecast;
+    this.requestUpdate();
+    this.drawChart();
+  };
+
+  this.forecastSubscriber = this._hass.connection.subscribeMessage(callback, {
+    type: "weather/subscribe_forecast",
+    forecast_type: isHourly ? 'hourly' : 'daily',
+    entity_id: this.config.entity,
+  });
+}
+
+  supportsFeature(feature) {
+    return (this.weather.attributes.supported_features & feature) !== 0;
+  }
+
+  disconnectedCallback() {
+    if (this.forecastSubscriber) {
+      this.forecastSubscriber.then((unsub) => unsub());
+    }
+    super.disconnectedCallback();
+  }
 
   constructor() {
     super();
@@ -237,11 +280,13 @@ calculateBeaufortScale(windSpeed) {
 
   updated(changedProperties) {
     if (changedProperties.has('config')) {
-      this.drawChart();
-    };
+      if (this.forecasts && this.forecasts.length) {
+        this.drawChart();
+      }
+    }
     if (changedProperties.has('weather')) {
       this.updateChart();
-    };
+    }
   }
 
   measureCard() {
@@ -254,8 +299,8 @@ calculateBeaufortScale(windSpeed) {
   }
 
 drawChart({ config, language, weather, forecastItems } = this) {
-  if (!weather || !weather.attributes || !weather.attributes.forecast) {
-    return [];
+   if (!this.forecasts || !this.forecasts.length) {
+     return [];
   }
   if (this.forecastChart) {
     this.forecastChart.destroy();
@@ -263,7 +308,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   var tempUnit = this._hass.config.unit_system.temperature;
   var lengthUnit = this._hass.config.unit_system.length;
   var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
-  var forecast = weather.attributes.forecast.slice(0, forecastItems);
+  var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) < 864e5) {
     var mode = 'hourly';
   } else {
@@ -410,7 +455,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           },
           ticks: {
             maxRotation: 0,
-	    color: config.forecast.chart_datetime_color || textColor,
+            color: config.forecast.chart_datetime_color || textColor,
             padding: 10,
             callback: function (value, index, values) {
               var datetime = this.getLabelForValue(value);
@@ -459,7 +504,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderRadius: 0,
           borderWidth: 1.5,
           padding: 4,
-	  color: config.forecast.chart_text_color || textColor,
+          color: config.forecast.chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,
             lineHeight: 0.7,
@@ -497,39 +542,44 @@ drawChart({ config, language, weather, forecastItems } = this) {
   });
 }
 
-  updateChart({weather, forecastItems, forecastChart} = this) {
-    if (!weather || !weather.attributes || !weather.attributes.forecast) {
-      return [];
+updateChart({ config, language, weather, forecastItems } = this) {
+  if (!this.forecasts || !this.forecasts.length) {
+    return [];
+  }
+
+  var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
+  var roundTemp = config.forecast.round_temp == true;
+  var dateTime = [];
+  var tempHigh = [];
+  var tempLow = [];
+  var precip = [];
+
+  for (var i = 0; i < forecast.length; i++) {
+    var d = forecast[i];
+    dateTime.push(d.datetime);
+    tempHigh.push(d.temperature);
+    if (typeof d.templow !== 'undefined') {
+      tempLow.push(d.templow);
     }
-    var forecast = weather.attributes.forecast.slice(0, forecastItems);
-    var i;
-    var dateTime = [];
-    var tempHigh = [];
-    var tempLow = [];
+
     if (roundTemp) {
       tempHigh[i] = Math.round(tempHigh[i]);
       if (typeof d.templow !== 'undefined') {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-    var precip = [];
-    for (i = 0; i < forecast.length; i++) {
-      var d = forecast[i];
-      dateTime.push(d.datetime);
-      tempHigh.push(d.temperature);
-      if (typeof d.templow !== 'undefined') {
-        tempLow.push(d.templow);
-      }
-      precip.push(d.precipitation);
-    }
-    if (forecastChart) {
-      forecastChart.data.labels = dateTime;
-      forecastChart.data.datasets[0].data = tempHigh;
-      forecastChart.data.datasets[1].data = tempLow;
-      forecastChart.data.datasets[2].data = precip;
-      forecastChart.update();
-    }
+
+    precip.push(d.precipitation);
   }
+
+  if (this.forecastChart) {
+    this.forecastChart.data.labels = dateTime;
+    this.forecastChart.data.datasets[0].data = tempHigh;
+    this.forecastChart.data.datasets[1].data = tempLow;
+    this.forecastChart.data.datasets[2].data = precip;
+    this.forecastChart.update();
+  }
+}
 
   render({config, _hass, weather} = this) {
     if (!config || !_hass) {
@@ -832,8 +882,8 @@ renderSun({ sun, language } = this) {
   `;
 }
 
-renderForecastConditionIcons({ config, weather, forecastItems } = this) {
-  const forecast = weather.attributes.forecast.slice(0, forecastItems);
+renderForecastConditionIcons({ config, forecastItems } = this) {
+  const forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
 
   if (config.forecast.condition_icons === false) {
     return html``;
@@ -845,10 +895,10 @@ renderForecastConditionIcons({ config, weather, forecastItems } = this) {
         <div class="forecast-item">
           ${config.icons ?
             html`
-              <img class="icon" src="${this.getWeatherIcon(item.condition)}" alt="">
+              <img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">
             ` :
             html`
-              <ha-icon icon="${this.getWeatherIcon(item.condition)}"></ha-icon>
+              <ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>
             `
           }
         </div>
@@ -864,7 +914,7 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
     return html``;
   }
 
-  const forecast = weather.attributes.forecast.slice(0, forecastItems);
+  const forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
 
   return html`
     <div class="wind-details">

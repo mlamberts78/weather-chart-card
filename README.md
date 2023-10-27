@@ -7,7 +7,7 @@
 ![GitHub downloads](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/total?style=flat-square)
 ![GitHub release (latest by SemVer including pre-releases)](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/latest/total)
 [![HACS Validate](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml/badge.svg)](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml)
-![maintained](https://img.shields.io/maintenance/no/2023.svg)
+![maintained](https://img.shields.io/maintenance/yes/2023.svg)
 
 ![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/bd5b9f6e-4125-4a19-9773-463e6d054bce)
 
@@ -89,6 +89,7 @@ entity: weather.home
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
+| type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
 
 ##### Units of measurement
 
