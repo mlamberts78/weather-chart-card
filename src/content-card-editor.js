@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 class ContentCardEditor extends LitElement {
   static get properties() {
     return {
-      config: {},
+      config: { type: Object },
       currentPage: { type: String },
     };
   }
@@ -61,17 +61,28 @@ class ContentCardEditor extends LitElement {
     const newConfig = JSON.parse(JSON.stringify(this._config));
     newConfig.forecast.style = event.target.value;
     this.configChanged(newConfig);
+    this.requestUpdate();
+  }
+
+  _handleTypeChange(event) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+    newConfig.forecast.type = event.target.value;
+    this.configChanged(newConfig);
+    this.requestUpdate();
   }
 
   showPage(pageName) {
     this.currentPage = pageName;
+    this.requestUpdate();
   }
-
-
+	
   render() {
     const forecastConfig = this._config.forecast || {};
     const unitsConfig = this._config.units || {};
-const isShowTimeOn = this._config.show_time !== false;
+    const isShowTimeOn = this._config.show_time !== false;
 
     return html`
       <style>
@@ -156,6 +167,18 @@ const isShowTimeOn = this._config.show_time !== false;
       <label>
         <input type="radio" name="style" value="style2" ?checked="${forecastConfig.style === 'style2'}" @change="${this._handleStyleChange}">
         Chart style 2
+      </label>
+    </div>
+    <br>
+    <div>
+      <label>
+        <input type="radio" name="type" value="daily" ?checked="${forecastConfig.type === 'daily'}" @change="${this._handleTypeChange}">
+        Daily Forecast
+      </label>
+      <br>
+      <label>
+        <input type="radio" name="type" value="hourly" ?checked="${forecastConfig.type === 'hourly'}" @change="${this._handleTypeChange}">
+        Hourly Forecast
       </label>
     </div>
 
