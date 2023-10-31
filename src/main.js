@@ -585,7 +585,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
     if (!config || !_hass) {
       return html``;
     }
-    if (!weather || !weather.attributes || !weather.attributes.forecast) {
+    if (!weather || !weather.attributes) {
       return html`
         <style>
           .card {
