@@ -17322,21 +17322,27 @@ calculateBeaufortScale(windSpeed) {
   else return 12;
 }
 
-  firstUpdated() {
-    this.measureCard();
-    this.drawChart();
+async firstUpdated(changedProperties) {
+  super.firstUpdated(changedProperties);
+  this.measureCard();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  this.drawChart();
+}
+
+
+async updated(changedProperties) {
+  await this.updateComplete;
+
+  if (changedProperties.has('config')) {
+    if (this.forecasts && this.forecasts.length) {
+      this.drawChart();
+    }
   }
 
-  updated(changedProperties) {
-    if (changedProperties.has('config')) {
-      if (this.forecasts && this.forecasts.length) {
-        this.drawChart();
-      }
-    }
-    if (changedProperties.has('weather')) {
-      this.updateChart();
-    }
+  if (changedProperties.has('weather')) {
+    this.updateChart();
   }
+}
 
   measureCard() {
     const card = this.shadowRoot.querySelector('ha-card');
@@ -17348,9 +17354,16 @@ calculateBeaufortScale(windSpeed) {
   }
 
 drawChart({ config, language, weather, forecastItems } = this) {
-   if (!this.forecasts || !this.forecasts.length) {
-     return [];
+  if (!this.forecasts || !this.forecasts.length) {
+    return [];
   }
+
+  const chartCanvas = this.renderRoot && this.renderRoot.querySelector('#forecastChart');
+  if (!chartCanvas) {
+    console.error('Canvas element not found:', this.renderRoot);
+    return;
+  }
+
   if (this.forecastChart) {
     this.forecastChart.destroy();
   }
@@ -17388,7 +17401,13 @@ drawChart({ config, language, weather, forecastItems } = this) {
   var backgroundColor = style.getPropertyValue('--card-background-color');
   var textColor = style.getPropertyValue('--primary-text-color');
   var dividerColor = style.getPropertyValue('--divider-color');
-  const ctx = this.renderRoot.querySelector('#forecastChart').getContext('2d');
+  const canvas = this.renderRoot.querySelector('#forecastChart');
+  if (!canvas) {
+    requestAnimationFrame(() => this.drawChart());
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
 
   Chart.defaults.color = textColor;
   Chart.defaults.scale.grid.color = dividerColor;
