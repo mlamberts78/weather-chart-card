@@ -511,6 +511,38 @@ const locale = {
     'windy': 'Ανεμώδης',
     'windy-variant': 'Ανεμώδης'
   },
+  bg: {
+    'tempHi': 'Максимална температура',
+    'tempLo': 'Минимална температура',
+    'precip': 'Валежи',
+    'units': {
+      'km/h': 'км/ч',
+      'm/s': 'м/с',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mmHg',
+      'mm': 'мм',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'С', 'С-СИ', 'СИ', 'И-СИ', 'И', 'И-ЮИ', 'ЮИ', 'Ю-ЮИ',
+      'Ю', 'Ю-ЮЗ', 'ЮЗ', 'З-ЮЗ', 'З', 'З-СЗ', 'СЗ', 'С-СЗ', 'С'
+    ],
+    'clear-night': 'Ясно,нощ',
+    'cloudy': 'Облачно',
+    'fog': 'Мъгла',
+    'hail': 'Градушка',
+    'lightning': 'Гръмотевици',
+    'lightning-rainy': 'Гръмотевици с дъжд',
+    'partlycloudy': 'Разкъсана облачност',
+    'pouring': 'Обилни валежи',
+    'rainy': 'Дъжд',
+    'snowy': 'Сняг',
+    'snowy-rainy': 'Сняг с дъжд',
+    'sunny': 'Ясно',
+    'windy': 'Ветровито',
+    'windy-variant': 'Ветровито'
+  },
 };
 
 export default locale;
