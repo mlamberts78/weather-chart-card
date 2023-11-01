@@ -145,6 +145,7 @@ units:
 ```
 
 ###### Supported languages:
+Bulgarian <br />
 Czech <br />
 Danish <br />
 Dutch <br />
