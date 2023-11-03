@@ -3,18 +3,49 @@ import { LitElement, html } from 'lit';
 class ContentCardEditor extends LitElement {
   static get properties() {
     return {
-      config: { type: Object },
+      _config: { type: Object },
       currentPage: { type: String },
+      entities: { type: Array },
+      hass: { type: Object },
+      _entity: { type: String },
     };
   }
 
   constructor() {
     super();
     this.currentPage = 'card';
+    this._entity = '';
+    this.entities = [];
   }
 
   setConfig(config) {
+    if (!config) {
+      throw new Error("Invalid configuration");
+    }
     this._config = config;
+    this._entity = config.entity || '';
+    this.requestUpdate();
+  }
+
+  get config() {
+    return this._config;
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has('hass')) {
+      this.fetchEntities();
+    }
+    if (changedProperties.has('_config') && this._config && this._config.entity) {
+      this._entity = this._config.entity;
+    }
+  }
+
+  fetchEntities() {
+    if (this.hass) {
+      this.entities = Object.keys(this.hass.states).filter((e) =>
+        e.startsWith('weather.')
+      );
+    }
   }
 
   configChanged(newConfig) {
@@ -26,32 +57,57 @@ class ContentCardEditor extends LitElement {
     this.dispatchEvent(event);
   }
 
+  _EntityChanged(event, key) {
+    if (!this._config) {
+      return;
+    }
+
+    const newConfig = { ...this._config };
+
+    if (key === 'entity') {
+      newConfig.entity = event.target.value;
+      this._entity = event.target.value;
+    }
+
+    this.configChanged(newConfig);
+    this.requestUpdate();
+  }
+
   _valueChanged(event, key) {
     if (!this._config) {
       return;
     }
 
-    const newConfig = JSON.parse(JSON.stringify(this._config));
+    let newConfig = { ...this._config };
 
-    const keys = key.split('.');
-    let targetConfig = newConfig;
+    if (key.includes('.')) {
+      const parts = key.split('.');
+      let currentLevel = newConfig;
 
-    for (let i = 0; i < keys.length - 1; i++) {
-      const currentKey = keys[i];
-      if (!targetConfig[currentKey]) {
-        targetConfig[currentKey] = {}; 
+      for (let i = 0; i < parts.length - 1; i++) {
+        const part = parts[i];
+
+        currentLevel[part] = { ...currentLevel[part] };
+
+        currentLevel = currentLevel[part];
       }
-      targetConfig = targetConfig[currentKey];
-    }
 
-    const lastKey = keys[keys.length - 1];
-    if (lastKey === 'entity') {
-      targetConfig[lastKey] = event.target.value;
+      const finalKey = parts[parts.length - 1];
+      if (event.target.checked !== undefined) {
+        currentLevel[finalKey] = event.target.checked;
+      } else {
+        currentLevel[finalKey] = event.target.value;
+      }
     } else {
-      targetConfig[lastKey] = event.target.checked !== undefined ? event.target.checked : event.target.value;
+      if (event.target.checked !== undefined) {
+        newConfig[key] = event.target.checked;
+      } else {
+        newConfig[key] = event.target.value;
+      }
     }
 
     this.configChanged(newConfig);
+    this.requestUpdate();
   }
 
   _handleStyleChange(event) {
@@ -78,8 +134,11 @@ class ContentCardEditor extends LitElement {
     this.currentPage = pageName;
     this.requestUpdate();
   }
-	
+
   render() {
+    if (this._config && this._config.entity !== this._entity) {
+      this._entity = this._config.entity;
+    }
     const forecastConfig = this._config.forecast || {};
     const unitsConfig = this._config.units || {};
     const isShowTimeOn = this._config.show_time !== false;
@@ -93,41 +152,121 @@ class ContentCardEditor extends LitElement {
           margin-bottom: 12px;
         }
         .page-container {
-          display: none;
+	  display: none;
         }
         .page-container.active {
           display: block;
         }
         .time-container {
           display: flex;
-          margin-bottom: 8px;
-          margin-top: 12px;
           flex-direction: row;
         }
         .switch-right {
           display: flex;
           align-items: center;
         }
+        .textfield-container {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 10px;
+        }
+        .radio-container {
+          display: flex;
+        }
+        .radio-group {
+          display: flex;
+          align-items: center;
+        }
+        .radio-group label {
+          margin-left: 4px;
+        }
       </style>
       <div>
-        <paper-input
-          label="Entity"
-          .value="${this._config.entity || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'entity')}"
-        ></paper-input>
-        <paper-input
-          label="Title"
-          .value="${this._config.title || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'title')}"
-        ></paper-input>
+      <div>
+      <ha-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="Entity"
+        .configValue=${'entity'}
+        .value=${this._entity}
+        @change=${(e) => this._EntityChanged(e, 'entity')}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        ${this.entities.map((entity) => {
+          return html`<ha-list-item .value=${entity}>${entity}</ha-list-item>`;
+        })}
+      </ha-select>
+      <ha-textfield
+        label="Title"
+        .value="${this._config.title || ''}"
+        @change="${(e) => this._valueChanged(e, 'title')}"
+      ></ha-textfield>
+       </div>
+
+      <h5>Forecast type:</h5>
+
+      <div class="radio-group">
+        <ha-radio
+          name="type"
+          value="daily"
+          @change="${this._handleTypeChange}"
+          .checked="${forecastConfig.type === 'daily'}"
+        ></ha-radio>
+        <label class="check-label">
+          Daily forecast
+        </label>
+      </div>
+
+      <div class="radio-group">
+        <ha-radio
+          name="type"
+          value="hourly"
+          @change="${this._handleTypeChange}"
+          .checked="${forecastConfig.type === 'hourly'}"
+        ></ha-radio>
+        <label class="check-label">
+          Hourly forecast
+        </label>
+      </div>
+
+      <h5>Chart style:</h5>
+      <div class="radio-container">
+        <div class="switch-right">
+          <ha-radio
+            name="style"
+            value="style1"
+            @change="${this._handleStyleChange}"
+            .checked="${forecastConfig.style === 'style1'}"
+          ></ha-radio>
+          <label class="check-label">
+            Chart style 1
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="style"
+            value="style2"
+            @change="${this._handleStyleChange}"
+            .checked="${forecastConfig.style === 'style2'}"
+          ></ha-radio>
+          <label class="check-label">
+            Chart style 2
+          </label>
+        </div>
+      </div>
 
         <!-- Buttons to switch between pages -->
+       <h4>Settings:</h4>
         <div>
-          <button @click="${() => this.showPage('card')}">Main</button>
-          <button @click="${() => this.showPage('forecast')}">Forecast</button>
-          <button @click="${() => this.showPage('units')}">Units</button>
-          <button @click="${() => this.showPage('alternate')}">Alternate entities</button>
+          <mwc-button @click="${() => this.showPage('card')}">Main</mwc-button>
+          <mwc-button @click="${() => this.showPage('forecast')}">Forecast</mwc-button>
+          <mwc-button @click="${() => this.showPage('units')}">Units</mwc-button>
+          <mwc-button @click="${() => this.showPage('alternate')}">Alternate entities</mwc-button>
         </div>
+
+        <!-- Card Settings Page -->
+        <div class="page-container ${this.currentPage === 'card' ? 'active' : ''}">
 
         <!-- Time settings -->
         <div class="time-container">
@@ -159,32 +298,6 @@ class ContentCardEditor extends LitElement {
             </label>
           </div>
         </div>
-    <div>
-      <label>
-        <input type="radio" name="style" value="style1" ?checked="${forecastConfig.style === 'style1'}" @change="${this._handleStyleChange}">
-        Chart style 1
-      </label>
-      <label>
-        <input type="radio" name="style" value="style2" ?checked="${forecastConfig.style === 'style2'}" @change="${this._handleStyleChange}">
-        Chart style 2
-      </label>
-    </div>
-    <br>
-    <div>
-      <label>
-        <input type="radio" name="type" value="daily" ?checked="${forecastConfig.type === 'daily'}" @change="${this._handleTypeChange}">
-        Daily Forecast
-      </label>
-      <br>
-      <label>
-        <input type="radio" name="type" value="hourly" ?checked="${forecastConfig.type === 'hourly'}" @change="${this._handleTypeChange}">
-        Hourly Forecast
-      </label>
-    </div>
-
-        <!-- Card Settings Page -->
-        <div class="page-container ${this.currentPage === 'card' ? 'active' : ''}">
-          <h4>Card setting</h4>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_main')}"
@@ -256,27 +369,23 @@ class ContentCardEditor extends LitElement {
             <label class="switch-label">
               Show Wind Speed
             </label>
-          <paper-input
+	  </div>
+	  <div class="textfield-container">
+          <ha-textfield
             label="Curent temperature Font Size"
             .value="${this._config.current_temp_size || '28'}"
-            @value-changed="${(e) => this._valueChanged(e, 'current_temp_size')}"
-          ></paper-input>
-        <paper-input
+            @change="${(e) => this._valueChanged(e, 'current_temp_size')}"
+          ></ha-textfield>
+        <ha-textfield
           label="Custom icon path"
           .value="${this._config.icons || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'icons')}"
-        ></paper-input>
-          </div>
+          @change="${(e) => this._valueChanged(e, 'icons')}"
+        ></ha-textfield>
+        </div>
         </div>
 
         <!-- Forecast Settings Page -->
         <div class="page-container ${this.currentPage === 'forecast' ? 'active' : ''}">
-          <h4>Forecast settings</h4>
-          <paper-input
-            label="Labels Font Size"
-            .value="${forecastConfig.labels_font_size || '11'}"
-            @value-changed="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
-          ></paper-input>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'forecast.condition_icons')}"
@@ -304,56 +413,63 @@ class ContentCardEditor extends LitElement {
               Rounding Temperatures
             </label>
           </div>
+          <ha-textfield
+            label="Labels Font Size"
+            .value="${forecastConfig.labels_font_size || '11'}"
+            @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
+          ></ha-textfield>
         </div>
 
         <!-- Units Page -->
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
-          <h4>Unit settings</h4>
-          <paper-input
+	<div class="textfield-container">
+          <ha-textfield
             label="Convert pressure to 'hPa' or 'mmHg' or 'inHg'"
             .value="${unitsConfig.pressure || ''}"
-            @value-changed="${(e) => this._valueChanged(e, 'units.pressure')}"
-          ></paper-input>
-          <paper-input
+            @change="${(e) => this._valueChanged(e, 'units.pressure')}"
+          ></ha-textfield>
+          <ha-textfield
             label="Convert wind speed to 'km/h' or 'm/s' or 'Bft' or 'mph'"
             .value="${unitsConfig.speed || ''}"
-            @value-changed="${(e) => this._valueChanged(e, 'units.speed')}"
-          ></paper-input>
+            @change="${(e) => this._valueChanged(e, 'units.speed')}"
+          ></ha-textfield>
+        </div>
         </div>
 
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
-          <h4>Alternate entities</h4>
-        <paper-input
+	<div class="textfield-container">
+        <ha-textfield
           label="Alternative temperature sensor"
           .value="${this._config.temp || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'temp')}"
-        ></paper-input>
-        <paper-input
+          @change="${(e) => this._valueChanged(e, 'temp')}"
+        ></ha-textfield>
+        <ha-textfield
           label="Alternative pressure sensor"
           .value="${this._config.press || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'press')}"
-        ></paper-input>
-        <paper-input
+          @change="${(e) => this._valueChanged(e, 'press')}"
+        ></ha-textfield>
+        <ha-textfield
           label="Alternative humidity sensor"
           .value="${this._config.humid || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'humid')}"
-        ></paper-input>
-        <paper-input
+          @change="${(e) => this._valueChanged(e, 'humid')}"
+        ></ha-textfield>
+        <ha-textfield
           label="Alternative UV index sensor"
           .value="${this._config.uv || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'uv')}"
-        ></paper-input>
-        <paper-input
+          @change="${(e) => this._valueChanged(e, 'uv')}"
+        ></ha-textfield>
+        <ha-textfield
           label="Alternative wind bearing sensor"
           .value="${this._config.winddir || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'winddir')}"
-        ></paper-input>
-        <paper-input
+          @change="${(e) => this._valueChanged(e, 'winddir')}"
+        ></ha-textfield>
+        <ha-textfield
           label="Alternative wind speed sensor"
           .value="${this._config.windspeed || ''}"
-          @value-changed="${(e) => this._valueChanged(e, 'windspeed')}"
-        ></paper-input>
+          @change="${(e) => this._valueChanged(e, 'windspeed')}"
+        ></ha-textfield>
+        </div>
         </div>
       </div>
     `;
