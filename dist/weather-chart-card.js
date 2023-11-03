@@ -700,42 +700,42 @@ class ContentCardEditor extends s {
     this.requestUpdate();
   }
 
-_valueChanged(event, key) {
-  if (!this._config) {
-    return;
-  }
-
-  let newConfig = { ...this._config };
-
-  if (key.includes('.')) {
-    const parts = key.split('.');
-    let currentLevel = newConfig;
-
-    for (let i = 0; i < parts.length - 1; i++) {
-      const part = parts[i];
-
-      currentLevel[part] = { ...currentLevel[part] };
-
-      currentLevel = currentLevel[part];
+  _valueChanged(event, key) {
+    if (!this._config) {
+      return;
     }
 
-    const finalKey = parts[parts.length - 1];
-    if (event.target.checked !== undefined) {
-      currentLevel[finalKey] = event.target.checked;
+    let newConfig = { ...this._config };
+
+    if (key.includes('.')) {
+      const parts = key.split('.');
+      let currentLevel = newConfig;
+
+      for (let i = 0; i < parts.length - 1; i++) {
+        const part = parts[i];
+
+        currentLevel[part] = { ...currentLevel[part] };
+
+        currentLevel = currentLevel[part];
+      }
+
+      const finalKey = parts[parts.length - 1];
+      if (event.target.checked !== undefined) {
+        currentLevel[finalKey] = event.target.checked;
+      } else {
+        currentLevel[finalKey] = event.target.value;
+      }
     } else {
-      currentLevel[finalKey] = event.target.value;
+      if (event.target.checked !== undefined) {
+        newConfig[key] = event.target.checked;
+      } else {
+        newConfig[key] = event.target.value;
+      }
     }
-  } else {
-    if (event.target.checked !== undefined) {
-      newConfig[key] = event.target.checked;
-    } else {
-      newConfig[key] = event.target.value;
-    }
-  }
 
-  this.configChanged(newConfig);
-  this.requestUpdate();
-}
+    this.configChanged(newConfig);
+    this.requestUpdate();
+  }
 
   _handleStyleChange(event) {
     if (!this._config) {
@@ -761,7 +761,7 @@ _valueChanged(event, key) {
     this.currentPage = pageName;
     this.requestUpdate();
   }
-	
+
   render() {
     if (this._config && this._config.entity !== this._entity) {
       this._entity = this._config.entity;
@@ -830,58 +830,58 @@ _valueChanged(event, key) {
       ></ha-textfield>
        </div>
 
-<h5>Forecast type:</h5>
+      <h5>Forecast type:</h5>
 
-<div class="radio-group">
-  <ha-radio
-    name="type"
-    value="daily"
-    @change="${this._handleTypeChange}"
-    .checked="${forecastConfig.type === 'daily'}"
-  ></ha-radio>
-  <label class="check-label">
-    Daily forecast
-  </label>
-</div>
+      <div class="radio-group">
+        <ha-radio
+          name="type"
+          value="daily"
+          @change="${this._handleTypeChange}"
+          .checked="${forecastConfig.type === 'daily'}"
+        ></ha-radio>
+        <label class="check-label">
+          Daily forecast
+        </label>
+      </div>
 
-<div class="radio-group">
-  <ha-radio
-    name="type"
-    value="hourly"
-    @change="${this._handleTypeChange}"
-    .checked="${forecastConfig.type === 'hourly'}"
-  ></ha-radio>
-  <label class="check-label">
-    Hourly forecast
-  </label>
-</div>
+      <div class="radio-group">
+        <ha-radio
+          name="type"
+          value="hourly"
+          @change="${this._handleTypeChange}"
+          .checked="${forecastConfig.type === 'hourly'}"
+        ></ha-radio>
+        <label class="check-label">
+          Hourly forecast
+        </label>
+      </div>
 
-<h5>Chart style:</h5>
-<div class="radio-container">
-  <div class="switch-right">
-    <ha-radio
-      name="style"
-      value="style1"
-      @change="${this._handleStyleChange}"
-      .checked="${forecastConfig.style === 'style1'}"
-    ></ha-radio>
-    <label class="check-label">
-      Chart style 1
-    </label>
-  </div>
+      <h5>Chart style:</h5>
+      <div class="radio-container">
+        <div class="switch-right">
+          <ha-radio
+            name="style"
+            value="style1"
+            @change="${this._handleStyleChange}"
+            .checked="${forecastConfig.style === 'style1'}"
+          ></ha-radio>
+          <label class="check-label">
+            Chart style 1
+          </label>
+        </div>
 
-  <div class="switch-right">
-    <ha-radio
-      name="style"
-      value="style2"
-      @change="${this._handleStyleChange}"
-      .checked="${forecastConfig.style === 'style2'}"
-    ></ha-radio>
-    <label class="check-label">
-      Chart style 2
-    </label>
-  </div>
-</div>
+        <div class="switch-right">
+          <ha-radio
+            name="style"
+            value="style2"
+            @change="${this._handleStyleChange}"
+            .checked="${forecastConfig.style === 'style2'}"
+          ></ha-radio>
+          <label class="check-label">
+            Chart style 2
+          </label>
+        </div>
+      </div>
 
         <!-- Buttons to switch between pages -->
        <h4>Settings:</h4>
