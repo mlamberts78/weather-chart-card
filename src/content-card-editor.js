@@ -160,10 +160,12 @@ class ContentCardEditor extends LitElement {
         .time-container {
           display: flex;
           flex-direction: row;
+          margin-top: 0px;
         }
         .switch-right {
           display: flex;
           align-items: center;
+          margin-top: 0px;
         }
         .textfield-container {
           display: flex;
@@ -180,6 +182,11 @@ class ContentCardEditor extends LitElement {
         }
         .radio-group label {
           margin-left: 4px;
+        }
+	div.buttons-container {
+          border-bottom: 2px solid #ccc;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
         }
       </style>
       <div>
@@ -259,46 +266,15 @@ class ContentCardEditor extends LitElement {
 
         <!-- Buttons to switch between pages -->
        <h4>Settings:</h4>
-        <div>
-          <mwc-button @click="${() => this.showPage('card')}">Main</mwc-button>
-          <mwc-button @click="${() => this.showPage('forecast')}">Forecast</mwc-button>
-          <mwc-button @click="${() => this.showPage('units')}">Units</mwc-button>
-          <mwc-button @click="${() => this.showPage('alternate')}">Alternate entities</mwc-button>
-        </div>
+       <div class="buttons-container">
+         <mwc-button @click="${() => this.showPage('card')}">Main</mwc-button>
+         <mwc-button @click="${() => this.showPage('forecast')}">Forecast</mwc-button>
+         <mwc-button @click="${() => this.showPage('units')}">Units</mwc-button>
+         <mwc-button @click="${() => this.showPage('alternate')}">Alternate entities</mwc-button>
+       </div>
 
         <!-- Card Settings Page -->
         <div class="page-container ${this.currentPage === 'card' ? 'active' : ''}">
-
-        <!-- Time settings -->
-        <div class="time-container">
-          <div class="switch-right">
-            <ha-switch
-              @change="${(e) => this._valueChanged(e, 'show_time')}"
-              .checked="${this._config.show_time !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Show Current Time
-            </label>
-          </div>
-          <div class="switch-right">
-            <ha-checkbox
-              @change="${(e) => this._valueChanged(e, 'show_day')}"
-              .checked="${this._config.show_day !== false}"
-            ></ha-checkbox>
-            <label class="check-label">
-              Show Day
-            </label>
-          </div>
-          <div class="switch-right">
-            <ha-checkbox
-              @change="${(e) => this._valueChanged(e, 'show_date')}"
-              .checked="${this._config.show_date !== false}"
-            ></ha-checkbox>
-            <label class="check-label">
-              Show Date
-            </label>
-          </div>
-        </div>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_main')}"
@@ -371,6 +347,35 @@ class ContentCardEditor extends LitElement {
               Show Wind Speed
             </label>
 	  </div>
+        <div class="time-container">
+          <div class="switch-right">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_time')}"
+              .checked="${this._config.show_time !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Time
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_day')}"
+              .checked="${this._config.show_day !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Day
+            </label>
+          </div>
+          <div class="switch-right">
+            <ha-checkbox
+              @change="${(e) => this._valueChanged(e, 'show_date')}"
+              .checked="${this._config.show_date !== false}"
+            ></ha-checkbox>
+            <label class="check-label">
+              Show Date
+            </label>
+          </div>
+        </div>
 	  <div class="textfield-container">
           <ha-textfield
             label="Curent temperature Font Size"
