@@ -285,6 +285,19 @@ async updated(changedProperties) {
   await this.updateComplete;
 
   if (changedProperties.has('config')) {
+    const oldConfig = changedProperties.get('config');
+
+    const entityChanged = oldConfig && this.config.entity !== oldConfig.entity;
+    const forecastTypeChanged = oldConfig && this.config.forecast.type !== oldConfig.forecast.type;
+
+    if (entityChanged || forecastTypeChanged) {
+      if (this.forecastSubscriber && typeof this.forecastSubscriber === 'function') {
+        this.forecastSubscriber();
+      }
+
+      this.subscribeForecastEvents();
+    }
+
     if (this.forecasts && this.forecasts.length) {
       this.drawChart();
     }
