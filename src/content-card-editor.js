@@ -169,6 +169,7 @@ class ContentCardEditor extends LitElement {
           display: flex;
           flex-direction: column;
           margin-bottom: 10px;
+	  gap: 20px;
         }
         .radio-container {
           display: flex;
@@ -182,7 +183,7 @@ class ContentCardEditor extends LitElement {
         }
       </style>
       <div>
-      <div>
+      <div class="textfield-container">
       <ha-select
         naturalMenuWidth
         fixedMenuPosition
