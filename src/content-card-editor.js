@@ -130,6 +130,11 @@ class ContentCardEditor extends LitElement {
     this.requestUpdate();
   }
 
+  _handlePrecipitationTypeChange(e) {
+    const newValue = e.target.value;
+    this.config.forecast.precipitation_type = newValue;
+  }
+
   showPage(pageName) {
     this.currentPage = pageName;
     this.requestUpdate();
@@ -419,11 +424,25 @@ class ContentCardEditor extends LitElement {
               Rounding Temperatures
             </label>
           </div>
+	  <div class="textfield-container">
+          <ha-select
+            naturalMenuWidth
+            fixedMenuPosition
+            label="Precipitation Type (Probability if supported by the weather entity)"
+            .configValue=${'forecast.precipitation_type'}
+            .value=${forecastConfig.precipitation_type}
+            @change=${(e) => this._valueChanged(e, 'forecast.precipitation_type')}
+            @closed=${(ev) => ev.stopPropagation()}
+          >
+            <ha-list-item .value=${'rainfall'}>Rainfall</ha-list-item>
+            <ha-list-item .value=${'probability'}>Probability</ha-list-item>
+          </ha-select>
           <ha-textfield
             label="Labels Font Size"
             .value="${forecastConfig.labels_font_size || '11'}"
             @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
           ></ha-textfield>
+	  </div>
         </div>
 
         <!-- Units Page -->

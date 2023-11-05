@@ -38,6 +38,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_speed: true,
     show_sun: true,
     forecast: {
+      precipitation_type: 'rainfall',
       labels_font_size: '11',
       style: 'style1',
       show_wind_forecast: true,
@@ -72,6 +73,7 @@ setConfig(config) {
     current_temp_size: 28,
     ...config,
     forecast: {
+      precipitation_type: 'rainfall',
       labels_font_size: 11,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
@@ -333,7 +335,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
   }
   var tempUnit = this._hass.config.unit_system.temperature;
   var lengthUnit = this._hass.config.unit_system.length;
-  var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  if (config.forecast.precipitation_type === 'probability') {
+    var precipUnit = '%';
+  } else {
+    var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) < 864e5) {
     var mode = 'hourly';
@@ -359,7 +365,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-    precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
   var style = getComputedStyle(document.body);
   var backgroundColor = style.getPropertyValue('--card-background-color');
@@ -600,8 +610,11 @@ updateChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-
-    precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
 
   if (this.forecastChart) {

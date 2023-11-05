@@ -757,6 +757,11 @@ class ContentCardEditor extends s {
     this.requestUpdate();
   }
 
+  _handlePrecipitationTypeChange(e) {
+    const newValue = e.target.value;
+    this.config.forecast.precipitation_type = newValue;
+  }
+
   showPage(pageName) {
     this.currentPage = pageName;
     this.requestUpdate();
@@ -1046,11 +1051,25 @@ class ContentCardEditor extends s {
               Rounding Temperatures
             </label>
           </div>
+	  <div class="textfield-container">
+          <ha-select
+            naturalMenuWidth
+            fixedMenuPosition
+            label="Precipitation Type (Probability if supported by the weather entity)"
+            .configValue=${'forecast.precipitation_type'}
+            .value=${forecastConfig.precipitation_type}
+            @change=${(e) => this._valueChanged(e, 'forecast.precipitation_type')}
+            @closed=${(ev) => ev.stopPropagation()}
+          >
+            <ha-list-item .value=${'rainfall'}>Rainfall</ha-list-item>
+            <ha-list-item .value=${'probability'}>Probability</ha-list-item>
+          </ha-select>
           <ha-textfield
             label="Labels Font Size"
             .value="${forecastConfig.labels_font_size || '11'}"
             @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
           ></ha-textfield>
+	  </div>
         </div>
 
         <!-- Units Page -->
@@ -17246,6 +17265,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_speed: true,
     show_sun: true,
     forecast: {
+      precipitation_type: 'rainfall',
       labels_font_size: '11',
       style: 'style1',
       show_wind_forecast: true,
@@ -17280,6 +17300,7 @@ setConfig(config) {
     current_temp_size: 28,
     ...config,
     forecast: {
+      precipitation_type: 'rainfall',
       labels_font_size: 11,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
@@ -17541,7 +17562,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
   }
   var tempUnit = this._hass.config.unit_system.temperature;
   var lengthUnit = this._hass.config.unit_system.length;
-  var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  if (config.forecast.precipitation_type === 'probability') {
+    var precipUnit = '%';
+  } else {
+    var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) < 864e5) {
     var mode = 'hourly';
@@ -17567,7 +17592,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-    precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
   var style = getComputedStyle(document.body);
   var backgroundColor = style.getPropertyValue('--card-background-color');
@@ -17808,8 +17837,11 @@ updateChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-
-    precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
 
   if (this.forecastChart) {
