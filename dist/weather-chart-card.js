@@ -1074,18 +1074,35 @@ class ContentCardEditor extends s {
 
         <!-- Units Page -->
         <div class="page-container ${this.currentPage === 'units' ? 'active' : ''}">
-	<div class="textfield-container">
-          <ha-textfield
-            label="Convert pressure to 'hPa' or 'mmHg' or 'inHg'"
-            .value="${unitsConfig.pressure || ''}"
-            @change="${(e) => this._valueChanged(e, 'units.pressure')}"
-          ></ha-textfield>
-          <ha-textfield
-            label="Convert wind speed to 'km/h' or 'm/s' or 'Bft' or 'mph'"
-            .value="${unitsConfig.speed || ''}"
-            @change="${(e) => this._valueChanged(e, 'units.speed')}"
-          ></ha-textfield>
-        </div>
+          <div class="textfield-container">
+            <ha-select
+              naturalMenuWidth
+              fixedMenuPosition
+              label="Convert pressure to"
+              .configValue=${'units.pressure'}
+              .value=${unitsConfig.pressure}
+              @change=${(e) => this._valueChanged(e, 'units.pressure')}
+              @closed=${(ev) => ev.stopPropagation()}
+            >
+              <ha-list-item .value=${'hPa'}>hPa</ha-list-item>
+              <ha-list-item .value=${'mmHg'}>mmHg</ha-list-item>
+              <ha-list-item .value=${'inHg'}>inHg</ha-list-item>
+            </ha-select>
+            <ha-select
+              naturalMenuWidth
+              fixedMenuPosition
+              label="Convert wind speed to"
+              .configValue=${'units.speed'}
+              .value=${unitsConfig.speed}
+              @change=${(e) => this._valueChanged(e, 'units.speed')}
+              @closed=${(ev) => ev.stopPropagation()}
+            >
+              <ha-list-item .value=${'km/h'}>km/h</ha-list-item>
+              <ha-list-item .value=${'m/s'}>m/s</ha-list-item>
+              <ha-list-item .value=${'Bft'}>Bft</ha-list-item>
+              <ha-list-item .value=${'mph'}>mph</ha-list-item>
+            </ha-select>
+          </div>
         </div>
 
         <!-- Alternate Page -->
