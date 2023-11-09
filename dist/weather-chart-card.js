@@ -1126,6 +1126,7 @@ class ContentCardEditor extends s {
 
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
+          <h5>Alternative sensors for the main card attributes:</h5>
           <ha-form
             .data=${this._config}
             .schema=${ALT_SCHEMA}
