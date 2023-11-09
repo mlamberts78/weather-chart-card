@@ -1,5 +1,14 @@
 import { LitElement, html } from 'lit';
 
+const ALT_SCHEMA = [
+  { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "winddir", title: "Alternative wind bearing sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
+];
+
 class ContentCardEditor extends LitElement {
   static get properties() {
     return {
@@ -16,6 +25,7 @@ class ContentCardEditor extends LitElement {
     this.currentPage = 'card';
     this._entity = '';
     this.entities = [];
+    this._formValueChanged = this._formValueChanged.bind(this);
   }
 
   setConfig(config) {
@@ -135,6 +145,14 @@ class ContentCardEditor extends LitElement {
     this.config.forecast.precipitation_type = newValue;
   }
 
+  _formValueChanged(event) {
+    if (event.target.tagName.toLowerCase() === 'ha-form') {
+      const newConfig = event.detail.value;
+      this.configChanged(newConfig);
+      this.requestUpdate();
+    }
+  }
+
   showPage(pageName) {
     this.currentPage = pageName;
     this.requestUpdate();
@@ -147,6 +165,7 @@ class ContentCardEditor extends LitElement {
     const forecastConfig = this._config.forecast || {};
     const unitsConfig = this._config.units || {};
     const isShowTimeOn = this._config.show_time !== false;
+
 
     return html`
       <style>
@@ -480,40 +499,13 @@ class ContentCardEditor extends LitElement {
 
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
-	<div class="textfield-container">
-        <ha-textfield
-          label="Alternative temperature sensor"
-          .value="${this._config.temp || ''}"
-          @change="${(e) => this._valueChanged(e, 'temp')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative pressure sensor"
-          .value="${this._config.press || ''}"
-          @change="${(e) => this._valueChanged(e, 'press')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative humidity sensor"
-          .value="${this._config.humid || ''}"
-          @change="${(e) => this._valueChanged(e, 'humid')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative UV index sensor"
-          .value="${this._config.uv || ''}"
-          @change="${(e) => this._valueChanged(e, 'uv')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative wind bearing sensor"
-          .value="${this._config.winddir || ''}"
-          @change="${(e) => this._valueChanged(e, 'winddir')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative wind speed sensor"
-          .value="${this._config.windspeed || ''}"
-          @change="${(e) => this._valueChanged(e, 'windspeed')}"
-        ></ha-textfield>
+          <ha-form
+            .data=${this._config}
+            .schema=${ALT_SCHEMA}
+            .hass=${this.hass}
+            @value-changed=${this._formValueChanged}
+          ></ha-form>
         </div>
-        </div>
-      </div>
     `;
   }
 }

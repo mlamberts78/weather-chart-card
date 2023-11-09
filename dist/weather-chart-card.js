@@ -627,6 +627,15 @@ var t;const i=window,s$1=i.trustedTypes,e=s$1?s$1.createPolicy("lit-html",{creat
  * SPDX-License-Identifier: BSD-3-Clause
  */var l,o;class s extends u$1{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0;}createRenderRoot(){var t,e;const i=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=i.firstChild),i}update(t){const i=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=D(i,this.renderRoot,this.renderOptions);}connectedCallback(){var t;super.connectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!0);}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!1);}render(){return T}}s.finalized=!0,s._$litElement$=!0,null===(l=globalThis.litElementHydrateSupport)||void 0===l||l.call(globalThis,{LitElement:s});const n$1=globalThis.litElementPolyfillSupport;null==n$1||n$1({LitElement:s});(null!==(o=globalThis.litElementVersions)&&void 0!==o?o:globalThis.litElementVersions=[]).push("3.3.3");
 
+const ALT_SCHEMA = [
+  { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "winddir", title: "Alternative wind bearing sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
+];
+
 class ContentCardEditor extends s {
   static get properties() {
     return {
@@ -643,6 +652,7 @@ class ContentCardEditor extends s {
     this.currentPage = 'card';
     this._entity = '';
     this.entities = [];
+    this._formValueChanged = this._formValueChanged.bind(this);
   }
 
   setConfig(config) {
@@ -762,6 +772,14 @@ class ContentCardEditor extends s {
     this.config.forecast.precipitation_type = newValue;
   }
 
+  _formValueChanged(event) {
+    if (event.target.tagName.toLowerCase() === 'ha-form') {
+      const newConfig = event.detail.value;
+      this.configChanged(newConfig);
+      this.requestUpdate();
+    }
+  }
+
   showPage(pageName) {
     this.currentPage = pageName;
     this.requestUpdate();
@@ -774,6 +792,7 @@ class ContentCardEditor extends s {
     const forecastConfig = this._config.forecast || {};
     const unitsConfig = this._config.units || {};
     this._config.show_time !== false;
+
 
     return x`
       <style>
@@ -1107,40 +1126,13 @@ class ContentCardEditor extends s {
 
         <!-- Alternate Page -->
         <div class="page-container ${this.currentPage === 'alternate' ? 'active' : ''}">
-	<div class="textfield-container">
-        <ha-textfield
-          label="Alternative temperature sensor"
-          .value="${this._config.temp || ''}"
-          @change="${(e) => this._valueChanged(e, 'temp')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative pressure sensor"
-          .value="${this._config.press || ''}"
-          @change="${(e) => this._valueChanged(e, 'press')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative humidity sensor"
-          .value="${this._config.humid || ''}"
-          @change="${(e) => this._valueChanged(e, 'humid')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative UV index sensor"
-          .value="${this._config.uv || ''}"
-          @change="${(e) => this._valueChanged(e, 'uv')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative wind bearing sensor"
-          .value="${this._config.winddir || ''}"
-          @change="${(e) => this._valueChanged(e, 'winddir')}"
-        ></ha-textfield>
-        <ha-textfield
-          label="Alternative wind speed sensor"
-          .value="${this._config.windspeed || ''}"
-          @change="${(e) => this._valueChanged(e, 'windspeed')}"
-        ></ha-textfield>
+          <ha-form
+            .data=${this._config}
+            .schema=${ALT_SCHEMA}
+            .hass=${this.hass}
+            @value-changed=${this._formValueChanged}
+          ></ha-form>
         </div>
-        </div>
-      </div>
     `;
   }
 }
