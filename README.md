@@ -79,6 +79,7 @@ entity: weather.home
 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
+| precipitation_type   | string  | rainfall                 | Show precipitation in 'rainfall' or 'probability'.                                                 |
 | labels_font_size     | string  | 11                       | Font size for temperature and precipitation labels.                                                |
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
