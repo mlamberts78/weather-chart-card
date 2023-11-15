@@ -457,6 +457,14 @@ class ContentCardEditor extends LitElement {
             <ha-list-item .value=${'probability'}>Probability</ha-list-item>
           </ha-select>
           <ha-textfield
+            label="Precipitation Bar Size %"
+            type="number"
+	    max="100"
+	    min="0"
+            .value="${forecastConfig.precip_bar_size || '100'}"
+            @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
+          ></ha-textfield>
+          <ha-textfield
             label="Labels Font Size"
             .value="${forecastConfig.labels_font_size || '11'}"
             @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"

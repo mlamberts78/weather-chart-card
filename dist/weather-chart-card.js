@@ -1084,6 +1084,14 @@ class ContentCardEditor extends s {
             <ha-list-item .value=${'probability'}>Probability</ha-list-item>
           </ha-select>
           <ha-textfield
+            label="Precipitation Bar Size %"
+            type="number"
+	    max="100"
+	    min="0"
+            .value="${forecastConfig.precip_bar_size || '100'}"
+            @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
+          ></ha-textfield>
+          <ha-textfield
             label="Labels Font Size"
             .value="${forecastConfig.labels_font_size || '11'}"
             @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
@@ -17271,6 +17279,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
+      precip_bar_size: '100',
       style: 'style1',
       show_wind_forecast: true,
       condition_icons: true,
@@ -17306,6 +17315,7 @@ setConfig(config) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: 11,
+      precip_bar_size: 100,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
       temperature2_color: 'rgba(68, 115, 158, 1.0)',
@@ -17646,7 +17656,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       yAxisID: 'PrecipAxis',
       borderColor: config.forecast.precipitation_color,
       backgroundColor: config.forecast.precipitation_color,
-      barPercentage: 1.0,
+      barPercentage: config.forecast.precip_bar_size / 100,
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {

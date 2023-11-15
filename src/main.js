@@ -40,6 +40,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
+      precip_bar_size: '100',
       style: 'style1',
       show_wind_forecast: true,
       condition_icons: true,
@@ -75,6 +76,7 @@ setConfig(config) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: 11,
+      precip_bar_size: 100,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
       temperature2_color: 'rgba(68, 115, 158, 1.0)',
@@ -415,7 +417,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       yAxisID: 'PrecipAxis',
       borderColor: config.forecast.precipitation_color,
       backgroundColor: config.forecast.precipitation_color,
-      barPercentage: 1.0,
+      barPercentage: config.forecast.precip_bar_size / 100,
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
