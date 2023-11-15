@@ -37,6 +37,8 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_direction: true,
     show_wind_speed: true,
     show_sun: true,
+    icons_size: 25,
+    animated_icons: false,
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
@@ -72,6 +74,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
 setConfig(config) {
   const cardConfig = {
     icons_size: 25,
+    animated_icons: false,
     current_temp_size: 28,
     ...config,
     forecast: {
@@ -163,6 +166,7 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
+    this.baseIconPath = '/local/community/weather-chart-card/icons/';
   }
 
   ll(str) {
@@ -179,11 +183,12 @@ subscribeForecastEvents() {
   }
 
   getWeatherIcon(condition, sun) {
-    if (this.config.icons) {
-      return `${this.config.icons}${
-        sun == 'below_horizon'
-        ? weatherIconsNight[condition]
-        : weatherIconsDay[condition]}.svg`
+    if (this.config.animated_icons === true) {
+      const iconName = sun === 'below_horizon' ? weatherIconsNight[condition] : weatherIconsDay[condition];
+      return `${this.baseIconPath}${iconName}.svg`;
+    } else if (this.config.icons) {
+      const iconName = sun === 'below_horizon' ? weatherIconsNight[condition] : weatherIconsDay[condition];
+      return `${this.config.icons}${iconName}.svg`;
     }
     return weatherIcons[condition];
   }
@@ -787,28 +792,18 @@ renderMain({ config, sun, weather, temperature } = this) {
   const showDate = config.show_date;
   const showCurrentCondition = config.show_current_condition !== false;
 
+  const iconHtml = config.animated_icons || config.icons
+    ? html`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
+    : html`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}"></ha-icon>`;
 
   return html`
     <div class="main">
-      ${config.icons ?
-        html`
-          <img
-            src="${this.getWeatherIcon(weather.state, sun.state)}"
-            alt=""
-          >
-        ` :
-        html`
-          <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
-        `
-      }
+      ${iconHtml}
       <div>
         <div>
-          ${temperature}<span>
-          ${this.getUnit('temperature')}</span>
+          ${temperature}<span>${this.getUnit('temperature')}</span>
         </div>
-        ${showCurrentCondition ? html`
-          <span>${this.ll(weather.state)}</span>
-        ` : ''}
+        ${showCurrentCondition ? html`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? html`
           <div class="current-time">
             ${showDay ? html`${currentDayOfWeek}` : ''}
@@ -950,18 +945,17 @@ renderForecastConditionIcons({ config, forecastItems } = this) {
 
   return html`
     <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
-      ${forecast.map((item) => html`
-        <div class="forecast-item">
-          ${config.icons ?
-            html`
-              <img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">
-            ` :
-            html`
-              <ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>
-            `
-          }
-        </div>
-      `)}
+      ${forecast.map((item) => {
+        const iconHtml = config.animated_icons || config.icons
+          ? html`<img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">`
+          : html`<ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>`;
+
+        return html`
+          <div class="forecast-item">
+            ${iconHtml}
+          </div>
+        `;
+      })}
     </div>
   `;
 }

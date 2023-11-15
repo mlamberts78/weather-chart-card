@@ -409,9 +409,25 @@ class ContentCardEditor extends LitElement {
             </label>
           </div>
         </div>
-	  <div class="textfield-container">
+        <div class="switch-container">
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'animated_icons')}"
+            .checked="${this._config.animated_icons === true}"
+          ></ha-switch>
+          <label class="switch-label">
+            Use Animated Icons
+          </label>
+        </div>
+       <div class="textfield-container">
+         <ha-textfield
+           label="Icon Size for animated or custom icons"
+           type="number"
+           .value="${this._config.icons_size || '25'}"
+           @change="${(e) => this._valueChanged(e, 'icons_size')}"
+         ></ha-textfield>
           <ha-textfield
             label="Curent temperature Font Size"
+           type="number"
             .value="${this._config.current_temp_size || '28'}"
             @change="${(e) => this._valueChanged(e, 'current_temp_size')}"
           ></ha-textfield>
@@ -421,7 +437,7 @@ class ContentCardEditor extends LitElement {
           @change="${(e) => this._valueChanged(e, 'icons')}"
         ></ha-textfield>
         </div>
-        </div>
+       </div>
 
         <!-- Forecast Settings Page -->
         <div class="page-container ${this.currentPage === 'forecast' ? 'active' : ''}">
@@ -486,6 +502,7 @@ class ContentCardEditor extends LitElement {
               ></ha-textfield>
               <ha-textfield
                 label="Labels Font Size"
+                type="number"
                 .value="${forecastConfig.labels_font_size || '11'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
               ></ha-textfield>

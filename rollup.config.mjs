@@ -1,5 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
+import copy from 'rollup-plugin-copy';
 
 const dev = process.env.ROLLUP_WATCH;
 
@@ -24,5 +25,10 @@ export default {
   plugins: [
     resolve(),
     dev && serve(serveopts),
+    copy({
+      targets: [
+        { src: 'src/icons/*', dest: 'dist/icons' }
+      ]
+    })
   ],
 };
