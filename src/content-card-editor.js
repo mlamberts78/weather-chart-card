@@ -212,6 +212,15 @@ class ContentCardEditor extends LitElement {
           padding-bottom: 10px;
           margin-bottom: 20px;
         }
+        .flex-container {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+        }
+        .flex-container ha-textfield {
+          flex-basis: 50%;
+          flex-grow: 1;
+        }
       </style>
       <div>
       <div class="textfield-container">
@@ -443,6 +452,15 @@ class ContentCardEditor extends LitElement {
               Rounding Temperatures
             </label>
           </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.use_12hour_format')}"
+              .checked="${forecastConfig.use_12hour_format !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Use 12-Hour Format
+            </label>
+          </div>
 	  <div class="textfield-container">
           <ha-select
             naturalMenuWidth
@@ -456,20 +474,24 @@ class ContentCardEditor extends LitElement {
             <ha-list-item .value=${'rainfall'}>Rainfall</ha-list-item>
             <ha-list-item .value=${'probability'}>Probability</ha-list-item>
           </ha-select>
-          <ha-textfield
-            label="Precipitation Bar Size %"
-            type="number"
-	    max="100"
-	    min="0"
-            .value="${forecastConfig.precip_bar_size || '100'}"
-            @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
-          ></ha-textfield>
-          <ha-textfield
-            label="Labels Font Size"
-            .value="${forecastConfig.labels_font_size || '11'}"
-            @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
-          ></ha-textfield>
-	  </div>
+          <div class="textfield-container">
+            <div class="flex-container">
+              <ha-textfield
+                label="Precipitation Bar Size %"
+                type="number"
+                max="100"
+                min="0"
+                .value="${forecastConfig.precip_bar_size || '100'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
+              ></ha-textfield>
+              <ha-textfield
+                label="Labels Font Size"
+                .value="${forecastConfig.labels_font_size || '11'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
+              ></ha-textfield>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Units Page -->

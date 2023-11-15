@@ -839,6 +839,15 @@ class ContentCardEditor extends s {
           padding-bottom: 10px;
           margin-bottom: 20px;
         }
+        .flex-container {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+        }
+        .flex-container ha-textfield {
+          flex-basis: 50%;
+          flex-grow: 1;
+        }
       </style>
       <div>
       <div class="textfield-container">
@@ -1070,6 +1079,15 @@ class ContentCardEditor extends s {
               Rounding Temperatures
             </label>
           </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.use_12hour_format')}"
+              .checked="${forecastConfig.use_12hour_format !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Use 12-Hour Format
+            </label>
+          </div>
 	  <div class="textfield-container">
           <ha-select
             naturalMenuWidth
@@ -1083,20 +1101,24 @@ class ContentCardEditor extends s {
             <ha-list-item .value=${'rainfall'}>Rainfall</ha-list-item>
             <ha-list-item .value=${'probability'}>Probability</ha-list-item>
           </ha-select>
-          <ha-textfield
-            label="Precipitation Bar Size %"
-            type="number"
-	    max="100"
-	    min="0"
-            .value="${forecastConfig.precip_bar_size || '100'}"
-            @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
-          ></ha-textfield>
-          <ha-textfield
-            label="Labels Font Size"
-            .value="${forecastConfig.labels_font_size || '11'}"
-            @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
-          ></ha-textfield>
-	  </div>
+          <div class="textfield-container">
+            <div class="flex-container">
+              <ha-textfield
+                label="Precipitation Bar Size %"
+                type="number"
+                max="100"
+                min="0"
+                .value="${forecastConfig.precip_bar_size || '100'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.precip_bar_size')}"
+              ></ha-textfield>
+              <ha-textfield
+                label="Labels Font Size"
+                .value="${forecastConfig.labels_font_size || '11'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
+              ></ha-textfield>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Units Page -->
@@ -17285,6 +17307,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
+      use_12hour_format: false,
     },
   };
 }
@@ -17324,6 +17347,7 @@ setConfig(config) {
       show_wind_forecast: true,
       round_temp: false,
       type: 'daily',
+      '12hourformat': false,
       ...config.forecast,
     },
     units: {
@@ -17744,7 +17768,16 @@ drawChart({ config, language, weather, forecastItems } = this) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
               var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
-              var time = dateObj.toLocaleTimeString(language, { hour12: false, hour: 'numeric', minute: 'numeric' });
+
+              var timeFormatOptions = {
+                hour12: config.forecast.use_12hour_format,
+                hour: 'numeric',
+                ...(config.forecast.use_12hour_format ? {} : { minute: 'numeric' }),
+              };
+
+              var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+
+              time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
               if (mode === 'hourly') {
                 return time;
               }
@@ -17808,6 +17841,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 weekday: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
+		hour12: config.forecast.use_12hour_format,
               });
             },
             label: function (context) {

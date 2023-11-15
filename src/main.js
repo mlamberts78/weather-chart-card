@@ -46,6 +46,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
+      use_12hour_format: false,
     },
   };
 }
@@ -85,6 +86,7 @@ setConfig(config) {
       show_wind_forecast: true,
       round_temp: false,
       type: 'daily',
+      '12hourformat': false,
       ...config.forecast,
     },
     units: {
@@ -505,7 +507,16 @@ drawChart({ config, language, weather, forecastItems } = this) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
               var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
-              var time = dateObj.toLocaleTimeString(language, { hour12: false, hour: 'numeric', minute: 'numeric' });
+
+              var timeFormatOptions = {
+                hour12: config.forecast.use_12hour_format,
+                hour: 'numeric',
+                ...(config.forecast.use_12hour_format ? {} : { minute: 'numeric' }),
+              };
+
+              var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+
+              time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
               if (mode === 'hourly') {
                 return time;
               }
@@ -569,6 +580,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 weekday: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
+		hour12: config.forecast.use_12hour_format,
               });
             },
             label: function (context) {

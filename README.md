@@ -93,6 +93,7 @@ entity: weather.home
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
+| use_12hour_format    | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 
 ##### Units of measurement
 
