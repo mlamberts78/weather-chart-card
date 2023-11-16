@@ -37,14 +37,18 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_direction: true,
     show_wind_speed: true,
     show_sun: true,
+    icons_size: 25,
+    animated_icons: false,
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
+      precip_bar_size: '100',
       style: 'style1',
       show_wind_forecast: true,
       condition_icons: true,
       round_temp: false,
       type: 'daily',
+      use_12hour_format: false,
     },
   };
 }
@@ -70,11 +74,13 @@ static getStubConfig(hass, unusedEntities, allEntities) {
 setConfig(config) {
   const cardConfig = {
     icons_size: 25,
+    animated_icons: false,
     current_temp_size: 28,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: 11,
+      precip_bar_size: 100,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
       temperature2_color: 'rgba(68, 115, 158, 1.0)',
@@ -83,6 +89,7 @@ setConfig(config) {
       show_wind_forecast: true,
       round_temp: false,
       type: 'daily',
+      '12hourformat': false,
       ...config.forecast,
     },
     units: {
@@ -159,6 +166,7 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
+    this.baseIconPath = 'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/';
   }
 
   ll(str) {
@@ -175,11 +183,12 @@ subscribeForecastEvents() {
   }
 
   getWeatherIcon(condition, sun) {
-    if (this.config.icons) {
-      return `${this.config.icons}${
-        sun == 'below_horizon'
-        ? weatherIconsNight[condition]
-        : weatherIconsDay[condition]}.svg`
+    if (this.config.animated_icons === true) {
+      const iconName = sun === 'below_horizon' ? weatherIconsNight[condition] : weatherIconsDay[condition];
+      return `${this.baseIconPath}${iconName}.svg`;
+    } else if (this.config.icons) {
+      const iconName = sun === 'below_horizon' ? weatherIconsNight[condition] : weatherIconsDay[condition];
+      return `${this.config.icons}${iconName}.svg`;
     }
     return weatherIcons[condition];
   }
@@ -415,7 +424,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       yAxisID: 'PrecipAxis',
       borderColor: config.forecast.precipitation_color,
       backgroundColor: config.forecast.precipitation_color,
-      barPercentage: 1.0,
+      barPercentage: config.forecast.precip_bar_size / 100,
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
@@ -503,7 +512,16 @@ drawChart({ config, language, weather, forecastItems } = this) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
               var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
-              var time = dateObj.toLocaleTimeString(language, { hour12: false, hour: 'numeric', minute: 'numeric' });
+
+              var timeFormatOptions = {
+                hour12: config.forecast.use_12hour_format,
+                hour: 'numeric',
+                ...(config.forecast.use_12hour_format ? {} : { minute: 'numeric' }),
+              };
+
+              var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+
+              time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
               if (mode === 'hourly') {
                 return time;
               }
@@ -567,6 +585,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 weekday: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
+		hour12: config.forecast.use_12hour_format,
               });
             },
             label: function (context) {
@@ -773,28 +792,18 @@ renderMain({ config, sun, weather, temperature } = this) {
   const showDate = config.show_date;
   const showCurrentCondition = config.show_current_condition !== false;
 
+  const iconHtml = config.animated_icons || config.icons
+    ? html`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
+    : html`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}"></ha-icon>`;
 
   return html`
     <div class="main">
-      ${config.icons ?
-        html`
-          <img
-            src="${this.getWeatherIcon(weather.state, sun.state)}"
-            alt=""
-          >
-        ` :
-        html`
-          <ha-icon icon="${this.getWeatherIcon(weather.state)}"></ha-icon>
-        `
-      }
+      ${iconHtml}
       <div>
         <div>
-          ${temperature}<span>
-          ${this.getUnit('temperature')}</span>
+          ${temperature}<span>${this.getUnit('temperature')}</span>
         </div>
-        ${showCurrentCondition ? html`
-          <span>${this.ll(weather.state)}</span>
-        ` : ''}
+        ${showCurrentCondition ? html`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? html`
           <div class="current-time">
             ${showDay ? html`${currentDayOfWeek}` : ''}
@@ -936,18 +945,17 @@ renderForecastConditionIcons({ config, forecastItems } = this) {
 
   return html`
     <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
-      ${forecast.map((item) => html`
-        <div class="forecast-item">
-          ${config.icons ?
-            html`
-              <img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">
-            ` :
-            html`
-              <ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>
-            `
-          }
-        </div>
-      `)}
+      ${forecast.map((item) => {
+        const iconHtml = config.animated_icons || config.icons
+          ? html`<img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">`
+          : html`<ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>`;
+
+        return html`
+          <div class="forecast-item">
+            ${iconHtml}
+          </div>
+        `;
+      })}
     </div>
   `;
 }

@@ -22,13 +22,14 @@
   "devDependencies": {
     "eslint": "^8.53.0",
     "rollup": "^4.3.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^2.0.2"
   },
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
     "build": "npm run lint && npm run rollup",
-    "lint": "eslint src/* --ext .js",
+    "lint": "eslint 'src/**/*.js'",
     "rollup": "rollup -c"
   }
 }

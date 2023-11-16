@@ -23,28 +23,6 @@
 5. Select the category "Lovelace".
 6. Click the "ADD" button.
 
-### Manual install
-
-1. Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
-
-2. Add the resource reference as decribed below.
-
-Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
-
-[![Open your Home Assistant instance and show your Lovelace resources.](https://my.home-assistant.io/badges/lovelace_resources.svg)](https://my.home-assistant.io/redirect/lovelace_resources/)
-```yaml
-# Example Lovelace UI config entry
-resources:
-- type: module
-  url: /local/weather-chart-card.js
-```
-Then you can add the card to the view:
-```yaml
-# Example Lovelace UI config entry
-type: custom:weather-chart-card
-entity: weather.home
-```
-
 #### Configuration variables:
 
 ##### Card options
@@ -71,7 +49,8 @@ entity: weather.home
 | show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
-| icons_size            | number  | 25                       | The size of custom icons in pixels.                                                                |
+| animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
+| icons_size            | number  | 25                       | The size of the animated or custom icons in pixels.                                                |
 | current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
 | forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
 | units                 | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
@@ -82,6 +61,7 @@ entity: weather.home
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
 | precipitation_type   | string  | rainfall                 | Show precipitation in 'rainfall' or 'probability'.                                                 |
 | labels_font_size     | string  | 11                       | Font size for temperature and precipitation labels.                                                |
+| precip_bar_size      | string  | 100                      | Adjusts the thickness of precipitation bars (1-100).                                               |
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
@@ -92,6 +72,7 @@ entity: weather.home
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
+| use_12hour_format    | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 
 ##### Units of measurement
 
