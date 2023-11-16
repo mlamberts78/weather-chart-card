@@ -39,6 +39,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_sun: true,
     icons_size: 25,
     animated_icons: false,
+    icon_style: 'style1',
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
@@ -75,6 +76,7 @@ setConfig(config) {
   const cardConfig = {
     icons_size: 25,
     animated_icons: false,
+    icon_style: 'style1',
     current_temp_size: 28,
     ...config,
     forecast: {
@@ -100,11 +102,16 @@ setConfig(config) {
 
   cardConfig.units.speed = config.speed ? config.speed : cardConfig.units.speed;
 
+  this.baseIconPath = cardConfig.icon_style === 'style2' ?
+    'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons2/':
+    'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/' ;
+
   this.config = cardConfig;
   if (!config.entity) {
     throw new Error('Please, define entity in the card config');
   }
 }
+
 
 set hass(hass) {
   this._hass = hass;
@@ -166,7 +173,6 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
-    this.baseIconPath = 'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/';
   }
 
   ll(str) {

@@ -767,6 +767,16 @@ class ContentCardEditor extends s {
     this.requestUpdate();
   }
 
+  _handleIconStyleChange(event) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+    newConfig.icon_style = event.target.value;
+    this.configChanged(newConfig);
+    this.requestUpdate();
+  }
+
   _handlePrecipitationTypeChange(e) {
     const newValue = e.target.value;
     this.config.forecast.precipitation_type = newValue;
@@ -813,6 +823,11 @@ class ContentCardEditor extends s {
           flex-direction: row;
           margin-bottom: 12px;
         }
+        .icon-container {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: 12px;
+        }
         .switch-right {
           display: flex;
           flex-direction: row;
@@ -831,6 +846,8 @@ class ContentCardEditor extends s {
         }
         .radio-container {
           display: flex;
+          align-items: center;
+          gap: 5px;
         }
         .radio-group {
           display: flex;
@@ -1012,44 +1029,70 @@ class ContentCardEditor extends s {
               Show Wind Speed
             </label>
 	  </div>
-<div class="time-container">
-  <div class="switch-right">
-    <ha-switch
-      @change="${(e) => this._valueChanged(e, 'show_time')}"
-      .checked="${this._config.show_time !== false}"
-    ></ha-switch>
-    <label class="switch-label">
-      Show Current Time
-    </label>
-  </div>
-  <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
-    <ha-checkbox
-      @change="${(e) => this._valueChanged(e, 'show_day')}"
-      .checked="${this._config.show_day !== false}"
-    ></ha-checkbox>
-    <label class="check-label">
-      Show Day
-    </label>
-  </div>
-  <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
-    <ha-checkbox
-      @change="${(e) => this._valueChanged(e, 'show_date')}"
-      .checked="${this._config.show_date !== false}"
-    ></ha-checkbox>
-    <label class="check-label">
-      Show Date
-    </label>
-  </div>
-</div>
-        <div class="switch-container">
-          <ha-switch
-            @change="${(e) => this._valueChanged(e, 'animated_icons')}"
-            .checked="${this._config.animated_icons === true}"
-          ></ha-switch>
-          <label class="switch-label">
-            Use Animated Icons
-          </label>
-        </div>
+          <div class="time-container">
+            <div class="switch-right">
+              <ha-switch
+                @change="${(e) => this._valueChanged(e, 'show_time')}"
+                .checked="${this._config.show_time !== false}"
+              ></ha-switch>
+              <label class="switch-label">
+                Show Current Time
+              </label>
+            </div>
+            <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+              <ha-checkbox
+                @change="${(e) => this._valueChanged(e, 'show_day')}"
+                .checked="${this._config.show_day !== false}"
+              ></ha-checkbox>
+              <label class="check-label">
+                Show Day
+              </label>
+            </div>
+            <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+              <ha-checkbox
+                @change="${(e) => this._valueChanged(e, 'show_date')}"
+                .checked="${this._config.show_date !== false}"
+              ></ha-checkbox>
+              <label class="check-label">
+                Show Date
+              </label>
+            </div>
+          </div>
+            <div class="icon-container">
+              <div class="switch-right">
+                <ha-switch
+                  @change="${(e) => this._valueChanged(e, 'animated_icons')}"
+                  .checked="${this._config.animated_icons === true}"
+                ></ha-switch>
+                <label class="switch-label">
+                  Use Animated Icons
+                </label>
+              </div>
+              <div class="switch-right radio-container" style="${this._config.animated_icons ? 'display: flex;' : 'display: none;'}">
+                  <ha-radio
+                    name="icon_style"
+                    value="style1"
+                    @change="${this._handleIconStyleChange}"
+                    .checked="${this._config.icon_style === 'style1'}"
+                  ></ha-radio>
+                  <label class="check-label">
+                    Style 1
+                  </label>
+                </div>
+              <div class="switch-right radio-container" style="${this._config.animated_icons ? 'display: flex;' : 'display: none;'}">
+                  <ha-radio
+                    name="icon_style"
+                    value="style2"
+                    @change="${this._handleIconStyleChange}"
+                    .checked="${this._config.icon_style === 'style2'}"
+                  ></ha-radio>
+                  <label class="check-label">
+                    Style 2
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
        <div class="textfield-container">
          <ha-textfield
            label="Icon Size for animated or custom icons"
@@ -17322,6 +17365,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_sun: true,
     icons_size: 25,
     animated_icons: false,
+    icon_style: 'style1',
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: '11',
@@ -17358,6 +17402,7 @@ setConfig(config) {
   const cardConfig = {
     icons_size: 25,
     animated_icons: false,
+    icon_style: 'style1',
     current_temp_size: 28,
     ...config,
     forecast: {
@@ -17383,11 +17428,16 @@ setConfig(config) {
 
   cardConfig.units.speed = config.speed ? config.speed : cardConfig.units.speed;
 
+  this.baseIconPath = cardConfig.icon_style === 'style2' ?
+    'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons2/':
+    'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/' ;
+
   this.config = cardConfig;
   if (!config.entity) {
     throw new Error('Please, define entity in the card config');
   }
 }
+
 
 set hass(hass) {
   this._hass = hass;
@@ -17449,7 +17499,6 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
-    this.baseIconPath = 'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/';
   }
 
   ll(str) {
