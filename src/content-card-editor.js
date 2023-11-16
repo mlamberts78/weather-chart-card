@@ -464,8 +464,6 @@ class ContentCardEditor extends LitElement {
                   </label>
                 </div>
               </div>
-            </div>
-          </div>
        <div class="textfield-container">
          <ha-textfield
            label="Icon Size for animated or custom icons"
@@ -485,7 +483,7 @@ class ContentCardEditor extends LitElement {
           @change="${(e) => this._valueChanged(e, 'icons')}"
         ></ha-textfield>
         </div>
-       </div>
+      </div>
 
         <!-- Forecast Settings Page -->
         <div class="page-container ${this.currentPage === 'forecast' ? 'active' : ''}">
