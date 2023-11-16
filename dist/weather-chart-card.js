@@ -17444,7 +17444,7 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
-    this.baseIconPath = '/local/community/weather-chart-card/icons/';
+    this.baseIconPath = 'https://cdn.jsdelivr.net/gh/mlamberts78/weather-chart-card/dist/icons/';
   }
 
   ll(str) {

@@ -23,28 +23,6 @@
 5. Select the category "Lovelace".
 6. Click the "ADD" button.
 
-### Manual install
-
-1. Download and copy `weather-chart-card.js` from the [latest release](https://github.com/mlamberts78/weather-chart-card/releases/latest) into your `config/www` directory.
-
-2. Add the resource reference as decribed below.
-
-Add a reference to the copied file inside your `configuration.yaml` or in the Home Assistant UI:
-
-[![Open your Home Assistant instance and show your Lovelace resources.](https://my.home-assistant.io/badges/lovelace_resources.svg)](https://my.home-assistant.io/redirect/lovelace_resources/)
-```yaml
-# Example Lovelace UI config entry
-resources:
-- type: module
-  url: /local/weather-chart-card.js
-```
-Then you can add the card to the view:
-```yaml
-# Example Lovelace UI config entry
-type: custom:weather-chart-card
-entity: weather.home
-```
-
 #### Configuration variables:
 
 ##### Card options
