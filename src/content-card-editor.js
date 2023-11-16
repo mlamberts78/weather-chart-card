@@ -184,12 +184,17 @@ class ContentCardEditor extends LitElement {
         .time-container {
           display: flex;
           flex-direction: row;
-          margin-top: 0px;
+          margin-bottom: 12px;
         }
         .switch-right {
           display: flex;
+          flex-direction: row;
           align-items: center;
-          margin-top: 0px;
+        }
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 5px;
         }
         .textfield-container {
           display: flex;
@@ -380,35 +385,35 @@ class ContentCardEditor extends LitElement {
               Show Wind Speed
             </label>
 	  </div>
-        <div class="time-container">
-          <div class="switch-right">
-            <ha-switch
-              @change="${(e) => this._valueChanged(e, 'show_time')}"
-              .checked="${this._config.show_time !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Show Current Time
-            </label>
-          </div>
-          <div class="switch-right">
-            <ha-checkbox
-              @change="${(e) => this._valueChanged(e, 'show_day')}"
-              .checked="${this._config.show_day !== false}"
-            ></ha-checkbox>
-            <label class="check-label">
-              Show Day
-            </label>
-          </div>
-          <div class="switch-right">
-            <ha-checkbox
-              @change="${(e) => this._valueChanged(e, 'show_date')}"
-              .checked="${this._config.show_date !== false}"
-            ></ha-checkbox>
-            <label class="check-label">
-              Show Date
-            </label>
-          </div>
-        </div>
+<div class="time-container">
+  <div class="switch-right">
+    <ha-switch
+      @change="${(e) => this._valueChanged(e, 'show_time')}"
+      .checked="${this._config.show_time !== false}"
+    ></ha-switch>
+    <label class="switch-label">
+      Show Current Time
+    </label>
+  </div>
+  <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+    <ha-checkbox
+      @change="${(e) => this._valueChanged(e, 'show_day')}"
+      .checked="${this._config.show_day !== false}"
+    ></ha-checkbox>
+    <label class="check-label">
+      Show Day
+    </label>
+  </div>
+  <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+    <ha-checkbox
+      @change="${(e) => this._valueChanged(e, 'show_date')}"
+      .checked="${this._config.show_date !== false}"
+    ></ha-checkbox>
+    <label class="check-label">
+      Show Date
+    </label>
+  </div>
+</div>
         <div class="switch-container">
           <ha-switch
             @change="${(e) => this._valueChanged(e, 'animated_icons')}"
