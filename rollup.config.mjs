@@ -27,7 +27,8 @@ export default {
     dev && serve(serveopts),
     copy({
       targets: [
-        { src: 'src/icons/*', dest: 'dist/icons' }
+        { src: 'src/icons/*', dest: 'dist/icons' },
+        { src: 'src/icons2/*', dest: 'dist/icons2' }
       ]
     })
   ],
