@@ -50,6 +50,7 @@
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
+| icon_style            | string  | 'style1'                 | Options are 'style1' and'style2' for different set of animated icons.                              |
 | icons_size            | number  | 25                       | The size of the animated or custom icons in pixels.                                                |
 | current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
 | forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
