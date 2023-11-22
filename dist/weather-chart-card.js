@@ -17776,7 +17776,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-        return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
+	return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -17794,7 +17794,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
     datasets[1].datalabels = {
       display: function (context) {
-        return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
+	return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
