@@ -37,6 +37,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_direction: true,
     show_wind_speed: true,
     show_sun: true,
+    show_feels_like: false,
     icons_size: 25,
     animated_icons: false,
     icon_style: 'style1',
@@ -130,6 +131,7 @@ set hass(hass) {
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
     this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
+    this.feels_like = this.config.feels_like ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
   }
 
   if (this.weather && !this.forecastSubscriber) {
@@ -769,6 +771,11 @@ updateChart({ config, language, weather, forecastItems } = this) {
           font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
+        .main .feels-like {
+          font-size: 13px;
+          margin-top: 5px;
+          font-weight: 400;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -785,7 +792,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
     `;
   }
 
-renderMain({ config, sun, weather, temperature } = this) {
+renderMain({ config, sun, weather, temperature, feels_like } = this) {
   if (config.show_main === false)
     return html``;
 
@@ -796,6 +803,7 @@ renderMain({ config, sun, weather, temperature } = this) {
   const showTime = config.show_time;
   const showDay = config.show_day;
   const showDate = config.show_date;
+  const showFeelsLike = config.show_feels_like;
   const showCurrentCondition = config.show_current_condition !== false;
 
   const iconHtml = config.animated_icons || config.icons
@@ -808,6 +816,12 @@ renderMain({ config, sun, weather, temperature } = this) {
       <div>
         <div>
           ${temperature}<span>${this.getUnit('temperature')}</span>
+          ${showFeelsLike && (weather.attributes.apparent_temperature || feels_like) ? html`
+            <div class="feels-like">
+              ${this.ll('feelsLike')}
+              ${weather.attributes.apparent_temperature || feels_like}${this.getUnit('temperature')}
+            </div>
+          ` : ''}
         </div>
         ${showCurrentCondition ? html`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? html`
