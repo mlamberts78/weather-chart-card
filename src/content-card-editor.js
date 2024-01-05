@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "feels_like", title: "Alternative feels like temperature sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
@@ -34,6 +35,12 @@ class ContentCardEditor extends LitElement {
     }
     this._config = config;
     this._entity = config.entity || '';
+    this.hasApparentTemperature = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.apparent_temperature !== undefined
+    ) || config.feels_like !== undefined;
     this.requestUpdate();
   }
 
@@ -339,6 +346,17 @@ class ContentCardEditor extends LitElement {
               Show Main
             </label>
           </div>
+      <div class="switch-container">
+        ${this.hasApparentTemperature ? html`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_feels_like')}"
+            .checked="${this._config.show_feels_like !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Feels Like Temperature
+          </label>
+        ` : ''}
+      </div>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_current_condition')}"

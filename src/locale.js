@@ -3,6 +3,7 @@ const locale = {
     'tempHi': 'Teplota',
     'tempLo': 'Teplota v noci',
     'precip': 'Srážky',
+    'feelsLike': 'Pocitová teplota',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -35,6 +36,7 @@ const locale = {
     'tempHi': 'Temperatur',
     'tempLo': 'Nachttemperatur',
     'precip': 'Niederschlag',
+    'feelsLike': 'Gefühlt',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -67,6 +69,7 @@ const locale = {
     'tempHi': 'Temperatuur',
     'tempLo': 'Nachttemperatuur',
     'precip': 'Neerslag',
+    'feelsLike': 'Voelt als',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -99,6 +102,7 @@ const locale = {
     'tempHi': 'Temperature',
     'tempLo': 'Temperature night',
     'precip': 'Precipitations',
+    'feelsLike': 'Feels like',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -131,6 +135,7 @@ const locale = {
     'tempHi': 'Temperatura máxima',
     'tempLo': 'Temperatura mínima',
     'precip': 'Precipitación',
+    'feelsLike': 'Sensación térmica',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -163,6 +168,7 @@ const locale = {
     'tempHi': 'Lämpötila ylin',
     'tempLo': 'Lämpötila alin',
     'precip': 'Sademäärä',
+    'feelsLike': 'Tuntuu kuin',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -195,6 +201,7 @@ const locale = {
     'tempHi': 'Max. hőmérséklet',
     'tempLo': 'Min. hőmérséklet',
     'precip': 'Csapadék',
+    'feelsLike': 'Hőérzet',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -227,6 +234,7 @@ const locale = {
     'tempHi': 'Температура',
     'tempLo': 'Температура ночью',
     'precip': 'Осадки',
+    'feelsLike': 'Ощущается как',
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
@@ -259,6 +267,7 @@ const locale = {
     'tempHi': 'Temperatur max',
     'tempLo': 'Temperatur min',
     'precip': 'Nederbörd',
+    'feelsLike': 'Känns som',
     'units': {
         'km/h': 'km/h',
         'm/s': 'm/s',
@@ -291,6 +300,7 @@ const locale = {
     'tempHi': 'Temperature max',
     'tempLo': 'Temperature min',
     'precip': 'Précipitations',
+    'feelsLike': 'Ressenti',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -323,6 +333,7 @@ const locale = {
     'tempHi': 'Temperatura',
     'tempLo': 'Temperatura w nocy',
     'precip': 'Opady',
+    'feelsLike': 'Odczuwalna',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -355,6 +366,7 @@ const locale = {
     'tempHi': 'Maksimumstemperatur',
     'tempLo': 'Minimumstemperatur',
     'precip': 'Nedbør',
+    'feelsLike': 'Føles som',
     'units': {
       'km/h': 'km/t',
       'm/s': 'm/s',
@@ -387,6 +399,7 @@ const locale = {
     'tempHi': 'Temperatur',
     'tempLo': 'Nattemperatur',
     'precip': 'Nedbør',
+    'feelsLike': 'Føles som',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -419,6 +432,7 @@ const locale = {
     'tempHi': 'Temperatura massima',
     'tempLo': 'Temperatura notte',
     'precip': 'Precipitazioni',
+    'feelsLike': 'Percepito come',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -451,6 +465,7 @@ const locale = {
     'tempHi': 'Temperatura máxima',
     'tempLo': 'Temperatura noite',
     'precip': 'Precipitação',
+    'feelsLike': 'Sente-se como',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -483,6 +498,7 @@ const locale = {
     'tempHi': 'Μέγιστη θερμοκρασία',
     'tempLo': 'Ελάχιστη θερμοκρασία νύχτας',
     'precip': 'Υετός',
+    'feelsLike': 'Αίσθηση σαν',
     'units': {
       'km/h': 'χλμ/ώρα',
       'm/s': 'μ/δ',
@@ -515,6 +531,7 @@ const locale = {
     'tempHi': 'Максимална температура',
     'tempLo': 'Минимална температура',
     'precip': 'Валежи',
+    'feelsLike': 'Усеща се като',
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',

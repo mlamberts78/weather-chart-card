@@ -5,6 +5,7 @@ const locale = {
     'tempHi': 'Teplota',
     'tempLo': 'Teplota v noci',
     'precip': 'Srážky',
+    'feelsLike': 'Pocitová teplota',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -37,6 +38,7 @@ const locale = {
     'tempHi': 'Temperatur',
     'tempLo': 'Nachttemperatur',
     'precip': 'Niederschlag',
+    'feelsLike': 'Gefühlt',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -69,6 +71,7 @@ const locale = {
     'tempHi': 'Temperatuur',
     'tempLo': 'Nachttemperatuur',
     'precip': 'Neerslag',
+    'feelsLike': 'Voelt als',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -101,6 +104,7 @@ const locale = {
     'tempHi': 'Temperature',
     'tempLo': 'Temperature night',
     'precip': 'Precipitations',
+    'feelsLike': 'Feels like',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -133,6 +137,7 @@ const locale = {
     'tempHi': 'Temperatura máxima',
     'tempLo': 'Temperatura mínima',
     'precip': 'Precipitación',
+    'feelsLike': 'Sensación térmica',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -165,6 +170,7 @@ const locale = {
     'tempHi': 'Lämpötila ylin',
     'tempLo': 'Lämpötila alin',
     'precip': 'Sademäärä',
+    'feelsLike': 'Tuntuu kuin',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -197,6 +203,7 @@ const locale = {
     'tempHi': 'Max. hőmérséklet',
     'tempLo': 'Min. hőmérséklet',
     'precip': 'Csapadék',
+    'feelsLike': 'Hőérzet',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -229,6 +236,7 @@ const locale = {
     'tempHi': 'Температура',
     'tempLo': 'Температура ночью',
     'precip': 'Осадки',
+    'feelsLike': 'Ощущается как',
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
@@ -261,6 +269,7 @@ const locale = {
     'tempHi': 'Temperatur max',
     'tempLo': 'Temperatur min',
     'precip': 'Nederbörd',
+    'feelsLike': 'Känns som',
     'units': {
         'km/h': 'km/h',
         'm/s': 'm/s',
@@ -293,6 +302,7 @@ const locale = {
     'tempHi': 'Temperature max',
     'tempLo': 'Temperature min',
     'precip': 'Précipitations',
+    'feelsLike': 'Ressenti',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -325,6 +335,7 @@ const locale = {
     'tempHi': 'Temperatura',
     'tempLo': 'Temperatura w nocy',
     'precip': 'Opady',
+    'feelsLike': 'Odczuwalna',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -357,6 +368,7 @@ const locale = {
     'tempHi': 'Maksimumstemperatur',
     'tempLo': 'Minimumstemperatur',
     'precip': 'Nedbør',
+    'feelsLike': 'Føles som',
     'units': {
       'km/h': 'km/t',
       'm/s': 'm/s',
@@ -389,6 +401,7 @@ const locale = {
     'tempHi': 'Temperatur',
     'tempLo': 'Nattemperatur',
     'precip': 'Nedbør',
+    'feelsLike': 'Føles som',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -421,6 +434,7 @@ const locale = {
     'tempHi': 'Temperatura massima',
     'tempLo': 'Temperatura notte',
     'precip': 'Precipitazioni',
+    'feelsLike': 'Percepito come',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -453,6 +467,7 @@ const locale = {
     'tempHi': 'Temperatura máxima',
     'tempLo': 'Temperatura noite',
     'precip': 'Precipitação',
+    'feelsLike': 'Sente-se como',
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
@@ -485,6 +500,7 @@ const locale = {
     'tempHi': 'Μέγιστη θερμοκρασία',
     'tempLo': 'Ελάχιστη θερμοκρασία νύχτας',
     'precip': 'Υετός',
+    'feelsLike': 'Αίσθηση σαν',
     'units': {
       'km/h': 'χλμ/ώρα',
       'm/s': 'μ/δ',
@@ -517,6 +533,7 @@ const locale = {
     'tempHi': 'Максимална температура',
     'tempLo': 'Минимална температура',
     'precip': 'Валежи',
+    'feelsLike': 'Усеща се като',
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
@@ -629,6 +646,7 @@ const t=globalThis,i=t.trustedTypes,s$1=i?i.createPolicy("lit-html",{createHTML:
 
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "feels_like", title: "Alternative feels like temperature sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
@@ -661,6 +679,12 @@ class ContentCardEditor extends s {
     }
     this._config = config;
     this._entity = config.entity || '';
+    this.hasApparentTemperature = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.apparent_temperature !== undefined
+    ) || config.feels_like !== undefined;
     this.requestUpdate();
   }
 
@@ -966,6 +990,17 @@ class ContentCardEditor extends s {
               Show Main
             </label>
           </div>
+      <div class="switch-container">
+        ${this.hasApparentTemperature ? x`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_feels_like')}"
+            .checked="${this._config.show_feels_like !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Feels Like Temperature
+          </label>
+        ` : ''}
+      </div>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_current_condition')}"
@@ -17361,6 +17396,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_direction: true,
     show_wind_speed: true,
     show_sun: true,
+    show_feels_like: false,
     icons_size: 25,
     animated_icons: false,
     icon_style: 'style1',
@@ -17454,6 +17490,7 @@ set hass(hass) {
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
     this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
+    this.feels_like = this.config.feels_like ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
   }
 
   if (this.weather && !this.forecastSubscriber) {
@@ -18093,6 +18130,11 @@ updateChart({ config, language, weather, forecastItems } = this) {
           font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
+        .main .feels-like {
+          font-size: 13px;
+          margin-top: 5px;
+          font-weight: 400;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -18109,7 +18151,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
     `;
   }
 
-renderMain({ config, sun, weather, temperature } = this) {
+renderMain({ config, sun, weather, temperature, feels_like } = this) {
   if (config.show_main === false)
     return x``;
 
@@ -18120,6 +18162,7 @@ renderMain({ config, sun, weather, temperature } = this) {
   const showTime = config.show_time;
   const showDay = config.show_day;
   const showDate = config.show_date;
+  const showFeelsLike = config.show_feels_like;
   const showCurrentCondition = config.show_current_condition !== false;
 
   const iconHtml = config.animated_icons || config.icons
@@ -18132,6 +18175,12 @@ renderMain({ config, sun, weather, temperature } = this) {
       <div>
         <div>
           ${temperature}<span>${this.getUnit('temperature')}</span>
+          ${showFeelsLike && (weather.attributes.apparent_temperature || feels_like) ? x`
+            <div class="feels-like">
+              ${this.ll('feelsLike')}
+              ${weather.attributes.apparent_temperature || feels_like}${this.getUnit('temperature')}
+            </div>
+          ` : ''}
         </div>
         ${showCurrentCondition ? x`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? x`

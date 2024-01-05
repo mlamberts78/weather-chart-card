@@ -37,6 +37,7 @@
 | uv                    | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
 | winddir               | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
 | windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
+| feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
 | title                 | string  | none                     | Card title.                                                                                        |
 | show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
 | show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
@@ -48,6 +49,7 @@
 | show_pressure         | boolean | true                     | Show or hide pressure on the card.                                                                 |
 | show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
+| show_feels_like       | boolean | false                    | Show or hide feels like temperature on the card.                                                   |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
 | icon_style            | string  | 'style1'                 | Options are 'style1' and'style2' for different set of animated icons.                              |
