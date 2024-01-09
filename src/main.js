@@ -79,6 +79,7 @@ setConfig(config) {
     animated_icons: false,
     icon_style: 'style1',
     current_temp_size: 28,
+    show_feels_like: false,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
