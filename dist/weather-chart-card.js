@@ -562,6 +562,39 @@ const locale = {
     'windy': 'Ветровито',
     'windy-variant': 'Ветровито'
   },
+  lt: {
+    'tempHi': 'Dieną',
+    'tempLo': 'Naktį',
+    'precip': 'Krituliai',
+    'feelsLike': 'Jaučiama',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'Š', 'Š-ŠR', 'ŠR', 'R-ŠR', 'R', 'R-PR', 'PR', 'P-PR',
+      'P', 'P-PV', 'PV', 'V-PV', 'V', 'V-ŠV', 'ŠV', 'Š-ŠV', 'Š'
+    ],
+    'clear-night': 'Giedra naktis',
+    'cloudy': 'Debesuota',
+    'fog': 'Rūkas',
+    'hail': 'Kruša',
+    'lightning': 'Perkūnija',
+    'lightning-rainy': 'Perkūnija, lietus',
+    'partlycloudy': 'Apsiniaukę',
+    'pouring': 'Liūtis',
+    'rainy': 'Lietus',
+    'snowy': 'Sniegas',
+    'snowy-rainy': 'Šlapdriba',
+    'sunny': 'Saulėta',
+    'windy': 'Vėjuota',
+    'windy-variant': 'Vėjuota'
+  },
 };
 
 const cardinalDirectionsIcon = [
@@ -1144,6 +1177,35 @@ class ContentCardEditor extends s {
           .value="${this._config.icons || ''}"
           @change="${(e) => this._valueChanged(e, 'icons')}"
         ></ha-textfield>
+         <ha-select
+           naturalMenuWidth
+           fixedMenuPosition
+           label="Select custom language"
+           .configValue=${''}
+           .value=${this._config.locale}
+           @change=${(e) => this._valueChanged(e, 'locale')}
+           @closed=${(ev) => ev.stopPropagation()}
+         >
+           <ha-list-item .value=${''}>HA Default</ha-list-item>
+           <ha-list-item .value=${'bg'}>Bulgarian</ha-list-item>
+           <ha-list-item .value=${'cs'}>Czech</ha-list-item>
+           <ha-list-item .value=${'da'}>Danish</ha-list-item>
+           <ha-list-item .value=${'nl'}>Dutch</ha-list-item>
+           <ha-list-item .value=${'en'}>English</ha-list-item>
+           <ha-list-item .value=${'fi'}>Finnish</ha-list-item>
+           <ha-list-item .value=${'fr'}>French</ha-list-item>
+           <ha-list-item .value=${'de'}>German</ha-list-item>
+           <ha-list-item .value=${'el'}>Greek</ha-list-item>
+           <ha-list-item .value=${'hu'}>Hungarian</ha-list-item>
+           <ha-list-item .value=${'it'}>Italian</ha-list-item>
+           <ha-list-item .value=${'lt'}>Lithuanian</ha-list-item>
+           <ha-list-item .value=${'no'}>Norwegian</ha-list-item>
+           <ha-list-item .value=${'pl'}>Polish</ha-list-item>
+           <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
+           <ha-list-item .value=${'ru'}>Russian</ha-list-item>
+           <ha-list-item .value=${'es'}>Spanish</ha-list-item>
+           <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
+        </ha-select>
         </div>
       </div>
 
@@ -17438,6 +17500,7 @@ setConfig(config) {
     animated_icons: false,
     icon_style: 'style1',
     current_temp_size: 28,
+    show_feels_like: false,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
@@ -17536,10 +17599,15 @@ subscribeForecastEvents() {
     super();
   }
 
-  ll(str) {
-    if (locale[this.language] === undefined) return locale.en[str];
-    return locale[this.language][str];
+ll(str) {
+  const selectedLocale = this.config.locale || this.language || 'en';
+
+  if (locale[selectedLocale] === undefined) {
+    return locale.en[str];
   }
+
+  return locale[selectedLocale][str];
+}
 
   getCardSize() {
     return 4;
@@ -18270,7 +18338,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
           ${showPressure ? x`
-            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.unitPressure}
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.ll('units')[this.unitPressure]}
           ` : ''}
         </div>
       ` : ''}
@@ -18295,7 +18363,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
           ` : ''}
           ${showWindSpeed ? x`
             <ha-icon icon="hass:weather-windy"></ha-icon>
-            ${dWindSpeed} ${this.unitSpeed}
+            ${dWindSpeed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
@@ -18384,7 +18452,7 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
             <div class="wind-detail">
               <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(item.wind_bearing)}"></ha-icon>
               <span class="wind-speed">${dWindSpeed}</span>
-              <span class="wind-unit">${this.unitSpeed}</span>
+              <span class="wind-unit">${this.ll('units')[this.unitSpeed]}</span>
             </div>
           `;
         })}

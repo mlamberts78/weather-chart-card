@@ -79,6 +79,7 @@ setConfig(config) {
     animated_icons: false,
     icon_style: 'style1',
     current_temp_size: 28,
+    show_feels_like: false,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
@@ -177,10 +178,15 @@ subscribeForecastEvents() {
     super();
   }
 
-  ll(str) {
-    if (locale[this.language] === undefined) return locale.en[str];
-    return locale[this.language][str];
+ll(str) {
+  const selectedLocale = this.config.locale || this.language || 'en';
+
+  if (locale[selectedLocale] === undefined) {
+    return locale.en[str];
   }
+
+  return locale[selectedLocale][str];
+}
 
   getCardSize() {
     return 4;
@@ -911,7 +917,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
           ${showPressure ? html`
-            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.unitPressure}
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.ll('units')[this.unitPressure]}
           ` : ''}
         </div>
       ` : ''}
@@ -936,7 +942,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
           ` : ''}
           ${showWindSpeed ? html`
             <ha-icon icon="hass:weather-windy"></ha-icon>
-            ${dWindSpeed} ${this.unitSpeed}
+            ${dWindSpeed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
@@ -1025,7 +1031,7 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
             <div class="wind-detail">
               <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(item.wind_bearing)}"></ha-icon>
               <span class="wind-speed">${dWindSpeed}</span>
-              <span class="wind-unit">${this.unitSpeed}</span>
+              <span class="wind-unit">${this.ll('units')[this.unitSpeed]}</span>
             </div>
           `;
         })}

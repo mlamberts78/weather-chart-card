@@ -500,6 +500,35 @@ class ContentCardEditor extends LitElement {
           .value="${this._config.icons || ''}"
           @change="${(e) => this._valueChanged(e, 'icons')}"
         ></ha-textfield>
+         <ha-select
+           naturalMenuWidth
+           fixedMenuPosition
+           label="Select custom language"
+           .configValue=${''}
+           .value=${this._config.locale}
+           @change=${(e) => this._valueChanged(e, 'locale')}
+           @closed=${(ev) => ev.stopPropagation()}
+         >
+           <ha-list-item .value=${''}>HA Default</ha-list-item>
+           <ha-list-item .value=${'bg'}>Bulgarian</ha-list-item>
+           <ha-list-item .value=${'cs'}>Czech</ha-list-item>
+           <ha-list-item .value=${'da'}>Danish</ha-list-item>
+           <ha-list-item .value=${'nl'}>Dutch</ha-list-item>
+           <ha-list-item .value=${'en'}>English</ha-list-item>
+           <ha-list-item .value=${'fi'}>Finnish</ha-list-item>
+           <ha-list-item .value=${'fr'}>French</ha-list-item>
+           <ha-list-item .value=${'de'}>German</ha-list-item>
+           <ha-list-item .value=${'el'}>Greek</ha-list-item>
+           <ha-list-item .value=${'hu'}>Hungarian</ha-list-item>
+           <ha-list-item .value=${'it'}>Italian</ha-list-item>
+           <ha-list-item .value=${'lt'}>Lithuanian</ha-list-item>
+           <ha-list-item .value=${'no'}>Norwegian</ha-list-item>
+           <ha-list-item .value=${'pl'}>Polish</ha-list-item>
+           <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
+           <ha-list-item .value=${'ru'}>Russian</ha-list-item>
+           <ha-list-item .value=${'es'}>Spanish</ha-list-item>
+           <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
+        </ha-select>
         </div>
       </div>
 

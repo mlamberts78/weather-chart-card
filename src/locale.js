@@ -560,6 +560,39 @@ const locale = {
     'windy': 'Ветровито',
     'windy-variant': 'Ветровито'
   },
+  lt: {
+    'tempHi': 'Dieną',
+    'tempLo': 'Naktį',
+    'precip': 'Krituliai',
+    'feelsLike': 'Jaučiama',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'Š', 'Š-ŠR', 'ŠR', 'R-ŠR', 'R', 'R-PR', 'PR', 'P-PR',
+      'P', 'P-PV', 'PV', 'V-PV', 'V', 'V-ŠV', 'ŠV', 'Š-ŠV', 'Š'
+    ],
+    'clear-night': 'Giedra naktis',
+    'cloudy': 'Debesuota',
+    'fog': 'Rūkas',
+    'hail': 'Kruša',
+    'lightning': 'Perkūnija',
+    'lightning-rainy': 'Perkūnija, lietus',
+    'partlycloudy': 'Apsiniaukę',
+    'pouring': 'Liūtis',
+    'rainy': 'Lietus',
+    'snowy': 'Sniegas',
+    'snowy-rainy': 'Šlapdriba',
+    'sunny': 'Saulėta',
+    'windy': 'Vėjuota',
+    'windy-variant': 'Vėjuota'
+  },
 };
 
 export default locale;
