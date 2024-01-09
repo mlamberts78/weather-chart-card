@@ -57,6 +57,7 @@
 | current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
 | forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
 | units                 | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
+| locale                | string  | none                     | See [Supported languages] ([Supported-languages) for available languages                           |
 
 ##### Forecast options
 
@@ -131,21 +132,23 @@ units:
 ```
 
 ###### Supported languages:
-Bulgarian <br />
-Czech <br />
-Danish <br />
-Dutch <br />
-English <br />
-Finnish <br />
-French <br />
-German <br />
-Greek <br />
-Hungarian <br />
-Italian <br />
-Lithuanian <br />
-Norwegian <br />
-Polish <br />
-Portuguese <br />
-Russian <br />
-Spanish <br />
-Swedish
+| Language         | Locale  |
+| ---------------- | ------- |
+| Bulgarian        | bg      |
+| Czech            | cs      |
+| Danish           | da      |
+| Dutch            | nl      |
+| English          | en      |
+| Finnish          | fi      |
+| French           | fr      |
+| German           | de      |
+| Greek            | el      |
+| Hungarian        | hu      |
+| Italian          | it      |
+| Lithuanian       | lt      |
+| Norwegian        | no      |
+| Polish           | pl      |
+| Portuguese       | pt      |
+| Russian          | ru      |
+| Spanish          | es      |
+| Swedish          | sv      |

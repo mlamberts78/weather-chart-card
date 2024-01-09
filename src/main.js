@@ -178,10 +178,15 @@ subscribeForecastEvents() {
     super();
   }
 
-  ll(str) {
-    if (locale[this.language] === undefined) return locale.en[str];
-    return locale[this.language][str];
+ll(str) {
+  const selectedLocale = this.config.locale || this.language || 'en';
+
+  if (locale[selectedLocale] === undefined) {
+    return locale.en[str];
   }
+
+  return locale[selectedLocale][str];
+}
 
   getCardSize() {
     return 4;
