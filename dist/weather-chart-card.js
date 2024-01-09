@@ -18338,7 +18338,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
           ${showPressure ? x`
-            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.unitPressure}
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.ll('units')[this.unitPressure]}
           ` : ''}
         </div>
       ` : ''}
@@ -18363,7 +18363,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
           ` : ''}
           ${showWindSpeed ? x`
             <ha-icon icon="hass:weather-windy"></ha-icon>
-            ${dWindSpeed} ${this.unitSpeed}
+            ${dWindSpeed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
@@ -18452,7 +18452,7 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
             <div class="wind-detail">
               <ha-icon class="wind-icon" icon="hass:${this.getWindDirIcon(item.wind_bearing)}"></ha-icon>
               <span class="wind-speed">${dWindSpeed}</span>
-              <span class="wind-unit">${this.unitSpeed}</span>
+              <span class="wind-unit">${this.ll('units')[this.unitSpeed]}</span>
             </div>
           `;
         })}
