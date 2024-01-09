@@ -142,6 +142,7 @@ German <br />
 Greek <br />
 Hungarian <br />
 Italian <br />
+Lithuanian <br />
 Norwegian <br />
 Polish <br />
 Portuguese <br />
