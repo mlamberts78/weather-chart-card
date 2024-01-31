@@ -9,6 +9,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -42,6 +43,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -75,6 +77,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -108,6 +111,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -141,6 +145,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -174,6 +179,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -207,6 +213,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -240,6 +247,7 @@ const locale = {
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'гПа',
       'mmHg': 'мм рт.ст.',
@@ -273,6 +281,7 @@ const locale = {
     'units': {
         'km/h': 'km/h',
         'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
         'hPa': 'hPa',
         'mmHg': 'mm Hg',
@@ -306,6 +315,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -339,6 +349,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -372,6 +383,7 @@ const locale = {
     'units': {
       'km/h': 'km/t',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -405,6 +417,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -438,6 +451,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -471,6 +485,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
@@ -504,6 +519,7 @@ const locale = {
     'units': {
       'km/h': 'χλμ/ώρα',
       'm/s': 'μ/δ',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'χιλ. υδράργυρου',
@@ -537,6 +553,7 @@ const locale = {
     'units': {
       'km/h': 'км/ч',
       'm/s': 'м/с',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mmHg',
@@ -570,6 +587,7 @@ const locale = {
     'units': {
       'km/h': 'km/h',
       'm/s': 'm/s',
+      'mph': 'mph',
       'Bft': 'Bft',
       'hPa': 'hPa',
       'mmHg': 'mm Hg',
