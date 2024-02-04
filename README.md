@@ -145,5 +145,6 @@ units:
 | Polish           | pl      |
 | Portuguese       | pt      |
 | Russian          | ru      |
+| Slovak           | sk      |
 | Spanish          | es      |
 | Swedish          | sv      |
