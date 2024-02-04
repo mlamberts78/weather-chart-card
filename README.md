@@ -2,7 +2,7 @@
 
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mlamberts7I)
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlamberts78/weather-chart-card?style=flat-square)](https://github.com/mlamberts78/weather-chart-card/releases/latest)
 ![GitHub downloads](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/total?style=flat-square)
 ![GitHub release (latest by SemVer including pre-releases)](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/latest/total)
@@ -13,14 +13,10 @@
 
 ## Installation
 
-### HACS Custom
+### HACS
 
-1. Go to any of the sections (integrations, frontend).
-2. Click on the 3 dots in the top right corner.
-3. Select "Custom repositories"
-4. Add the URL to the repository: https://github.com/mlamberts78/weather-chart-card
-5. Select the category "Lovelace".
-6. Click the "ADD" button.
+This card is available in HACS (Home Assistant Community Store).
+HACS is a third party community store and is not included in Home Assistant out of the box.
 
 #### Configuration variables:
 
