@@ -53,7 +53,7 @@ const locale = {
       'J', 'J-JZ', 'JZ', 'Z-JZ', 'Z', 'Z-SZ', 'SZ', 'S-SZ', 'S'
     ],
     'clear-night': 'Jasná noc',
-    'cloudy': 'Zatažené',
+    'cloudy': 'Oblačno',
     'fog': 'Hmla',
     'hail': 'Krúpy',
     'lightning': 'Búrky',
