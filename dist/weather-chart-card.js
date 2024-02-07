@@ -35,6 +35,40 @@ const locale = {
     'windy': 'Větrno',
     'windy-variant': 'Větrno'
   },
+  sk: {
+    'tempHi': 'Teplota',
+    'tempLo': 'Teplota v noci',
+    'precip': 'Zrážky',
+    'feelsLike': 'Pocitová teplota',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'mph': 'mph',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-JV', 'JV', 'J-JV',
+      'J', 'J-JZ', 'JZ', 'Z-JZ', 'Z', 'Z-SZ', 'SZ', 'S-SZ', 'S'
+    ],
+    'clear-night': 'Jasná noc',
+    'cloudy': 'Oblačno',
+    'fog': 'Hmla',
+    'hail': 'Krúpy',
+    'lightning': 'Búrky',
+    'lightning-rainy': 'Búrky, dážď',
+    'partlycloudy': 'Polojasno',
+    'pouring': 'Silný dážď',
+    'rainy': 'Dážď',
+    'snowy': 'Sneh',
+    'snowy-rainy': 'Sneh s dažďom',
+    'sunny': 'Jasno',
+    'windy': 'Veterno',
+    'windy-variant': 'Veterno'
+  },  
   de: {
     'tempHi': 'Temperatur',
     'tempLo': 'Nachttemperatur',
@@ -1221,6 +1255,7 @@ class ContentCardEditor extends s {
            <ha-list-item .value=${'pl'}>Polish</ha-list-item>
            <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
            <ha-list-item .value=${'ru'}>Russian</ha-list-item>
+           <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
            <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
         </ha-select>
@@ -17571,7 +17606,7 @@ set hass(hass) {
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
     this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
-    this.feels_like = this.config.feels_like ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
+    this.feels_like = this.config.feels_like && hass.states[this.config.feels_like] ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
   }
 
   if (this.weather && !this.forecastSubscriber) {
@@ -18261,10 +18296,10 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
       <div>
         <div>
           ${temperature}<span>${this.getUnit('temperature')}</span>
-          ${showFeelsLike && (weather.attributes.apparent_temperature || feels_like) ? x`
+          ${showFeelsLike && feels_like ? x`
             <div class="feels-like">
               ${this.ll('feelsLike')}
-              ${weather.attributes.apparent_temperature || feels_like}${this.getUnit('temperature')}
+              ${feels_like}${this.getUnit('temperature')}
             </div>
           ` : ''}
         </div>

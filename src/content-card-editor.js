@@ -526,6 +526,7 @@ class ContentCardEditor extends LitElement {
            <ha-list-item .value=${'pl'}>Polish</ha-list-item>
            <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
            <ha-list-item .value=${'ru'}>Russian</ha-list-item>
+           <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
            <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
         </ha-select>
