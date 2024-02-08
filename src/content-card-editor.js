@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "feels_like", title: "Alternative feels like temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "description", title: "Alternative weather description sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
@@ -41,6 +42,12 @@ class ContentCardEditor extends LitElement {
       this.hass.states[config.entity].attributes &&
       this.hass.states[config.entity].attributes.apparent_temperature !== undefined
     ) || config.feels_like !== undefined;
+    this.hasDescription = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.description !== undefined
+    ) || config.description !== undefined;
     this.requestUpdate();
   }
 
@@ -354,6 +361,17 @@ class ContentCardEditor extends LitElement {
           ></ha-switch>
           <label class="switch-label">
             Show Feels Like Temperature
+          </label>
+        ` : ''}
+      </div>
+      <div class="switch-container">
+        ${this.hasDescription ? html`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_description')}"
+            .checked="${this._config.show_description !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Weather Description
           </label>
         ` : ''}
       </div>

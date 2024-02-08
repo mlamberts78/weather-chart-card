@@ -732,6 +732,7 @@ const t=globalThis,i=t.trustedTypes,s$1=i?i.createPolicy("lit-html",{createHTML:
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "feels_like", title: "Alternative feels like temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "description", title: "Alternative weather description sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
@@ -770,6 +771,12 @@ class ContentCardEditor extends s {
       this.hass.states[config.entity].attributes &&
       this.hass.states[config.entity].attributes.apparent_temperature !== undefined
     ) || config.feels_like !== undefined;
+    this.hasDescription = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.description !== undefined
+    ) || config.description !== undefined;
     this.requestUpdate();
   }
 
@@ -1083,6 +1090,17 @@ class ContentCardEditor extends s {
           ></ha-switch>
           <label class="switch-label">
             Show Feels Like Temperature
+          </label>
+        ` : ''}
+      </div>
+      <div class="switch-container">
+        ${this.hasDescription ? x`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_description')}"
+            .checked="${this._config.show_description !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Weather Description
           </label>
         ` : ''}
       </div>
@@ -17573,6 +17591,7 @@ setConfig(config) {
     icon_style: 'style1',
     current_temp_size: 28,
     show_feels_like: false,
+    show_description: false,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
@@ -17632,6 +17651,7 @@ set hass(hass) {
     }
 
     this.feels_like = this.config.feels_like && hass.states[this.config.feels_like] ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
+    this.description = this.config.description && hass.states[this.config.description] ? hass.states[this.config.description].state : this.weather.attributes.description;
   }
 
   if (this.weather && !this.forecastSubscriber) {
@@ -18281,6 +18301,13 @@ updateChart({ config, language, weather, forecastItems } = this) {
           margin-top: 5px;
           font-weight: 400;
         }
+        .main .description {
+	  font-style: italic;
+          font-size: 13px;
+          margin-top: 5px;
+          font-weight: 400;
+	  color: black;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -18297,7 +18324,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
     `;
   }
 
-renderMain({ config, sun, weather, temperature, feels_like } = this) {
+renderMain({ config, sun, weather, temperature, feels_like, description } = this) {
   if (config.show_main === false)
     return x``;
 
@@ -18309,6 +18336,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
   const showDay = config.show_day;
   const showDate = config.show_date;
   const showFeelsLike = config.show_feels_like;
+  const showDescription = config.show_description;
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
@@ -18328,8 +18356,17 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
               ${feels_like}${this.getUnit('temperature')}
             </div>
           ` : ''}
+          ${showCurrentCondition ? x`
+            <div class="current-condition">
+              <span>${this.ll(weather.state)}</span>
+            </div>
+          ` : ''}
+          ${showDescription ? x`
+            <div class="description">
+              ${description}
+            </div>
+          ` : ''}
         </div>
-        ${showCurrentCondition ? x`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? x`
           <div class="current-time">
             ${showDay ? x`${currentDayOfWeek}` : ''}

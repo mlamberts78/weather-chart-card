@@ -81,6 +81,7 @@ setConfig(config) {
     icon_style: 'style1',
     current_temp_size: 28,
     show_feels_like: false,
+    show_description: false,
     ...config,
     forecast: {
       precipitation_type: 'rainfall',
@@ -140,6 +141,7 @@ set hass(hass) {
     }
 
     this.feels_like = this.config.feels_like && hass.states[this.config.feels_like] ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
+    this.description = this.config.description && hass.states[this.config.description] ? hass.states[this.config.description].state : this.weather.attributes.description;
   }
 
   if (this.weather && !this.forecastSubscriber) {
@@ -789,6 +791,13 @@ updateChart({ config, language, weather, forecastItems } = this) {
           margin-top: 5px;
           font-weight: 400;
         }
+        .main .description {
+	  font-style: italic;
+          font-size: 13px;
+          margin-top: 5px;
+          font-weight: 400;
+	  color: black;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -805,7 +814,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
     `;
   }
 
-renderMain({ config, sun, weather, temperature, feels_like } = this) {
+renderMain({ config, sun, weather, temperature, feels_like, description } = this) {
   if (config.show_main === false)
     return html``;
 
@@ -817,6 +826,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
   const showDay = config.show_day;
   const showDate = config.show_date;
   const showFeelsLike = config.show_feels_like;
+  const showDescription = config.show_description;
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
@@ -836,8 +846,17 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
               ${feels_like}${this.getUnit('temperature')}
             </div>
           ` : ''}
+          ${showCurrentCondition ? html`
+            <div class="current-condition">
+              <span>${this.ll(weather.state)}</span>
+            </div>
+          ` : ''}
+          ${showDescription ? html`
+            <div class="description">
+              ${description}
+            </div>
+          ` : ''}
         </div>
-        ${showCurrentCondition ? html`<span>${this.ll(weather.state)}</span>` : ''}
         ${showTime ? html`
           <div class="current-time">
             ${showDay ? html`${currentDayOfWeek}` : ''}
