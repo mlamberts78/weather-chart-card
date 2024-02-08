@@ -27,6 +27,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
   return {
     entity,
     show_main: true,
+    show_temperature: true,
     show_current_condition: true,
     show_attributes: true,
     show_time: false,
@@ -817,6 +818,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
   const showDate = config.show_date;
   const showFeelsLike = config.show_feels_like;
   const showCurrentCondition = config.show_current_condition !== false;
+  const showTemperature = config.show_temperature !== false;
 
   const iconHtml = config.animated_icons || config.icons
     ? html`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
@@ -827,7 +829,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
       ${iconHtml}
       <div>
         <div>
-          ${temperature}<span>${this.getUnit('temperature')}</span>
+          ${showTemperature ? html`${temperature}<span>${this.getUnit('temperature')}</span>` : ''}
           ${showFeelsLike && feels_like ? html`
             <div class="feels-like">
               ${this.ll('feelsLike')}

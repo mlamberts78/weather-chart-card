@@ -35,6 +35,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
 | title                 | string  | none                     | Card title.                                                                                        |
 | show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
+| show_temperature      | boolean | true                     | Show or hide the current temperature.                                                              |
 | show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
 | show_attributes       | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
 | show_time             | boolean | false                    | Show or hide the current time on the card.                                                         |

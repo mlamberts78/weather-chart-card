@@ -359,6 +359,15 @@ class ContentCardEditor extends LitElement {
       </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_temperature')}"
+              .checked="${this._config.show_temperature !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Temperature
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_current_condition')}"
               .checked="${this._config.show_current_condition !== false}"
             ></ha-switch>

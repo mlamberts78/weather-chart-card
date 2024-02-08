@@ -1088,6 +1088,15 @@ class ContentCardEditor extends s {
       </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_temperature')}"
+              .checked="${this._config.show_temperature !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Current Temperature
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_current_condition')}"
               .checked="${this._config.show_current_condition !== false}"
             ></ha-switch>
@@ -17510,6 +17519,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
   return {
     entity,
     show_main: true,
+    show_temperature: true,
     show_current_condition: true,
     show_attributes: true,
     show_time: false,
@@ -17615,7 +17625,6 @@ set hass(hass) {
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
 
-    // Check if config.winddir exists and has a valid value
     if (this.config.winddir && hass.states[this.config.winddir] && hass.states[this.config.winddir].state !== undefined) {
       this.windDirection = parseFloat(hass.states[this.config.winddir].state);
     } else {
@@ -18301,6 +18310,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
   const showDate = config.show_date;
   const showFeelsLike = config.show_feels_like;
   const showCurrentCondition = config.show_current_condition !== false;
+  const showTemperature = config.show_temperature !== false;
 
   const iconHtml = config.animated_icons || config.icons
     ? x`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
@@ -18311,7 +18321,7 @@ renderMain({ config, sun, weather, temperature, feels_like } = this) {
       ${iconHtml}
       <div>
         <div>
-          ${temperature}<span>${this.getUnit('temperature')}</span>
+          ${showTemperature ? x`${temperature}<span>${this.getUnit('temperature')}</span>` : ''}
           ${showFeelsLike && feels_like ? x`
             <div class="feels-like">
               ${this.ll('feelsLike')}
