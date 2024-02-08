@@ -30,7 +30,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | press                 | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
 | humid                 | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
 | uv                    | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
-| winddir               | string  | none                     | An entity_id for a custom wind bearing sensor.                                                     |
+| winddir               | string  | none                     | An entity_id for a custom wind bearing sensor. Sensor should have value in degrees                 |
 | windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
 | feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
 | title                 | string  | none                     | Card title.                                                                                        |
