@@ -66,7 +66,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       humidity: {type: Object},
       pressure: {type: Object},
       windSpeed: {type: Object},
-      windDirection: {type: Object},
+      windDirection: {type: Number},
       forecastChart: {type: Object},
       forecastItems: {type: Number},
       forecasts: { type: Array }
@@ -131,7 +131,13 @@ set hass(hass) {
     this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
-    this.windDirection = this.config.winddir ? hass.states[this.config.winddir].state : this.weather.attributes.wind_bearing;
+
+    if (this.config.winddir && hass.states[this.config.winddir] && hass.states[this.config.winddir].state !== undefined) {
+      this.windDirection = parseFloat(hass.states[this.config.winddir].state);
+    } else {
+      this.windDirection = this.weather.attributes.wind_bearing;
+    }
+
     this.feels_like = this.config.feels_like && hass.states[this.config.feels_like] ? hass.states[this.config.feels_like].state : this.weather.attributes.apparent_temperature;
   }
 
@@ -208,7 +214,7 @@ ll(str) {
   }
 
 getWindDirIcon(deg) {
-  if ( typeof deg == 'number' ) {
+  if (typeof deg === 'number') {
     return cardinalDirectionsIcon[parseInt((deg + 22.5) / 45.0)];
   } else {
     var i = 9;
@@ -256,7 +262,7 @@ getWindDirIcon(deg) {
 }
 
 getWindDir(deg) {
-  if ( typeof deg == 'number' ) {
+  if (typeof deg === 'number') {
     return this.ll('cardinalDirections')[parseInt((deg + 11.25) / 22.5)];
   } else {
     return deg;
