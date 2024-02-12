@@ -18312,7 +18312,6 @@ updateChart({ config, language, weather, forecastItems } = this) {
           font-size: 13px;
           margin-top: 5px;
           font-weight: 400;
-	  color: black;
         }
       </style>
 
