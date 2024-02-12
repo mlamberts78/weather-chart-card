@@ -13,6 +13,14 @@ import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
 
+const CARD_VERSION = "v2.2.9";
+
+console.info(
+  `%c  WEATHER-CHART-CARD  \n%c Version ${CARD_VERSION}  `,
+  "color: yellow; font-weight: bold; background: black",
+  "color: white; font-weight: bold; background: dimgray"
+);
+
 class WeatherChartCard extends LitElement {
 
 static getConfigElement() {
