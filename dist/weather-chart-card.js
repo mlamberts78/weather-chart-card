@@ -740,7 +740,7 @@ const ALT_SCHEMA = [
   { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
 ];
 
-class ContentCardEditor extends s {
+class WeatherCardEditor extends s {
   static get properties() {
     return {
       _config: { type: Object },
@@ -1407,7 +1407,7 @@ class ContentCardEditor extends s {
     `;
   }
 }
-customElements.define("content-card-editor", ContentCardEditor);
+customElements.define("weather-card-editor", WeatherCardEditor);
 
 /**
  * @license
@@ -17532,7 +17532,7 @@ Chart.register(...registerables, plugin);
 class WeatherChartCard extends s {
 
 static getConfigElement() {
-  return document.createElement("content-card-editor");
+  return document.createElement("weather-card-editor");
 }
 
 static getStubConfig(hass, unusedEntities, allEntities) {

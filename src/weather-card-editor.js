@@ -11,7 +11,7 @@ const ALT_SCHEMA = [
   { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
 ];
 
-class ContentCardEditor extends LitElement {
+class WeatherCardEditor extends LitElement {
   static get properties() {
     return {
       _config: { type: Object },
@@ -678,4 +678,4 @@ class ContentCardEditor extends LitElement {
     `;
   }
 }
-customElements.define("content-card-editor", ContentCardEditor);
+customElements.define("weather-card-editor", WeatherCardEditor);
