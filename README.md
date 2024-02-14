@@ -151,3 +151,4 @@ units:
 | Slovak           | sk      |
 | Spanish          | es      |
 | Swedish          | sv      |
+| Catalan          | ca      |
