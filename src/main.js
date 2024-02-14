@@ -249,11 +249,11 @@ getWindDirIcon(deg) {
       case "W":
         i = 6;
         break;
-      case "WNW":
       case "NW":
+      case "NNW":
         i = 7;
         break;
-      case "NNW":
+      case "WNW":
         i = 8;
         break;
       default:
@@ -373,7 +373,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (new Date(forecast[1].datetime) - new Date(forecast[0].datetime) < 864e5) {
+  if (new Date(forecast[3].datetime) - new Date(forecast[2].datetime) < 864e5) {
     var mode = 'hourly';
   } else {
     var mode = 'daily';

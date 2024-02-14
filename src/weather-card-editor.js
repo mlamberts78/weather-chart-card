@@ -538,6 +538,7 @@ class WeatherCardEditor extends LitElement {
          >
            <ha-list-item .value=${''}>HA Default</ha-list-item>
            <ha-list-item .value=${'bg'}>Bulgarian</ha-list-item>
+           <ha-list-item .value=${'ca'}>Catalan</ha-list-item>
            <ha-list-item .value=${'cs'}>Czech</ha-list-item>
            <ha-list-item .value=${'da'}>Danish</ha-list-item>
            <ha-list-item .value=${'nl'}>Dutch</ha-list-item>
@@ -556,7 +557,6 @@ class WeatherCardEditor extends LitElement {
            <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
            <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
-           <ha-list-item .value=${'ca'}>Catalan</ha-list-item>
         </ha-select>
         </div>
       </div>
