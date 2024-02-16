@@ -447,6 +447,15 @@ class WeatherCardEditor extends LitElement {
               Show Wind Speed
             </label>
 	  </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'use_12hour_format')}"
+              .checked="${this._config.use_12hour_format !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Use 12-Hour Format
+            </label>
+          </div>
           <div class="time-container">
             <div class="switch-right">
               <ha-switch
@@ -588,15 +597,6 @@ class WeatherCardEditor extends LitElement {
             ></ha-switch>
             <label class="switch-label">
               Rounding Temperatures
-            </label>
-          </div>
-          <div class="switch-container">
-            <ha-switch
-              @change="${(e) => this._valueChanged(e, 'forecast.use_12hour_format')}"
-              .checked="${forecastConfig.use_12hour_format !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Use 12-Hour Format
             </label>
           </div>
 	  <div class="textfield-container">

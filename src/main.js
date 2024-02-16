@@ -39,6 +39,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_speed: true,
     show_sun: true,
     show_feels_like: false,
+    use_12hour_format: false,
     icons_size: 25,
     animated_icons: false,
     icon_style: 'style1',
@@ -51,7 +52,6 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
-      use_12hour_format: false,
     },
   };
 }
@@ -115,7 +115,6 @@ setConfig(config) {
     throw new Error('Please, define entity in the card config');
   }
 }
-
 
 set hass(hass) {
   this._hass = hass;
@@ -537,9 +536,9 @@ drawChart({ config, language, weather, forecastItems } = this) {
               var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
 
               var timeFormatOptions = {
-                hour12: config.forecast.use_12hour_format,
+                hour12: config.use_12hour_format,
                 hour: 'numeric',
-                ...(config.forecast.use_12hour_format ? {} : { minute: 'numeric' }),
+                ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
               };
 
               var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
@@ -608,7 +607,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 weekday: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
-		hour12: config.forecast.use_12hour_format,
+		hour12: config.use_12hour_format,
               });
             },
             label: function (context) {
@@ -817,8 +816,15 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   if (config.show_main === false)
     return html``;
 
+const use12HourFormat = config.use_12hour_format;
+const timeOptions = {
+    hour12: use12HourFormat,
+    hour: 'numeric',
+    minute: 'numeric'
+};
+
   const currentDate = new Date();
-  const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
+  const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
   const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
   const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
   const showTime = config.show_time;
@@ -976,15 +982,23 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   `;
 }
 
-renderSun({ sun, language } = this) {
+renderSun({ sun, language, config } = this) {
   if (sun == undefined) {
     return html``;
   }
+
+const use12HourFormat = this.config.use_12hour_format;
+const timeOptions = {
+    hour12: use12HourFormat,
+    hour: 'numeric',
+    minute: 'numeric'
+};
+
   return html`
     <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}<br>
+      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, timeOptions)}<br>
     <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}
+      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, timeOptions)}
   `;
 }
 
