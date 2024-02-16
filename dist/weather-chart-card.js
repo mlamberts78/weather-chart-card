@@ -328,7 +328,7 @@ const locale = {
     ],
     'clear-night': 'Cer senin, noapte',
     'cloudy': 'Noros',
-    'fog': 'Ceata',
+    'fog': 'Ceață',
     'hail': 'Grindină',
     'lightning': 'Fulger',
     'lightning-rainy': 'Fulger, ploios',
