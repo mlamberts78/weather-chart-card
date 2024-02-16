@@ -17670,7 +17670,7 @@ setConfig(config) {
 
 set hass(hass) {
   this._hass = hass;
-  this.language = hass.selectedLanguage || hass.language;
+  this.language = this.config.locale || hass.selectedLanguage || hass.language;
   this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
   this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
   this.unitPressure = this.config.units.pressure ? this.config.units.pressure : this.weather && this.weather.attributes.pressure_unit;
