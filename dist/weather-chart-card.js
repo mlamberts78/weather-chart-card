@@ -17735,6 +17735,9 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
+    window.addEventListener('orientationchange', () => {
+      this.measureCard();
+    });
   }
 
 ll(str) {
