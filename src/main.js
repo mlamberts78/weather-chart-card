@@ -817,12 +817,12 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   if (config.show_main === false)
     return html``;
 
-const use12HourFormat = config.use_12hour_format;
-const timeOptions = {
+  const use12HourFormat = config.use_12hour_format;
+  const timeOptions = {
     hour12: use12HourFormat,
     hour: 'numeric',
     minute: 'numeric'
-};
+  };
 
   const currentDate = new Date();
   const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
@@ -836,6 +836,16 @@ const timeOptions = {
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
+  let roundedTemperature = temperature;
+  if (Number.isFinite(temperature) && temperature % 1 !== 0) {
+    roundedTemperature = Math.round(temperature * 10) / 10;
+  }
+
+  let roundedFeelsLike = feels_like;
+  if (Number.isFinite(feels_like) && feels_like % 1 !== 0) {
+    roundedFeelsLike = Math.round(feels_like * 10) / 10;
+  }
+
   const iconHtml = config.animated_icons || config.icons
     ? html`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
     : html`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}"></ha-icon>`;
@@ -845,11 +855,11 @@ const timeOptions = {
       ${iconHtml}
       <div>
         <div>
-          ${showTemperature ? html`${temperature}<span>${this.getUnit('temperature')}</span>` : ''}
-          ${showFeelsLike && feels_like ? html`
+          ${showTemperature ? html`${roundedTemperature}<span>${this.getUnit('temperature')}</span>` : ''}
+          ${showFeelsLike && roundedFeelsLike ? html`
             <div class="feels-like">
               ${this.ll('feelsLike')}
-              ${feels_like}${this.getUnit('temperature')}
+              ${roundedFeelsLike}${this.getUnit('temperature')}
             </div>
           ` : ''}
           ${showCurrentCondition ? html`
