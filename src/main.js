@@ -416,7 +416,14 @@ drawChart({ config, language, weather, forecastItems } = this) {
   }
 
   const ctx = canvas.getContext('2d');
-  const precipMax = mode === 'hourly' ? 5 : 20;
+
+let precipMax;
+
+if (mode === 'hourly') {
+    precipMax = lengthUnit === 'km' ? 4 : 1;
+} else {
+    precipMax = lengthUnit === 'km' ? 20 : 1;
+}
 
   Chart.defaults.color = textColor;
   Chart.defaults.scale.grid.color = dividerColor;
