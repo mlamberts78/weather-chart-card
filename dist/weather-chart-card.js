@@ -681,6 +681,40 @@ const locale = {
     'windy': 'Ventós',
     'windy-variant': 'Ràfegues de vent'
   },
+  ro: {
+    'tempHi': 'Temperatură',
+    'tempLo': 'Temperatură noaptea',
+    'precip': 'Precipitații',
+    'feelsLike': 'Se simte ca',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'mph': 'mph',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-NV', 'NV', 'N-NV', 'N'
+    ],
+    'clear-night': 'Cer senin, noapte',
+    'cloudy': 'Noros',
+    'fog': 'Ceață',
+    'hail': 'Grindină',
+    'lightning': 'Fulger',
+    'lightning-rainy': 'Fulger, ploios',
+    'partlycloudy': 'Parțial noros',
+    'pouring': 'Plouă torențial',
+    'rainy': 'Ploios',
+    'snowy': 'Ninge',
+    'snowy-rainy': 'Ninge, ploios',
+    'sunny': 'Însorit',
+    'windy': 'Vânt',
+    'windy-variant': 'Vânt'
+  },
 };
 
 const cardinalDirectionsIcon = [
@@ -1210,6 +1244,15 @@ class WeatherCardEditor extends s {
               Show Wind Speed
             </label>
 	  </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'use_12hour_format')}"
+              .checked="${this._config.use_12hour_format !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Use 12-Hour Format
+            </label>
+          </div>
           <div class="time-container">
             <div class="switch-right">
               <ha-switch
@@ -1316,6 +1359,7 @@ class WeatherCardEditor extends s {
            <ha-list-item .value=${'no'}>Norwegian</ha-list-item>
            <ha-list-item .value=${'pl'}>Polish</ha-list-item>
            <ha-list-item .value=${'pt'}>Portuguese</ha-list-item>
+           <ha-list-item .value=${'ro'}>Romanian</ha-list-item>
            <ha-list-item .value=${'ru'}>Russian</ha-list-item>
            <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
@@ -1351,15 +1395,6 @@ class WeatherCardEditor extends s {
             ></ha-switch>
             <label class="switch-label">
               Rounding Temperatures
-            </label>
-          </div>
-          <div class="switch-container">
-            <ha-switch
-              @change="${(e) => this._valueChanged(e, 'forecast.use_12hour_format')}"
-              .checked="${forecastConfig.use_12hour_format !== false}"
-            ></ha-switch>
-            <label class="switch-label">
-              Use 12-Hour Format
             </label>
           </div>
 	  <div class="textfield-container">
@@ -17590,6 +17625,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_speed: true,
     show_sun: true,
     show_feels_like: false,
+    use_12hour_format: false,
     icons_size: 25,
     animated_icons: false,
     icon_style: 'style1',
@@ -17602,7 +17638,6 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
-      use_12hour_format: false,
     },
   };
 }
@@ -17667,10 +17702,9 @@ setConfig(config) {
   }
 }
 
-
 set hass(hass) {
   this._hass = hass;
-  this.language = hass.selectedLanguage || hass.language;
+  this.language = this.config.locale || hass.selectedLanguage || hass.language;
   this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
   this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
   this.unitPressure = this.config.units.pressure ? this.config.units.pressure : this.weather && this.weather.attributes.pressure_unit;
@@ -17736,6 +17770,9 @@ subscribeForecastEvents() {
 
   constructor() {
     super();
+    window.addEventListener('orientationchange', () => {
+      this.measureCard();
+    });
   }
 
 ll(str) {
@@ -17965,6 +18002,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   }
 
   const ctx = canvas.getContext('2d');
+  const precipMax = mode === 'hourly' ? 5 : 20;
 
   Chart.defaults.color = textColor;
   Chart.defaults.scale.grid.color = dividerColor;
@@ -18088,9 +18126,9 @@ drawChart({ config, language, weather, forecastItems } = this) {
               var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
 
               var timeFormatOptions = {
-                hour12: config.forecast.use_12hour_format,
+                hour12: config.use_12hour_format,
                 hour: 'numeric',
-                ...(config.forecast.use_12hour_format ? {} : { minute: 'numeric' }),
+                ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
               };
 
               var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
@@ -18118,7 +18156,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
         },
         PrecipAxis: {
           position: 'right',
-          suggestedMax: lengthUnit === 'km' ? 20 : 1,
+          suggestedMax: precipMax,
           grid: {
             display: false,
             drawTicks: false,
@@ -18159,7 +18197,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 weekday: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
-		hour12: config.forecast.use_12hour_format,
+		hour12: config.use_12hour_format,
               });
             },
             label: function (context) {
@@ -18368,8 +18406,15 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   if (config.show_main === false)
     return x``;
 
+  const use12HourFormat = config.use_12hour_format;
+  const timeOptions = {
+    hour12: use12HourFormat,
+    hour: 'numeric',
+    minute: 'numeric'
+  };
+
   const currentDate = new Date();
-  const currentTime = currentDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: 'numeric' });
+  const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
   const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
   const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
   const showTime = config.show_time;
@@ -18380,6 +18425,16 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
+  let roundedTemperature = temperature;
+  if (Number.isFinite(temperature) && temperature % 1 !== 0) {
+    roundedTemperature = Math.round(temperature * 10) / 10;
+  }
+
+  let roundedFeelsLike = feels_like;
+  if (Number.isFinite(feels_like) && feels_like % 1 !== 0) {
+    roundedFeelsLike = Math.round(feels_like * 10) / 10;
+  }
+
   const iconHtml = config.animated_icons || config.icons
     ? x`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
     : x`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}"></ha-icon>`;
@@ -18389,11 +18444,11 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
       ${iconHtml}
       <div>
         <div>
-          ${showTemperature ? x`${temperature}<span>${this.getUnit('temperature')}</span>` : ''}
-          ${showFeelsLike && feels_like ? x`
+          ${showTemperature ? x`${roundedTemperature}<span>${this.getUnit('temperature')}</span>` : ''}
+          ${showFeelsLike && roundedFeelsLike ? x`
             <div class="feels-like">
               ${this.ll('feelsLike')}
-              ${feels_like}${this.getUnit('temperature')}
+              ${roundedFeelsLike}${this.getUnit('temperature')}
             </div>
           ` : ''}
           ${showCurrentCondition ? x`
@@ -18527,15 +18582,23 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   `;
 }
 
-renderSun({ sun, language } = this) {
+renderSun({ sun, language, config } = this) {
   if (sun == undefined) {
     return x``;
   }
+
+const use12HourFormat = this.config.use_12hour_format;
+const timeOptions = {
+    hour12: use12HourFormat,
+    hour: 'numeric',
+    minute: 'numeric'
+};
+
   return x`
     <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}<br>
+      ${new Date(sun.attributes.next_rising).toLocaleTimeString(language, timeOptions)}<br>
     <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}
+      ${new Date(sun.attributes.next_setting).toLocaleTimeString(language, timeOptions)}
   `;
 }
 

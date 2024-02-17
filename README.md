@@ -48,6 +48,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | show_feels_like       | boolean | false                    | Show or hide feels like temperature on the card.                                                   |
 | show_description      | boolean | false                    | Show or hide the weather description on the card.                                                  |
+| use_12hour_format     | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
 | icon_style            | string  | 'style1'                 | Options are 'style1' and'style2' for different set of animated icons.                              |
@@ -74,7 +75,6 @@ HACS is a third party community store and is not included in Home Assistant out 
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
-| use_12hour_format    | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 
 ##### Units of measurement
 
@@ -148,6 +148,7 @@ units:
 | Norwegian        | no      |
 | Polish           | pl      |
 | Portuguese       | pt      |
+| Romanian         | ro      |
 | Russian          | ru      |
 | Slovak           | sk      |
 | Spanish          | es      |
