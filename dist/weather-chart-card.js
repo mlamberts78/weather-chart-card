@@ -17961,7 +17961,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (new Date(forecast[3].datetime) - new Date(forecast[2].datetime) < 864e5) {
+  if (new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
     var mode = 'hourly';
   } else {
     var mode = 'daily';
