@@ -846,14 +846,14 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
-  let roundedTemperature = temperature;
-  if (Number.isFinite(temperature) && temperature % 1 !== 0) {
-    roundedTemperature = Math.round(temperature * 10) / 10;
+  let roundedTemperature = parseFloat(temperature);
+  if (!isNaN(roundedTemperature) && roundedTemperature % 1 !== 0) {
+    roundedTemperature = Math.round(roundedTemperature * 10) / 10;
   }
 
-  let roundedFeelsLike = feels_like;
-  if (Number.isFinite(feels_like) && feels_like % 1 !== 0) {
-    roundedFeelsLike = Math.round(feels_like * 10) / 10;
+  let roundedFeelsLike = parseFloat(feels_like);
+  if (!isNaN(roundedFeelsLike) && roundedFeelsLike % 1 !== 0) {
+    roundedFeelsLike = Math.round(roundedFeelsLike * 10) / 10;
   }
 
   const iconHtml = config.animated_icons || config.icons
