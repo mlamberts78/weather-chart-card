@@ -96,7 +96,6 @@ type: custom:weather-chart-card
 entity: weather.my_home
 show_time: true
 show_date: true
-show_date: true
 units:
   speed: Bft
 ```
