@@ -86,6 +86,7 @@ setConfig(config) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: 11,
+      chart_height: 180,
       precip_bar_size: 100,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
@@ -175,18 +176,59 @@ subscribeForecastEvents() {
     return (this.weather.attributes.supported_features & feature) !== 0;
   }
 
+  constructor() {
+    super();
+    this.resizeObserver = null;
+    this.resizeInitialized = false;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.resizeInitialized) {
+      this.delayedAttachResizeObserver();
+    }
+  }
+
+  delayedAttachResizeObserver() {
+    setTimeout(() => {
+      this.attachResizeObserver();
+      this.resizeInitialized = true;
+    }, 0);
+  }
+
   disconnectedCallback() {
+    super.disconnectedCallback();
+    this.detachResizeObserver();
     if (this.forecastSubscriber) {
       this.forecastSubscriber.then((unsub) => unsub());
     }
-    super.disconnectedCallback();
   }
 
-  constructor() {
-    super();
-    window.addEventListener('orientationchange', () => {
+  attachResizeObserver() {
+    this.resizeObserver = new ResizeObserver(() => {
       this.measureCard();
     });
+    const card = this.shadowRoot.querySelector('ha-card');
+    if (card) {
+      this.resizeObserver.observe(card);
+    }
+  }
+
+  detachResizeObserver() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+  }
+
+  measureCard() {
+    const card = this.shadowRoot.querySelector('ha-card');
+    let fontSize = this.config.forecast.labels_font_size;
+    if (!card) {
+      return;
+    }
+    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
+    this.drawChart();
   }
 
 ll(str) {
@@ -344,15 +386,6 @@ async updated(changedProperties) {
   }
 }
 
-  measureCard() {
-    const card = this.shadowRoot.querySelector('ha-card');
-    let fontSize = this.config.forecast.labels_font_size;
-    if (!card) {
-      return;
-    }
-    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
-  }
-
 drawChart({ config, language, weather, forecastItems } = this) {
   if (!this.forecasts || !this.forecasts.length) {
     return [];
@@ -375,7 +408,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (new Date(forecast[3].datetime) - new Date(forecast[2].datetime) < 864e5) {
+  if (new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
     var mode = 'hourly';
   } else {
     var mode = 'daily';
@@ -745,7 +778,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         }
         .chart-container {
           position: relative;
-          height: 180px;
+          height: ${config.forecast.chart_height}px;
           width: 100%;
         }
         .conditions {
@@ -846,14 +879,14 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
 
-  let roundedTemperature = temperature;
-  if (Number.isFinite(temperature) && temperature % 1 !== 0) {
-    roundedTemperature = Math.round(temperature * 10) / 10;
+  let roundedTemperature = parseFloat(temperature);
+  if (!isNaN(roundedTemperature) && roundedTemperature % 1 !== 0) {
+    roundedTemperature = Math.round(roundedTemperature * 10) / 10;
   }
 
-  let roundedFeelsLike = feels_like;
-  if (Number.isFinite(feels_like) && feels_like % 1 !== 0) {
-    roundedFeelsLike = Math.round(feels_like * 10) / 10;
+  let roundedFeelsLike = parseFloat(feels_like);
+  if (!isNaN(roundedFeelsLike) && roundedFeelsLike % 1 !== 0) {
+    roundedFeelsLike = Math.round(roundedFeelsLike * 10) / 10;
   }
 
   const iconHtml = config.animated_icons || config.icons
@@ -1023,7 +1056,7 @@ const timeOptions = {
   `;
 }
 
-renderForecastConditionIcons({ config, forecastItems } = this) {
+renderForecastConditionIcons({ config, forecastItems, sun } = this) {
   const forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
 
   if (config.forecast.condition_icons === false) {
@@ -1033,9 +1066,44 @@ renderForecastConditionIcons({ config, forecastItems } = this) {
   return html`
     <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
       ${forecast.map((item) => {
-        const iconHtml = config.animated_icons || config.icons
-          ? html`<img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">`
-          : html`<ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>`;
+        const forecastTime = new Date(item.datetime);
+        const sunriseTime = new Date(sun.attributes.next_rising);
+        const sunsetTime = new Date(sun.attributes.next_setting);
+
+        // Adjust sunrise and sunset times to match the date of forecastTime
+        const adjustedSunriseTime = new Date(forecastTime);
+        adjustedSunriseTime.setHours(sunriseTime.getHours());
+        adjustedSunriseTime.setMinutes(sunriseTime.getMinutes());
+        adjustedSunriseTime.setSeconds(sunriseTime.getSeconds());
+
+        const adjustedSunsetTime = new Date(forecastTime);
+        adjustedSunsetTime.setHours(sunsetTime.getHours());
+        adjustedSunsetTime.setMinutes(sunsetTime.getMinutes());
+        adjustedSunsetTime.setSeconds(sunsetTime.getSeconds());
+
+        let isDayTime;
+
+        if (config.forecast.type === 'daily') {
+          // For daily forecast, assume it's day time
+          isDayTime = true;
+        } else {
+          // For other forecast types, determine based on sunrise and sunset times
+          isDayTime = forecastTime >= adjustedSunriseTime && forecastTime <= adjustedSunsetTime;
+        }
+
+        const weatherIcons = isDayTime ? weatherIconsDay : weatherIconsNight;
+        const condition = item.condition;
+
+        let iconHtml;
+
+        if (config.animated_icons || config.icons) {
+          const iconSrc = config.animated_icons ?
+            `${this.baseIconPath}${weatherIcons[condition]}.svg` :
+            `${this.config.icons}${weatherIcons[condition]}.svg`;
+          iconHtml = html`<img class="icon" src="${iconSrc}" alt="">`;
+        } else {
+          iconHtml = html`<ha-icon icon="${this.getWeatherIcon(condition, sun.state)}"></ha-icon>`;
+        }
 
         return html`
           <div class="forecast-item">
