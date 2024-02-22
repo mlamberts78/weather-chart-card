@@ -17771,11 +17771,21 @@ subscribeForecastEvents() {
   constructor() {
     super();
     this.resizeObserver = null;
+    this.resizeInitialized = false;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.attachResizeObserver();
+    if (!this.resizeInitialized) {
+      this.delayedAttachResizeObserver();
+    }
+  }
+
+  delayedAttachResizeObserver() {
+    setTimeout(() => {
+      this.attachResizeObserver();
+      this.resizeInitialized = true;
+    }, 0);
   }
 
   disconnectedCallback() {
