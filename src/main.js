@@ -1020,7 +1020,7 @@ const timeOptions = {
   `;
 }
 
-renderForecastConditionIcons({ config, forecastItems } = this) {
+renderForecastConditionIcons({ config, forecastItems, sun } = this) {
   const forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
 
   if (config.forecast.condition_icons === false) {
@@ -1030,9 +1030,44 @@ renderForecastConditionIcons({ config, forecastItems } = this) {
   return html`
     <div class="conditions" @click="${(e) => this.showMoreInfo(config.entity)}">
       ${forecast.map((item) => {
-        const iconHtml = config.animated_icons || config.icons
-          ? html`<img class="icon" src="${this.getWeatherIcon(item.condition, item.sun)}" alt="">`
-          : html`<ha-icon icon="${this.getWeatherIcon(item.condition, item.sun)}"></ha-icon>`;
+        const forecastTime = new Date(item.datetime);
+        const sunriseTime = new Date(sun.attributes.next_rising);
+        const sunsetTime = new Date(sun.attributes.next_setting);
+
+        // Adjust sunrise and sunset times to match the date of forecastTime
+        const adjustedSunriseTime = new Date(forecastTime);
+        adjustedSunriseTime.setHours(sunriseTime.getHours());
+        adjustedSunriseTime.setMinutes(sunriseTime.getMinutes());
+        adjustedSunriseTime.setSeconds(sunriseTime.getSeconds());
+
+        const adjustedSunsetTime = new Date(forecastTime);
+        adjustedSunsetTime.setHours(sunsetTime.getHours());
+        adjustedSunsetTime.setMinutes(sunsetTime.getMinutes());
+        adjustedSunsetTime.setSeconds(sunsetTime.getSeconds());
+
+        let isDayTime;
+
+        if (config.forecast.type === 'daily') {
+          // For daily forecast, assume it's day time
+          isDayTime = true;
+        } else {
+          // For other forecast types, determine based on sunrise and sunset times
+          isDayTime = forecastTime >= adjustedSunriseTime && forecastTime <= adjustedSunsetTime;
+        }
+
+        const weatherIcons = isDayTime ? weatherIconsDay : weatherIconsNight;
+        const condition = item.condition;
+
+        let iconHtml;
+
+        if (config.animated_icons || config.icons) {
+          const iconSrc = config.animated_icons ?
+            `${this.baseIconPath}${weatherIcons[condition]}.svg` :
+            `${this.config.icons}${weatherIcons[condition]}.svg`;
+          iconHtml = html`<img class="icon" src="${iconSrc}" alt="">`;
+        } else {
+          iconHtml = html`<ha-icon icon="${this.getWeatherIcon(condition, sun.state)}"></ha-icon>`;
+        }
 
         return html`
           <div class="forecast-item">
