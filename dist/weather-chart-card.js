@@ -17768,15 +17768,49 @@ subscribeForecastEvents() {
     return (this.weather.attributes.supported_features & feature) !== 0;
   }
 
+  constructor() {
+    super();
+    this.resizeObserver = null;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.attachResizeObserver();
+  }
+
   disconnectedCallback() {
+    super.disconnectedCallback();
+    this.detachResizeObserver();
     if (this.forecastSubscriber) {
       this.forecastSubscriber.then((unsub) => unsub());
     }
-    super.disconnectedCallback();
   }
 
-  constructor() {
-    super();
+  attachResizeObserver() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.measureCard();
+    });
+    const card = this.shadowRoot.querySelector('ha-card');
+    if (card) {
+      this.resizeObserver.observe(card);
+    }
+  }
+
+  detachResizeObserver() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+  }
+
+  measureCard() {
+    const card = this.shadowRoot.querySelector('ha-card');
+    let fontSize = this.config.forecast.labels_font_size;
+    if (!card) {
+      return;
+    }
+    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
+    this.drawChart();
   }
 
 ll(str) {
@@ -17933,15 +17967,6 @@ async updated(changedProperties) {
     this.updateChart();
   }
 }
-
-  measureCard() {
-    const card = this.shadowRoot.querySelector('ha-card');
-    let fontSize = this.config.forecast.labels_font_size;
-    if (!card) {
-      return;
-    }
-    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
-  }
 
 drawChart({ config, language, weather, forecastItems } = this) {
   if (!this.forecasts || !this.forecasts.length) {
