@@ -86,6 +86,7 @@ setConfig(config) {
     forecast: {
       precipitation_type: 'rainfall',
       labels_font_size: 11,
+      chart_height: 180,
       precip_bar_size: 100,
       style: 'style1',
       temperature1_color: 'rgba(255, 152, 0, 1.0)',
@@ -742,7 +743,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         }
         .chart-container {
           position: relative;
-          height: 180px;
+          height: ${config.forecast.chart_height}px;
           width: 100%;
         }
         .conditions {
