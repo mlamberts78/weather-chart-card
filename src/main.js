@@ -31,6 +31,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_current_condition: true,
     show_attributes: true,
     show_time: false,
+    show_time_seconds: false,
     show_day: false,
     show_date: false,
     show_humidity: true,
@@ -864,16 +865,6 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
     return html``;
 
   const use12HourFormat = config.use_12hour_format;
-  const timeOptions = {
-    hour12: use12HourFormat,
-    hour: 'numeric',
-    minute: 'numeric'
-  };
-
-  const currentDate = new Date();
-  const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
-  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'long' }).toUpperCase();
-  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'long', day: 'numeric' });
   const showTime = config.show_time;
   const showDay = config.show_day;
   const showDate = config.show_date;
@@ -881,6 +872,7 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   const showDescription = config.show_description;
   const showCurrentCondition = config.show_current_condition !== false;
   const showTemperature = config.show_temperature !== false;
+  const showSeconds = config.show_time_seconds === true;
 
   let roundedTemperature = parseFloat(temperature);
   if (!isNaN(roundedTemperature) && roundedTemperature % 1 !== 0) {
@@ -895,6 +887,43 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   const iconHtml = config.animated_icons || config.icons
     ? html`<img src="${this.getWeatherIcon(weather.state, sun.state)}" alt="">`
     : html`<ha-icon icon="${this.getWeatherIcon(weather.state, sun.state)}"></ha-icon>`;
+
+  const updateClock = () => {
+    const currentDate = new Date();
+    const timeOptions = {
+      hour12: use12HourFormat,
+      hour: 'numeric',
+      minute: 'numeric',
+      second: showSeconds ? 'numeric' : undefined
+    };
+    const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
+    const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'long' }).toUpperCase();
+    const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'long', day: 'numeric' });
+
+    const mainDiv = this.shadowRoot.querySelector('.main');
+    if (mainDiv) {
+      const clockElement = mainDiv.querySelector('#digital-clock');
+      if (clockElement) {
+        clockElement.textContent = currentTime;
+      }
+      if (showDay) {
+        const dayElement = mainDiv.querySelector('.date-text.day');
+        if (dayElement) {
+          dayElement.textContent = currentDayOfWeek;
+        }
+      }
+      if (showDate) {
+        const dateElement = mainDiv.querySelector('.date-text.date');
+        if (dateElement) {
+          dateElement.textContent = currentDateFormatted;
+        }
+      }
+    }
+  };
+
+  if (showTime) {
+    setInterval(updateClock, 1000);
+  }
 
   return html`
     <div class="main">
@@ -921,10 +950,10 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
         </div>
         ${showTime ? html`
           <div class="current-time">
-            <div id="digital-clock">${currentTime}</div>
-            ${showDay ? html`<div class="date-text">${currentDayOfWeek}</div>` : ''}
+            <div id="digital-clock"></div>
+            ${showDay ? html`<div class="date-text day"></div>` : ''}
             ${showDay && showDate ? html` ` : ''}
-            ${showDate ? html`<div class="date-text">${currentDateFormatted}</div>` : ''}
+            ${showDate ? html`<div class="date-text date"></div>` : ''}
           </div>
         ` : ''}
       </div>

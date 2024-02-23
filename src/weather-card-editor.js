@@ -468,6 +468,15 @@ class WeatherCardEditor extends LitElement {
             </div>
             <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
               <ha-checkbox
+                @change="${(e) => this._valueChanged(e, 'show_time_seconds')}"
+                .checked="${this._config.show_time_seconds !== false}"
+              ></ha-checkbox>
+              <label class="check-label">
+                Show Seconds
+              </label>
+            </div>
+            <div class="switch-right checkbox-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+              <ha-checkbox
                 @change="${(e) => this._valueChanged(e, 'show_day')}"
                 .checked="${this._config.show_day !== false}"
               ></ha-checkbox>
