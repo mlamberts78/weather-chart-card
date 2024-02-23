@@ -18000,7 +18000,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
+  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
     var mode = 'hourly';
   } else {
     var mode = 'daily';
@@ -18421,6 +18421,10 @@ updateChart({ config, language, weather, forecastItems } = this) {
           font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
+        .date-text {
+          font-size: 15px;
+          color: var(--secondary-text-color);
+        }
         .main .feels-like {
           font-size: 13px;
           margin-top: 5px;
@@ -18461,8 +18465,8 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
 
   const currentDate = new Date();
   const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
-  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
-  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
+  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'long' }).toUpperCase();
+  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'long', day: 'numeric' });
   const showTime = config.show_time;
   const showDay = config.show_day;
   const showDate = config.show_date;
@@ -18510,10 +18514,10 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
         </div>
         ${showTime ? x`
           <div class="current-time">
-            ${showDay ? x`${currentDayOfWeek}` : ''}
+            <div id="digital-clock">${currentTime}</div>
+            ${showDay ? x`<div class="date-text">${currentDayOfWeek}</div>` : ''}
             ${showDay && showDate ? x` ` : ''}
-            ${showDate ? x`${currentDateFormatted}` : ''}
-            ${currentTime}
+            ${showDate ? x`<div class="date-text">${currentDateFormatted}</div>` : ''}
           </div>
         ` : ''}
       </div>

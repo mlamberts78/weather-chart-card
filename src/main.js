@@ -829,6 +829,10 @@ updateChart({ config, language, weather, forecastItems } = this) {
           font-size: clamp(19px, 2.5vw, 26px);
           color: var(--secondary-text-color);
         }
+        .date-text {
+          font-size: 15px;
+          color: var(--secondary-text-color);
+        }
         .main .feels-like {
           font-size: 13px;
           margin-top: 5px;
@@ -869,8 +873,8 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
 
   const currentDate = new Date();
   const currentTime = currentDate.toLocaleTimeString(this.language, timeOptions);
-  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'short' }).toUpperCase();
-  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric' });
+  const currentDayOfWeek = currentDate.toLocaleString(this.language, { weekday: 'long' }).toUpperCase();
+  const currentDateFormatted = currentDate.toLocaleDateString(this.language, { month: 'long', day: 'numeric' });
   const showTime = config.show_time;
   const showDay = config.show_day;
   const showDate = config.show_date;
@@ -918,10 +922,10 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
         </div>
         ${showTime ? html`
           <div class="current-time">
-            ${showDay ? html`${currentDayOfWeek}` : ''}
+            <div id="digital-clock">${currentTime}</div>
+            ${showDay ? html`<div class="date-text">${currentDayOfWeek}</div>` : ''}
             ${showDay && showDate ? html` ` : ''}
-            ${showDate ? html`${currentDateFormatted}` : ''}
-            ${currentTime}
+            ${showDate ? html`<div class="date-text">${currentDateFormatted}</div>` : ''}
           </div>
         ` : ''}
       </div>
