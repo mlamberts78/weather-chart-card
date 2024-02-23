@@ -18522,6 +18522,8 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
     }
   };
 
+  updateClock();
+
   if (showTime) {
     setInterval(updateClock, 1000);
   }
