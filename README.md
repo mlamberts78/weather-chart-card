@@ -156,3 +156,4 @@ units:
 | Slovak           | sk      |
 | Spanish          | es      |
 | Swedish          | sv      |
+| Ukrainian        | uk      |
