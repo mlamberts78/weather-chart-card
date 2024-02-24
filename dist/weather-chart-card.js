@@ -715,6 +715,40 @@ const locale = {
     'windy': 'Vânt',
     'windy-variant': 'Vânt'
   },
+  uk: {
+    'tempHi': 'Температура',
+    'tempLo': 'Температура вночі',
+    'precip': 'Опади',
+    'feelsLike': 'Відчувається як',
+    'units': {
+      'km/h': 'км/год',
+      'm/s': 'м/с',
+      'mph': 'миль/год',
+      'Bft': 'Bft',
+      'hPa': 'гПа',
+      'mmHg': 'мм рт. ст.',
+      'mm': 'мм',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'Пн', 'Пн-ПнСх', 'ПнСх', 'Сх-ПнСх', 'Сх', 'Сх-ПдСх', 'ПдСх', 'Пд-ПдСх',
+      'Пд', 'Пд-ПдЗх', 'ПдЗх', 'Зх-ПдЗх', 'Зх', 'Зх-ПнЗх', 'ПнЗх', 'Пн-ПнЗх', 'Пн'
+    ],
+    'clear-night': 'Ясно, ніч',
+    'cloudy': 'Хмарно',
+    'fog': 'Туман',
+    'hail': 'Град',
+    'lightning': 'Гроза',
+    'lightning-rainy': 'Гроза з дощем',
+    'partlycloudy': 'Мінлива хмарність',
+    'pouring': 'Злива',
+    'rainy': 'Дощ',
+    'snowy': 'Сніг',
+    'snowy-rainy': 'Мокрий сніг',
+    'sunny': 'Сонячно',
+    'windy': 'Вітряно',
+    'windy-variant': 'Вітряно'
+  },
 };
 
 const cardinalDirectionsIcon = [
@@ -1373,6 +1407,7 @@ class WeatherCardEditor extends s {
            <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
            <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
+	   <ha-list-item .value=${'uk'}>Ukrainian</ha-list-item>
         </ha-select>
         </div>
       </div>
