@@ -78,6 +78,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
+| number_of_forecasts  | string  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
 
 ##### Units of measurement
 

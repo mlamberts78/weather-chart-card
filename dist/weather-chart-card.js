@@ -1435,11 +1435,19 @@ class WeatherCardEditor extends s {
                 .value="${forecastConfig.labels_font_size || '11'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
               ></ha-textfield>
+              </div>
+	    <div class="flex-container">
               <ha-textfield
                 label="Chart height"
                 type="number"
                 .value="${forecastConfig.chart_height || '180'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.chart_height')}"
+              ></ha-textfield>
+              <ha-textfield
+                label="Number of forecasts"
+                type="number"
+                .value="${forecastConfig.number_of_forecasts || '0'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.number_of_forecasts')}"
               ></ha-textfield>
               </div>
             </div>
@@ -17654,6 +17662,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
+      number_of_forecasts: '0', 
     },
   };
 }
@@ -17698,6 +17707,7 @@ setConfig(config) {
       show_wind_forecast: true,
       round_temp: false,
       type: 'daily',
+      number_of_forecasts: '0',
       '12hourformat': false,
       ...config.forecast,
     },
@@ -17823,15 +17833,18 @@ subscribeForecastEvents() {
     }
   }
 
-  measureCard() {
-    const card = this.shadowRoot.querySelector('ha-card');
-    let fontSize = this.config.forecast.labels_font_size;
-    if (!card) {
-      return;
-    }
-    this.forecastItems = Math.round(card.offsetWidth / (fontSize * 6));
-    this.drawChart();
+measureCard() {
+  const card = this.shadowRoot.querySelector('ha-card');
+  let fontSize = this.config.forecast.labels_font_size;
+  const numberOfForecasts = this.config.forecast.number_of_forecasts || 0;
+
+  if (!card) {
+    return;
   }
+
+  this.forecastItems = numberOfForecasts > 0 ? numberOfForecasts : Math.round(card.offsetWidth / (fontSize * 6));
+  this.drawChart();
+}
 
 ll(str) {
   const selectedLocale = this.config.locale || this.language || 'en';
