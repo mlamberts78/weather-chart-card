@@ -93,14 +93,16 @@ Icons should be in svg format. Icons should have names as shown [here](https://g
 
 #### Example usage:
 ###### Card with current time, date and day
-![Time](https://github.com/mlamberts78/weather-chart-card/assets/93537082/fa823cf1-aec7-41d7-9216-098fd6f8e388)
+![date-time](https://github.com/mlamberts78/weather-chart-card/assets/93537082/ab2c32f7-8c6a-4a7e-84fc-f857a519a725)
 ```yaml
 type: custom:weather-chart-card
-entity: weather.my_home
+entity: weather.weather_home
 show_time: true
+show_day: true
 show_date: true
-units:
-  speed: Bft
+animated_icons: true
+icon_style: style1
+
 ```
 ###### Style2 chart
 ![style2](https://github.com/mlamberts78/weather-chart-card/assets/93537082/3067cc43-0e80-492c-b4a5-771b1e44ea17)
