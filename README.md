@@ -41,6 +41,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
 | show_attributes       | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
 | show_time             | boolean | false                    | Show or hide the current time on the card.                                                         |
+| show_time_seconds     | boolean | false                    | Show or hide seconds for the current time on the card.                                             |
 | show_day              | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
 | show_date             | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
 | show_humid            | boolean | true                     | Show or hide humidity on the card.                                                                 |
@@ -77,6 +78,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
+| number_of_forecasts  | string  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
 
 ##### Units of measurement
 
