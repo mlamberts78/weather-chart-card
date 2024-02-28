@@ -83,7 +83,7 @@ const locale = {
       'in': 'in'
     },
     'cardinalDirections': [
-      'N', 'N-NO', 'NO', 'E-NO', 'O', 'O-SO', 'SO', 'S-SO',
+      'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-SO', 'SO', 'S-SO',
       'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
     ],
     'clear-night': 'Sternenklar',
