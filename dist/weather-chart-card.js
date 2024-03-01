@@ -18307,14 +18307,12 @@ if (mode === 'hourly') {
               var label = context.dataset.label;
               var value = context.formattedValue;
               var probability = forecast[context.dataIndex].precipitation_probability;
-              if (config.forecast.show_probability && context.datasetIndex === 2) {
-                if (probability !== undefined && probability !== null) {
-                  return label + ': ' + value + ' ' + precipUnit + ' / ' + probability + '%';
-                } else {
-                  return label + ': ' + value + ' ' + precipUnit;
-                }
+              var unit = context.datasetIndex === 2 ? precipUnit : tempUnit;
+              if (context.datasetIndex === 2 && config.forecast.show_probability && probability !== undefined && probability !== null) {
+                return label + ': ' + value + ' ' + precipUnit + ' / ' + probability + '%';
+              } else {
+                return label + ': ' + value + ' ' + unit;
               }
-              return label + ': ' + value + ' ' + tempUnit;
             },
           },
         },
