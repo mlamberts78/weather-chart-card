@@ -448,13 +448,13 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
   const ctx = canvas.getContext('2d');
 
-let precipMax;
+  let precipMax;
 
-if (mode === 'hourly') {
+  if (mode === 'hourly') {
     precipMax = lengthUnit === 'km' ? 4 : 1;
-} else {
+  } else {
     precipMax = lengthUnit === 'km' ? 20 : 1;
-}
+  }
 
   Chart.defaults.color = textColor;
   Chart.defaults.scale.grid.color = dividerColor;
@@ -500,7 +500,7 @@ if (mode === 'hourly') {
 
           let formattedValue;
           if (probability !== undefined && probability !== null && config.forecast.show_probability) {
-            formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${probability}%`;
+            formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
           } else {
             formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}`;
           }
@@ -521,7 +521,7 @@ if (mode === 'hourly') {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-	return 'auto';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -539,7 +539,7 @@ if (mode === 'hourly') {
 
     datasets[1].datalabels = {
       display: function (context) {
-	return 'auto';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -669,7 +669,7 @@ if (mode === 'hourly') {
               var probability = forecast[context.dataIndex].precipitation_probability;
               var unit = context.datasetIndex === 2 ? precipUnit : tempUnit;
               if (context.datasetIndex === 2 && config.forecast.show_probability && probability !== undefined && probability !== null) {
-                return label + ': ' + value + ' ' + precipUnit + ' / ' + probability + '%';
+                return label + ': ' + value + ' ' + precipUnit + ' / ' + Math.round(probability) + '%';
               } else {
                 return label + ': ' + value + ' ' + unit;
               }
