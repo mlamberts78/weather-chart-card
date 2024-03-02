@@ -85,7 +85,7 @@ const locale = {
       'in': 'in'
     },
     'cardinalDirections': [
-      'N', 'N-NO', 'NO', 'E-NO', 'O', 'O-SO', 'SO', 'S-SO',
+      'N', 'N-NO', 'NO', 'O-NO', 'O', 'O-SO', 'SO', 'S-SO',
       'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
     ],
     'clear-night': 'Sternenklar',
@@ -18434,7 +18434,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         .conditions {
           display: flex;
           justify-content: space-around;
-          align-items: centery
+          align-items: center;
           margin: 0px 5px 0px 5px;
 	  cursor: pointer;
         }
@@ -18447,7 +18447,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         .wind-details {
           display: flex;
           justify-content: space-around;
-          align-items: centery
+          align-items: center;
           font-weight: 300;
         }
         .wind-detail {

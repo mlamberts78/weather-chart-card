@@ -790,7 +790,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         .conditions {
           display: flex;
           justify-content: space-around;
-          align-items: centery
+          align-items: center;
           margin: 0px 5px 0px 5px;
 	  cursor: pointer;
         }
@@ -803,7 +803,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         .wind-details {
           display: flex;
           justify-content: space-around;
-          align-items: centery
+          align-items: center;
           font-weight: 300;
         }
         .wind-detail {
