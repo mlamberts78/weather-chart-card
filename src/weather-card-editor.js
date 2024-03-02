@@ -494,6 +494,20 @@ class WeatherCardEditor extends LitElement {
               </label>
             </div>
           </div>
+            <div class="flex-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+              <ha-textfield
+                label="Time text size"
+                type="number"
+                .value="${this._config.time_size || '26'}"
+                @change="${(e) => this._valueChanged(e, 'time_size')}"
+              ></ha-textfield>
+              <ha-textfield
+                label="Day and date text size"
+                type="number"
+                .value="${this._config.day_date_size || '15'}"
+                @change="${(e) => this._valueChanged(e, 'day_date_size')}"
+              ></ha-textfield>
+              </div>
             <div class="icon-container">
               <div class="switch-right">
                 <ha-switch

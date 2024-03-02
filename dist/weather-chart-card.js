@@ -1325,6 +1325,20 @@ class WeatherCardEditor extends s {
               </label>
             </div>
           </div>
+            <div class="flex-container" style="${this._config.show_time ? 'display: flex;' : 'display: none;'}">
+              <ha-textfield
+                label="Time text size"
+                type="number"
+                .value="${this._config.time_size || '26'}"
+                @change="${(e) => this._valueChanged(e, 'time_size')}"
+              ></ha-textfield>
+              <ha-textfield
+                label="Day and date text size"
+                type="number"
+                .value="${this._config.day_date_size || '15'}"
+                @change="${(e) => this._valueChanged(e, 'day_date_size')}"
+              ></ha-textfield>
+              </div>
             <div class="icon-container">
               <div class="switch-right">
                 <ha-switch
@@ -17722,6 +17736,8 @@ setConfig(config) {
     animated_icons: false,
     icon_style: 'style1',
     current_temp_size: 28,
+    time_size: 26,
+    day_date_size: 15,
     show_feels_like: false,
     show_description: false,
     ...config,
@@ -18474,10 +18490,10 @@ updateChart({ config, language, weather, forecastItems } = this) {
           position: absolute;
           top: 20px;
           right: 16px;
-          font-size: clamp(19px, 2.5vw, 26px);
+          font-size: ${config.time_size}px;
         }
         .date-text {
-          font-size: 15px;
+          font-size: ${config.day_date_size}px;
           color: var(--secondary-text-color);
         }
         .main .feels-like {
