@@ -56,6 +56,8 @@ HACS is a third party community store and is not included in Home Assistant out 
 | icon_style            | string  | 'style1'                 | Options are 'style1' and'style2' for different set of animated icons.                              |
 | icons_size            | number  | 25                       | The size of the animated or custom icons in pixels.                                                |
 | current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
+| time_size             | number  | 26                       | The size of the current time in pixels.                                                            |
+| day_date_size         | number  | 15                       | The size of the current day and date in pixels.                                                    |
 | forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
 | units                 | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
 | locale                | string  | none                     | See [Supported languages](#Supported-languages) for available languages                            |
