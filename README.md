@@ -65,20 +65,20 @@ HACS is a third party community store and is not included in Home Assistant out 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
 | show_probability     | boolean | false                    | Show precipitation probability. (Only when available in the forecast data)                         |
-| labels_font_size     | string  | 11                       | Font size for temperature and precipitation labels.                                                |
-| precip_bar_size      | string  | 100                      | Adjusts the thickness of precipitation bars (1-100).                                               |
+| labels_font_size     | number  | 11                       | Font size for temperature and precipitation labels.                                                |
+| precip_bar_size      | number  | 100                      | Adjusts the thickness of precipitation bars (1-100).                                               |
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
 | precipitation_color  | string  | rgba(132, 209, 253, 1.0) | Precipitation bar chart color.                                                                     |
 | chart_datetime_color | string  | primary-text-color       | Chart day or hour color                                                                            |
 | chart_text_color     | string  | none                     | Chart text color                                                                                   |
-| chart_height         | string  | 180                      | Adjust the forecast chart height                                                                   |
+| chart_height         | number  | 180                      | Adjust the forecast chart height                                                                   |
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
 | style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
-| number_of_forecasts  | string  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
+| number_of_forecasts  | number  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
 
 ##### Units of measurement
 
