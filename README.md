@@ -66,7 +66,8 @@ HACS is a third party community store and is not included in Home Assistant out 
 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
-| show_probability     | boolean | false                    | Show precipitation probability. (Only when available in the forecast data)                         |
+| precipitation_type   | string  | rainfall                 | Show precipitation in 'rainfall' or 'probability'.                                                 |
+| show_probability     | boolean | false                    | Show also probability value when precipitation_type = rainfall. (Only when available)              |
 | labels_font_size     | number  | 11                       | Font size for temperature and precipitation labels.                                                |
 | precip_bar_size      | number  | 100                      | Adjusts the thickness of precipitation bars (1-100).                                               |
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
