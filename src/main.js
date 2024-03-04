@@ -45,6 +45,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     animated_icons: false,
     icon_style: 'style1',
     forecast: {
+      precipitation_type: 'rainfall',
       show_probability: false,
       labels_font_size: '11',
       precip_bar_size: '100',
@@ -88,6 +89,7 @@ setConfig(config) {
     show_description: false,
     ...config,
     forecast: {
+      precipitation_type: 'rainfall',
       show_probability: false,
       labels_font_size: 11,
       chart_height: 180,
@@ -410,7 +412,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
   }
   var tempUnit = this._hass.config.unit_system.temperature;
   var lengthUnit = this._hass.config.unit_system.length;
-  var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  if (config.forecast.precipitation_type === 'probability') {
+    var precipUnit = '%';
+  } else {
+    var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
+  }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
     var mode = 'hourly';
@@ -436,7 +442,11 @@ drawChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-    precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
   var style = getComputedStyle(document.body);
   var backgroundColor = style.getPropertyValue('--card-background-color');
@@ -452,10 +462,14 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
   let precipMax;
 
-  if (mode === 'hourly') {
-    precipMax = lengthUnit === 'km' ? 4 : 1;
+  if (config.forecast.precipitation_type === 'probability') {
+    precipMax = 100;
   } else {
-    precipMax = lengthUnit === 'km' ? 20 : 1;
+    if (mode === 'hourly') {
+      precipMax = lengthUnit === 'km' ? 4 : 1;
+    } else {
+      precipMax = lengthUnit === 'km' ? 20 : 1;
+    }
   }
 
   Chart.defaults.color = textColor;
@@ -496,26 +510,32 @@ drawChart({ config, language, weather, forecastItems } = this) {
         display: function (context) {
           return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
         },
-        formatter: function (value, context) {
-          const rainfall = context.dataset.data[context.dataIndex];
-          const probability = forecast[context.dataIndex].precipitation_probability;
+      formatter: function (value, context) {
+        const precipitationType = config.forecast.precipitation_type;
 
-          let formattedValue;
+        const rainfall = context.dataset.data[context.dataIndex];
+        const probability = forecast[context.dataIndex].precipitation_probability;
+
+        let formattedValue;
+        if (precipitationType === 'rainfall') {
           if (probability !== undefined && probability !== null && config.forecast.show_probability) {
             formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
           } else {
             formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}`;
           }
+        } else {
+          formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}`;
+        }
 
-          formattedValue = formattedValue.replace('\n', '\n\n');
+        formattedValue = formattedValue.replace('\n', '\n\n');
 
-          return formattedValue;
-        },
+        return formattedValue;
+      },
         textAlign: 'center',
         textBaseline: 'middle',
         align: 'top',
         anchor: 'start',
-        offset: -8,
+        offset: -10,
       },
     },
   ];
@@ -665,16 +685,17 @@ drawChart({ config, language, weather, forecastItems } = this) {
                 hour12: config.use_12hour_format,
               });
             },
-            label: function (context) {
-              var label = context.dataset.label;
-              var value = context.formattedValue;
-              var probability = forecast[context.dataIndex].precipitation_probability;
-              var unit = context.datasetIndex === 2 ? precipUnit : tempUnit;
-              if (context.datasetIndex === 2 && config.forecast.show_probability && probability !== undefined && probability !== null) {
-                return label + ': ' + value + ' ' + precipUnit + ' / ' + Math.round(probability) + '%';
-              } else {
-                return label + ': ' + value + ' ' + unit;
-              }
+    label: function (context) {
+      var label = context.dataset.label;
+      var value = context.formattedValue;
+      var probability = forecast[context.dataIndex].precipitation_probability;
+      var unit = context.datasetIndex === 2 ? precipUnit : tempUnit;
+
+      if (config.forecast.precipitation_type === 'rainfall' && context.datasetIndex === 2 && config.forecast.show_probability && probability !== undefined && probability !== null) {
+        return label + ': ' + value + ' ' + precipUnit + ' / ' + Math.round(probability) + '%';
+      } else {
+        return label + ': ' + value + ' ' + unit;
+      }
             },
           },
         },
@@ -709,7 +730,11 @@ updateChart({ config, language, weather, forecastItems } = this) {
         tempLow[i] = Math.round(tempLow[i]);
       }
     }
-     precip.push(d.precipitation);
+    if (config.forecast.precipitation_type === 'probability') {
+      precip.push(d.precipitation_probability);
+    } else {
+      precip.push(d.precipitation);
+    }
   }
 
   if (this.forecastChart) {
