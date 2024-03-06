@@ -18175,7 +18175,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
-          return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
+          return context.dataset.data[context.dataIndex] > 0 ? 'true' : false;
         },
       formatter: function (value, context) {
         const precipitationType = config.forecast.precipitation_type;
@@ -18186,7 +18186,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
         let formattedValue;
         if (precipitationType === 'rainfall') {
           if (probability !== undefined && probability !== null && config.forecast.show_probability) {
-            formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
+	    formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
           } else {
             formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}`;
           }
@@ -18210,7 +18210,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-        return 'auto';
+        return 'true';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -18228,7 +18228,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
     datasets[1].datalabels = {
       display: function (context) {
-        return 'auto';
+        return 'true';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -18268,30 +18268,46 @@ drawChart({ config, language, weather, forecastItems } = this) {
             drawTicks: false,
             color: dividerColor,
           },
-          ticks: {
-            maxRotation: 0,
-            color: config.forecast.chart_datetime_color || textColor,
-            padding: 10,
-            callback: function (value, index, values) {
-              var datetime = this.getLabelForValue(value);
-              var dateObj = new Date(datetime);
-              var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+ticks: {
+    maxRotation: 0,
+    color: config.forecast.chart_datetime_color || textColor,
+    padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 4 : 10,
+    callback: function (value, index, values) {
+        var datetime = this.getLabelForValue(value);
+        var dateObj = new Date(datetime);
+        
+        var timeFormatOptions = {
+            hour12: config.use_12hour_format,
+            hour: 'numeric',
+            ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
+        };
 
-              var timeFormatOptions = {
-                hour12: config.use_12hour_format,
-                hour: 'numeric',
-                ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
-              };
+        var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+        var mode = 'daily';
 
-              var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+        if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
+            mode = 'hourly';
+        }
 
-              time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
-              if (mode === 'hourly') {
-                return time;
-              }
-              return weekday;
-            },
-          },
+        if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && mode === 'hourly') {
+            var dateFormatOptions = {
+                day: 'numeric',
+                month: 'short',
+            };
+            var date = dateObj.toLocaleDateString(language, dateFormatOptions);
+            time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
+            return [date, time];
+        }
+
+        if (mode !== 'hourly') {
+            var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+            return weekday;
+        }
+
+        time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
+        return time;
+    },
+},
         },
         TempAxis: {
           position: 'left',
@@ -18327,7 +18343,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderColor: context => context.dataset.backgroundColor,
           borderRadius: 0,
           borderWidth: 1.5,
-          padding: 4,
+          padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 3 : 4,
           color: config.forecast.chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,

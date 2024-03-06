@@ -44,7 +44,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_time_seconds     | boolean | false                    | Show or hide seconds for the current time on the card.                                             |
 | show_day              | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
 | show_date             | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
-| show_humid            | boolean | true                     | Show or hide humidity on the card.                                                                 |
+| show_humidity         | boolean | true                     | Show or hide humidity on the card.                                                                 |
 | show_pressure         | boolean | true                     | Show or hide pressure on the card.                                                                 |
 | show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
