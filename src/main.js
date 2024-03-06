@@ -508,7 +508,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
-          return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
+          return context.dataset.data[context.dataIndex] > 0 ? 'true' : false;
         },
       formatter: function (value, context) {
         const precipitationType = config.forecast.precipitation_type;
@@ -519,7 +519,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
         let formattedValue;
         if (precipitationType === 'rainfall') {
           if (probability !== undefined && probability !== null && config.forecast.show_probability) {
-            formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
+	    formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}\n${Math.round(probability)}%`;
           } else {
             formattedValue = `${rainfall > 9 ? Math.round(rainfall) : rainfall.toFixed(1)} ${precipUnit}`;
           }
@@ -543,7 +543,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-        return 'auto';
+        return 'true';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -561,7 +561,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
     datasets[1].datalabels = {
       display: function (context) {
-        return 'auto';
+        return 'true';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -604,7 +604,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           ticks: {
             maxRotation: 0,
             color: config.forecast.chart_datetime_color || textColor,
-            padding: 10,
+            padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 4 : 10,
             callback: function (value, index, values) {
               var datetime = this.getLabelForValue(value);
               var dateObj = new Date(datetime);
@@ -660,7 +660,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderColor: context => context.dataset.backgroundColor,
           borderRadius: 0,
           borderWidth: 1.5,
-          padding: 4,
+          padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 3 : 4,
           color: config.forecast.chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,
