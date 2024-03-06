@@ -602,28 +602,44 @@ drawChart({ config, language, weather, forecastItems } = this) {
             color: dividerColor,
           },
           ticks: {
-            maxRotation: 0,
-            color: config.forecast.chart_datetime_color || textColor,
-            padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 4 : 10,
-            callback: function (value, index, values) {
-              var datetime = this.getLabelForValue(value);
-              var dateObj = new Date(datetime);
-              var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+              maxRotation: 0,
+              color: config.forecast.chart_datetime_color || textColor,
+              padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 4 : 10,
+              callback: function (value, index, values) {
+                  var datetime = this.getLabelForValue(value);
+                  var dateObj = new Date(datetime);
+        
+                  var timeFormatOptions = {
+                      hour12: config.use_12hour_format,
+                      hour: 'numeric',
+                      ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
+                  };
 
-              var timeFormatOptions = {
-                hour12: config.use_12hour_format,
-                hour: 'numeric',
-                ...(config.use_12hour_format ? {} : { minute: 'numeric' }),
-              };
+                  var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+                  var mode = 'daily';
 
-              var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
+                  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
+                      mode = 'hourly';
+                  }
 
-              time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
-              if (mode === 'hourly') {
-                return time;
-              }
-              return weekday;
-            },
+                  if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && mode === 'hourly') {
+                      var dateFormatOptions = {
+                          day: 'numeric',
+                          month: 'short',
+                      };
+                      var date = dateObj.toLocaleDateString(language, dateFormatOptions);
+                      time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
+                      return [date, time];
+                  }
+
+                  if (mode !== 'hourly') {
+                      var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+                      return weekday;
+                  }
+
+                  time = time.replace('a.m.', 'AM').replace('p.m.', 'PM');
+                  return time;
+              },
           },
         },
         TempAxis: {
