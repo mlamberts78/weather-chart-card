@@ -503,6 +503,15 @@ class WeatherChartCardEditor extends LitElement {
       </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_last_changed')}"
+              .checked="${this._config.show_last_changed !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show when last data changed
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'use_12hour_format')}"
               .checked="${this._config.use_12hour_format !== false}"
             ></ha-switch>
@@ -676,6 +685,15 @@ class WeatherChartCardEditor extends LitElement {
             ></ha-switch>
             <label class="switch-label">
               Rounding Temperatures
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.disable_animation')}"
+              .checked="${forecastConfig.disable_animation !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Disable Chart Animation
             </label>
           </div>
 	  <div class="textfield-container">

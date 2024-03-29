@@ -17,8 +17,8 @@ const locale = {
       'in': 'in'
     },
     'cardinalDirections': [
-      'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
-      'S', 'S-SW', 'SW', 'W-SW', 'W', 'W-NW', 'NW', 'N-NW', 'N'
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-JV', 'JV', 'J-JV',
+      'J', 'J-JZ', 'JZ', 'Z-JZ', 'Z', 'Z-SZ', 'SZ', 'S-SZ', 'S'
     ],
     'clear-night': 'Jasná noc',
     'cloudy': 'Zataženo',
@@ -1334,6 +1334,15 @@ class WeatherChartCardEditor extends s {
       </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_last_changed')}"
+              .checked="${this._config.show_last_changed !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show when last data changed
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'use_12hour_format')}"
               .checked="${this._config.use_12hour_format !== false}"
             ></ha-switch>
@@ -1507,6 +1516,15 @@ class WeatherChartCardEditor extends s {
             ></ha-switch>
             <label class="switch-label">
               Rounding Temperatures
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.disable_animation')}"
+              .checked="${forecastConfig.disable_animation !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Disable Chart Animation
             </label>
           </div>
 	  <div class="textfield-container">
@@ -17764,6 +17782,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_dew_point: false,
     show_wind_gust_speed: false,
     show_visibility: false,
+    show_last_changed: false,
     use_12hour_format: false,
     icons_size: 25,
     animated_icons: false,
@@ -17779,6 +17798,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       round_temp: false,
       type: 'daily',
       number_of_forecasts: '0', 
+      disable_animation: false, 
     },
   };
 }
@@ -17813,6 +17833,7 @@ setConfig(config) {
     show_dew_point: false,
     show_wind_gust_speed: false,
     show_visibility: false,
+    show_last_changed: false,
     show_description: false,
     ...config,
     forecast: {
@@ -18323,6 +18344,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     },
     options: {
       maintainAspectRatio: false,
+      animation: config.forecast.disable_animation === true ? { duration: 0 } : {},
       layout: {
         padding: {
           bottom: 10,
@@ -18527,7 +18549,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
         .card {
           padding-top: ${config.title ? '0px' : '16px'};
           padding-right: 16px;
-          padding-bottom: 16px;
+          padding-bottom: ${config.show_last_changed === true ? '2px' : '16px'};
           padding-left: 16px;
         }
         .main {
@@ -18626,6 +18648,12 @@ updateChart({ config, language, weather, forecastItems } = this) {
           margin-top: 5px;
           font-weight: 400;
         }
+        .updated {
+          font-size: 13px;
+          align-items: right;
+          font-weight: 300;
+          margin-bottom: 1px;
+        }
       </style>
 
       <ha-card header="${config.title}">
@@ -18637,6 +18665,7 @@ updateChart({ config, language, weather, forecastItems } = this) {
           </div>
           ${this.renderForecastConditionIcons()}
           ${this.renderWind()}
+          ${this.renderLastUpdated()}
         </div>
       </ha-card>
     `;
@@ -18994,6 +19023,42 @@ renderWind({ config, weather, windSpeed, windDirection, forecastItems } = this) 
           `;
         })}
       ` : ''}
+    </div>
+  `;
+}
+
+renderLastUpdated() {
+  const lastUpdatedString = this.weather.last_changed;
+  const lastUpdatedTimestamp = new Date(lastUpdatedString).getTime();
+  const currentTimestamp = Date.now();
+  const timeDifference = currentTimestamp - lastUpdatedTimestamp;
+
+  const minutesAgo = Math.floor(timeDifference / (1000 * 60));
+  const hoursAgo = Math.floor(minutesAgo / 60);
+
+  const locale = this.language;
+
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+
+  let formattedLastUpdated;
+
+  if (hoursAgo > 0) {
+    formattedLastUpdated = formatter.format(-hoursAgo, 'hour');
+  } else {
+    formattedLastUpdated = formatter.format(-minutesAgo, 'minute');
+  }
+
+  const showLastUpdated = this.config.show_last_changed == true;
+
+  if (!showLastUpdated) {
+    return x``;
+  }
+
+  return x`
+    <div class="updated">
+      <div>
+        ${formattedLastUpdated}
+      </div>
     </div>
   `;
 }
