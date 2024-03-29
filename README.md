@@ -56,6 +56,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_wind_gust_speed  | boolean | false                    | Show or hide wind gust speed on the card.                                                          |
 | show_visibility       | boolean | false                    | Show or hide visibility on the card.                                                               |
 | show_description      | boolean | false                    | Show or hide the weather description on the card.                                                  |
+| show_last_changed     | boolean | false                    | Show or hide when last data changed on the card.                                                   |
 | use_12hour_format     | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
 | animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
