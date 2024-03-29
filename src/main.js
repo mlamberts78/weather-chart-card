@@ -418,10 +418,16 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
-    var mode = 'hourly';
+  if (forecast.length >= 3) {
+    var date1 = new Date(forecast[1].datetime).toISOString().split('T')[0];
+    var date2 = new Date(forecast[2].datetime).toISOString().split('T')[0];
+    if (date1 !== date2) {
+      var mode = 'daily';
+    } else {
+      var mode = 'hourly';
+    }
   } else {
-    var mode = 'daily';
+    console.log("Insufficient forecast data.");
   }
   var roundTemp = config.forecast.round_temp == true;
   var i;
@@ -616,11 +622,6 @@ drawChart({ config, language, weather, forecastItems } = this) {
                   };
 
                   var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
-                  var mode = 'daily';
-
-                  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
-                      mode = 'hourly';
-                  }
 
                   if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && mode === 'hourly') {
                       var dateFormatOptions = {
