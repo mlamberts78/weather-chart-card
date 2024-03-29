@@ -40,6 +40,9 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_speed: true,
     show_sun: true,
     show_feels_like: false,
+    show_dew_point: false,
+    show_wind_gust_speed: false,
+    show_visibility: false,
     use_12hour_format: false,
     icons_size: 25,
     animated_icons: false,
@@ -86,6 +89,9 @@ setConfig(config) {
     time_size: 26,
     day_date_size: 15,
     show_feels_like: false,
+    show_dew_point: false,
+    show_wind_gust_speed: false,
+    show_visibility: false,
     show_description: false,
     ...config,
     forecast: {
@@ -130,6 +136,7 @@ set hass(hass) {
   this.sun = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
   this.unitSpeed = this.config.units.speed ? this.config.units.speed : this.weather && this.weather.attributes.wind_speed_unit;
   this.unitPressure = this.config.units.pressure ? this.config.units.pressure : this.weather && this.weather.attributes.pressure_unit;
+  this.unitVisibility = this.config.units.visibility ? this.config.units.visibility : this.weather && this.weather.attributes.visibility_unit;
   this.weather = this.config.entity in hass.states
     ? hass.states[this.config.entity]
     : null;
@@ -140,6 +147,9 @@ set hass(hass) {
     this.pressure = this.config.press ? hass.states[this.config.press].state : this.weather.attributes.pressure;
     this.uv_index = this.config.uv ? hass.states[this.config.uv].state : this.weather.attributes.uv_index;
     this.windSpeed = this.config.windspeed ? hass.states[this.config.windspeed].state : this.weather.attributes.wind_speed;
+    this.dew_point = this.config.dew_point ? hass.states[this.config.dew_point].state : this.weather.attributes.dew_point;
+    this.wind_gust_speed = this.config.wind_gust_speed ? hass.states[this.config.wind_gust_speed].state : this.weather.attributes.wind_gust_speed;
+    this.visibility = this.config.visibility ? hass.states[this.config.visibility].state : this.weather.attributes.visibility;
 
     if (this.config.winddir && hass.states[this.config.winddir] && hass.states[this.config.winddir].state !== undefined) {
       this.windDirection = parseFloat(hass.states[this.config.winddir].state);
@@ -418,10 +428,16 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
-    var mode = 'hourly';
+  if (forecast.length >= 3) {
+    var date1 = new Date(forecast[1].datetime).toISOString().split('T')[0];
+    var date2 = new Date(forecast[2].datetime).toISOString().split('T')[0];
+    if (date1 !== date2) {
+      var mode = 'daily';
+    } else {
+      var mode = 'hourly';
+    }
   } else {
-    var mode = 'daily';
+    console.log("Insufficient forecast data.");
   }
   var roundTemp = config.forecast.round_temp == true;
   var i;
@@ -616,11 +632,6 @@ drawChart({ config, language, weather, forecastItems } = this) {
                   };
 
                   var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
-                  var mode = 'daily';
-
-                  if (forecast.length >= 3 && new Date(forecast[2].datetime) - new Date(forecast[1].datetime) < 864e5) {
-                      mode = 'hourly';
-                  }
 
                   if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && mode === 'hourly') {
                       var dateFormatOptions = {
@@ -1013,7 +1024,7 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   `;
 }
 
-renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index } = this) {
+renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index, dew_point, wind_gust_speed, visibility } = this) {
   let dWindSpeed = windSpeed;
   let dPressure = pressure;
 
@@ -1078,46 +1089,59 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   const showWindDirection = config.show_wind_direction !== false;
   const showWindSpeed = config.show_wind_speed !== false;
   const showSun = config.show_sun !== false;
+  const showDewpoint = config.show_dew_point == true;
+  const showWindgustspeed = config.show_wind_gust_speed == true;
+  const showVisibility = config.show_visibility == true;
 
-  return html`
+return html`
     <div class="attributes">
-      ${showHumidity || showPressure ? html`
+      ${((showHumidity && humidity !== undefined) || (showPressure && dPressure !== undefined) || (showDewpoint && dew_point !== undefined) || (showVisibility && visibility !== undefined)) ? html`
         <div>
-          ${showHumidity ? html`
+          ${showHumidity && humidity !== undefined ? html`
             <ha-icon icon="hass:water-percent"></ha-icon> ${humidity} %<br>
           ` : ''}
-          ${showPressure ? html`
-            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.ll('units')[this.unitPressure]}
+          ${showPressure && dPressure !== undefined ? html`
+            <ha-icon icon="hass:gauge"></ha-icon> ${dPressure} ${this.ll('units')[this.unitPressure]} <br>
+          ` : ''}
+          ${showDewpoint && dew_point !== undefined ? html`
+            <ha-icon icon="hass:thermometer-water"></ha-icon> ${dew_point} ${this.weather.attributes.temperature_unit} <br>
+          ` : ''}
+          ${showVisibility && visibility !== undefined ? html`
+            <ha-icon icon="hass:eye"></ha-icon> ${visibility} ${this.weather.attributes.visibility_unit}
           ` : ''}
         </div>
       ` : ''}
-      ${showSun || typeof uv_index !== 'undefined' ? html`
+      ${((showSun && sun !== undefined) || (typeof uv_index !== 'undefined' && uv_index !== undefined)) ? html`
         <div>
-          ${typeof uv_index !== 'undefined' ? html`
+          ${typeof uv_index !== 'undefined' && uv_index !== undefined ? html`
             <div>
               <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
             </div>
           ` : ''}
-          ${showSun ? html`
+          ${showSun && sun !== undefined ? html`
             <div>
               ${this.renderSun({ sun, language })}
             </div>
           ` : ''}
         </div>
       ` : ''}
-      ${showWindDirection || showWindSpeed ? html`
+      ${((showWindDirection && windDirection !== undefined) || (showWindSpeed && dWindSpeed !== undefined)) ? html`
         <div>
-          ${showWindDirection ? html`
-            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)}<br>
+          ${showWindDirection && windDirection !== undefined ? html`
+            <ha-icon icon="hass:${this.getWindDirIcon(windDirection)}"></ha-icon> ${this.getWindDir(windDirection)} <br>
           ` : ''}
-          ${showWindSpeed ? html`
+          ${showWindSpeed && dWindSpeed !== undefined ? html`
             <ha-icon icon="hass:weather-windy"></ha-icon>
-            ${dWindSpeed} ${this.ll('units')[this.unitSpeed]}
+            ${dWindSpeed} ${this.ll('units')[this.unitSpeed]} <br>
+          ` : ''}
+          ${showWindgustspeed && wind_gust_speed !== undefined ? html`
+            <ha-icon icon="hass:weather-windy-variant"></ha-icon>
+            ${wind_gust_speed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
     </div>
-  `;
+`;
 }
 
 renderSun({ sun, language, config } = this) {
