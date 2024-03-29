@@ -1518,6 +1518,15 @@ class WeatherChartCardEditor extends s {
               Rounding Temperatures
             </label>
           </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.disable_animation')}"
+              .checked="${forecastConfig.disable_animation !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Disable Chart Animation
+            </label>
+          </div>
 	  <div class="textfield-container">
           <ha-select
             naturalMenuWidth
@@ -17789,6 +17798,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       round_temp: false,
       type: 'daily',
       number_of_forecasts: '0', 
+      disable_animation: false, 
     },
   };
 }
@@ -18334,6 +18344,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     },
     options: {
       maintainAspectRatio: false,
+      animation: config.forecast.disable_animation === true ? { duration: 0 } : {},
       layout: {
         padding: {
           bottom: 10,

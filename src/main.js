@@ -59,6 +59,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       round_temp: false,
       type: 'daily',
       number_of_forecasts: '0', 
+      disable_animation: false, 
     },
   };
 }
@@ -604,6 +605,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     },
     options: {
       maintainAspectRatio: false,
+      animation: config.forecast.disable_animation === true ? { duration: 0 } : {},
       layout: {
         padding: {
           bottom: 10,
