@@ -34,6 +34,9 @@ HACS is a third party community store and is not included in Home Assistant out 
 | winddir               | string  | none                     | An entity_id for a custom wind bearing sensor. Sensor should have value in degrees                 |
 | windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
 | feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
+| dew_point             | string  | none                     | An entity_id for a custom dew point sensor.                                                        |
+| wind_gust_speed       | string  | none                     | An entity_id for a custom wind gust speed sensor.                                                  |
+| visibility            | string  | none                     | An entity_id for a custom visibility sensor.                                                       |
 | description           | string  | none                     | An entity_id for a custom weather description sensor.                                              |
 | title                 | string  | none                     | Card title.                                                                                        |
 | show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
@@ -49,6 +52,9 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
 | show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
 | show_feels_like       | boolean | false                    | Show or hide feels like temperature on the card.                                                   |
+| show_dew_point        | boolean | false                    | Show or hide dew point on the card.                                                                |
+| show_wind_gust_speed  | boolean | false                    | Show or hide wind gust speed on the card.                                                          |
+| show_visibility       | boolean | false                    | Show or hide visibility on the card.                                                               |
 | show_description      | boolean | false                    | Show or hide the weather description on the card.                                                  |
 | use_12hour_format     | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
 | icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |

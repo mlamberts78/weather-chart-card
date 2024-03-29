@@ -9,6 +9,9 @@ const ALT_SCHEMA = [
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "winddir", title: "Alternative wind bearing sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "dew_point", title: "Alternative dew pointsensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "wind_gust_speed", title: "Alternative wind gust speed sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "visibility", title: "Alternative visibility sensor", selector: { entity: { domain: 'sensor' } } },
 ];
 
 class WeatherChartCardEditor extends LitElement {
@@ -42,6 +45,24 @@ class WeatherChartCardEditor extends LitElement {
       this.hass.states[config.entity].attributes &&
       this.hass.states[config.entity].attributes.apparent_temperature !== undefined
     ) || config.feels_like !== undefined;
+    this.hasDewpoint = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.dew_point !== undefined
+    ) || config.dew_point !== undefined;
+    this.hasWindgustspeed = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.wind_gust_speed !== undefined
+    ) || config.wind_gust_speed !== undefined;
+    this.hasVisibility = (
+      this.hass &&
+      this.hass.states[config.entity] &&
+      this.hass.states[config.entity].attributes &&
+      this.hass.states[config.entity].attributes.visibility !== undefined
+    ) || config.visibility !== undefined;
     this.hasDescription = (
       this.hass &&
       this.hass.states[config.entity] &&
@@ -447,6 +468,39 @@ class WeatherChartCardEditor extends LitElement {
               Show Wind Speed
             </label>
 	  </div>
+      <div class="switch-container">
+        ${this.hasDewpoint ? html`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_dew_point')}"
+            .checked="${this._config.show_dew_point !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Dew Point
+          </label>
+        ` : ''}
+      </div>
+      <div class="switch-container">
+        ${this.hasWindgustspeed ? html`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_wind_gust_speed')}"
+            .checked="${this._config.show_wind_gust_speed !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Wind Gust Speed
+          </label>
+        ` : ''}
+      </div>
+      <div class="switch-container">
+        ${this.hasVisibility ? html`
+          <ha-switch
+            @change="${(e) => this._valueChanged(e, 'show_visibility')}"
+            .checked="${this._config.show_visibility !== false}"
+          ></ha-switch>
+          <label class="switch-label">
+            Show Visibility
+          </label>
+        ` : ''}
+      </div>
           <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'use_12hour_format')}"
