@@ -562,7 +562,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-        return 'true';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -580,7 +580,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
     datasets[1].datalabels = {
       display: function (context) {
-        return 'true';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -608,7 +608,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       animation: config.forecast.disable_animation === true ? { duration: 0 } : {},
       layout: {
         padding: {
-          bottom: 10,
+          bottom: 50,//upped from 10 to help with datalabels
         },
       },
       scales: {
