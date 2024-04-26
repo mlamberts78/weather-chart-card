@@ -19,7 +19,7 @@ export default {
   output: {
     file: 'dist/weather-chart-card.js',
     format: 'cjs',
-    name: 'WeatherChartCard',
+    name: 'WeatherChartCardx',
     sourcemap: dev ? true : false,
   },
   plugins: [
