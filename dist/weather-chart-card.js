@@ -18266,7 +18266,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
-          return context.dataset.data[context.dataIndex] > 0 ? 'true' : false;
+          return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
         },
       formatter: function (value, context) {
         const precipitationType = config.forecast.precipitation_type;
@@ -18293,7 +18293,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
         textBaseline: 'middle',
         align: 'top',
         anchor: 'start',
-        offset: -10,
+        offset: -50,//updated to add extra spacing for future datalabel change
       },
     },
   ];
@@ -18301,7 +18301,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
-        return 'true';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
@@ -18319,7 +18319,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
     datasets[1].datalabels = {
       display: function (context) {
-        return 'true';
+        return 'auto';
       },
       formatter: function (value, context) {
         return context.dataset.data[context.dataIndex] + '°';
