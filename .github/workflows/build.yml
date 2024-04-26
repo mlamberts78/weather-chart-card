@@ -1,0 +1,22 @@
+name: 'Build'
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build Master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          rm -rf /home/runner/work/weather-chart-cardx/weather-chart-cardx/node_modules
+          npm install
+          npm run lint && npm run rollup -c rollup.config.js
+          ls -R /home/runner/work/weather-chart-cardx/weather-chart-cardx/dist
