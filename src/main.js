@@ -13,7 +13,7 @@ import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
 
-class WeatherChartCard extends LitElement {
+class WeatherChartCardx extends LitElement {
 
 static getConfigElement() {
   return document.createElement("weather-chart-card-editor");
@@ -1343,13 +1343,13 @@ renderLastUpdated() {
   }
 }
 
-customElements.define('weather-chart-cardx', WeatherChartCard);
+customElements.define('weather-chart-cardx', WeatherChartCardx);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "weather-chart-cardx",
   name: "Weather Chart Cardx",
-  description: "A custom weather card with chart.",
+  description: "A custom weather card with chart - modified by dxmnkd316.",
   preview: true,
   documentationURL: "https://github.com/dxmnkd316/weather-chart-cardx",
 });
