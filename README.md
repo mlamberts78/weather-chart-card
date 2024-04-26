@@ -1,16 +1,18 @@
 <h1 align="center">Weather Chart Card</h1>
 
-[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mlamberts7I)
+Buy mlamberts78 a coffee.  He pulled 99.99% of this together.  I'm just making a few edits to suit my needs.
+
+[![Buy mlamberts78 a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mlamberts7I)
 [![PayPal](https://img.shields.io/badge/Donate-PayPal-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=HZUUW64FRM2J2)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/mlamberts78/weather-chart-card?style=flat-square)](https://github.com/mlamberts78/weather-chart-card/releases/latest)
-![GitHub downloads](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/total?style=flat-square)
-![GitHub release (latest by SemVer including pre-releases)](https://img.shields.io/github/downloads/mlamberts78/weather-chart-card/latest/total)
-[![HACS Validate](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml/badge.svg)](https://github.com/mlamberts78/weather-chart-card/actions/workflows/validate.yaml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/dxmnkd316/weather-chart-cardx?style=flat-square)](https://github.com/dxmnkd316/weather-chart-cardx/releases/latest)
+![GitHub downloads](https://img.shields.io/github/downloads/dxmnkd316/weather-chart-cardx/total?style=flat-square)
+![GitHub release (latest by SemVer including pre-releases)](https://img.shields.io/github/downloads/dxmnkd316/weather-chart-cardx/latest/total)
+[![HACS Validate](https://github.com/dxmnkd316/weather-chart-cardx/actions/workflows/validate.yaml/badge.svg)](https://github.com/dxmnkd316/weather-chart-cardx/actions/workflows/validate.yaml)
 
-![weather-chart-card](https://github.com/mlamberts78/weather-chart-card/assets/93537082/bd5b9f6e-4125-4a19-9773-463e6d054bce)
-![15-days](https://github.com/mlamberts78/weather-chart-card/assets/93537082/f4de6060-7005-4a6d-b1f3-3aa17c856c73)
+![weather-chart-card](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/bd5b9f6e-4125-4a19-9773-463e6d054bce)
+![15-days](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/f4de6060-7005-4a6d-b1f3-3aa17c856c73)
 
 ## Installation
 
@@ -99,12 +101,12 @@ HACS is a third party community store and is not included in Home Assistant out 
 | speed                | string  | none                     | Convert to 'km/h' or 'm/s' or 'Bft' or 'mph'                                                       |
 
 ###### What custom icons can I use?
-Icons should be in svg format. Icons should have names as shown [here](https://github.com/mlamberts78/weather-chart-card/blob/master/src/const.js#L24). Example:
-![130360372-76d70c42-986c-46e3-b9b5-810f0317f94f](https://github.com/mlamberts78/weather-chart-card/assets/93537082/d3ee55a2-e64f-4354-b36d-9faf6ea37361)
+Icons should be in svg format. Icons should have names as shown [here](https://github.com/dxmnkd316/weather-chart-cardx/blob/master/src/const.js#L24). Example:
+![130360372-76d70c42-986c-46e3-b9b5-810f0317f94f](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/d3ee55a2-e64f-4354-b36d-9faf6ea37361)
 
 #### Example usage:
 ###### Card with current time, date and day
-![date-time](https://github.com/mlamberts78/weather-chart-card/assets/93537082/ab2c32f7-8c6a-4a7e-84fc-f857a519a725)
+![date-time](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/ab2c32f7-8c6a-4a7e-84fc-f857a519a725)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.weather_home
@@ -116,7 +118,7 @@ icon_style: style1
 
 ```
 ###### Style2 chart
-![style2](https://github.com/mlamberts78/weather-chart-card/assets/93537082/3067cc43-0e80-492c-b4a5-771b1e44ea17)
+![style2](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/3067cc43-0e80-492c-b4a5-771b1e44ea17)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.my_home
@@ -124,7 +126,7 @@ forecast:
   style: style2
 ```
 ###### Chart only
-![Chart-only](https://github.com/mlamberts78/weather-chart-card/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
+![Chart-only](https://github.com/dxmnkd316/weather-chart-cardx/assets/93537082/c99d85a4-30d1-4fd9-90ff-877421b39e9b)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.my_home
@@ -136,7 +138,7 @@ forecast:
 ```
 
 ###### Custom units
-![Units](https://github.com/mlamberts78/weather-chart-card/assets/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
+![Units](https://github.com/dxmnkd316/weather-chart-cardx/93537082/e72862ee-9bb7-4f97-9a3c-b17663c458aa)
 ```yaml
 type: custom:weather-chart-card
 entity: weather.my_home
