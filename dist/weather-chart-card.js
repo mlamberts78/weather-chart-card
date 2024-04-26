@@ -19082,13 +19082,13 @@ renderLastUpdated() {
   }
 }
 
-customElements.define('weather-chart-card', WeatherChartCard);
+customElements.define('weather-chart-cardx', WeatherChartCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "weather-chart-card",
-  name: "Weather Chart Card",
+  type: "weather-chart-cardx",
+  name: "Weather Chart Cardx",
   description: "A custom weather card with chart.",
   preview: true,
-  documentationURL: "https://github.com/mlamberts78/weather-chart-card",
+  documentationURL: "https://github.com/dxmnd316/weather-chart-cardx",
 });
