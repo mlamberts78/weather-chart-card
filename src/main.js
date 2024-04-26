@@ -527,7 +527,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       categoryPercentage: 1.0,
       datalabels: {
         display: function (context) {
-          return context.dataset.data[context.dataIndex] > 0 ? 'true' : false;
+          return context.dataset.data[context.dataIndex] > 0 ? 'auto' : false;
         },
       formatter: function (value, context) {
         const precipitationType = config.forecast.precipitation_type;
