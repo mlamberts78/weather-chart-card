@@ -17752,7 +17752,7 @@ var plugin = {
 
 Chart.register(...registerables, plugin);
 
-class WeatherChartCard extends s {
+class WeatherChartCardx extends s {
 
 static getConfigElement() {
   return document.createElement("weather-chart-card-editor");
@@ -19082,13 +19082,13 @@ renderLastUpdated() {
   }
 }
 
-customElements.define('weather-chart-cardx', WeatherChartCard);
+customElements.define('weather-chart-cardx', WeatherChartCardx);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "weather-chart-cardx",
   name: "Weather Chart Cardx",
-  description: "A custom weather card with chart.",
+  description: "A custom weather card with chart. Updated by dxmnkd316",
   preview: true,
   documentationURL: "https://github.com/dxmnd316/weather-chart-cardx",
 });
