@@ -7,7 +7,7 @@ import {
   WeatherEntityFeature
 } from './const.js';
 import {LitElement, html} from 'lit';
-import './weather-chart-card-editor.js';
+import './weather-chart-cardx-editor.js';
 import { property } from 'lit/decorators.js';
 import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -16,7 +16,7 @@ Chart.register(...registerables, ChartDataLabels);
 class WeatherChartCardx extends LitElement {
 
 static getConfigElement() {
-  return document.createElement("weather-chart-card-editor");
+  return document.createElement("weather-chart-cardx-editor");
 }
 
 static getStubConfig(hass, unusedEntities, allEntities) {
