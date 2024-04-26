@@ -1,0 +1,33 @@
+name: 'Release'
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    name: Prepare release
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      # Build
+      - name: Build the file
+        run: |
+          rm -rf /home/runner/work/weather-chart-cardx/weather-chart-cardx/node_modules
+          cd /home/runner/work/weather-chart-cardx/weather-chart-cardx
+          npm install
+          npm run build
+          ls -R /home/runner/work/weather-chart-cardx/weather-chart-cardx
+
+      # Upload build file to the releas as an asset.
+      - name: Upload javascript to release
+        uses: svenstaro/upload-release-action@v2
+
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: /home/runner/work/platinumdx-weather-card/platinumdx-weather-card/dist/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
