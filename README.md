@@ -170,3 +170,4 @@ units:
 | Spanish          | es      |
 | Swedish          | sv      |
 | Ukrainian        | uk      |
+| 한국어           | ko      |
