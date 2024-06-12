@@ -48,6 +48,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     icons_size: 25,
     animated_icons: false,
     icon_style: 'style1',
+    autoscroll: false,
     forecast: {
       precipitation_type: 'rainfall',
       show_probability: false,
@@ -379,6 +380,10 @@ async firstUpdated(changedProperties) {
   this.measureCard();
   await new Promise(resolve => setTimeout(resolve, 0));
   this.drawChart();
+
+  if (this.config.autoscroll) {
+    this.autoscroll();
+  }
 }
 
 
@@ -390,6 +395,7 @@ async updated(changedProperties) {
 
     const entityChanged = oldConfig && this.config.entity !== oldConfig.entity;
     const forecastTypeChanged = oldConfig && this.config.forecast.type !== oldConfig.forecast.type;
+    const autoscrollChanged = oldConfig && this.config.autoscroll !== oldConfig.autoscroll;
 
     if (entityChanged || forecastTypeChanged) {
       if (this.forecastSubscriber && typeof this.forecastSubscriber === 'function') {
@@ -402,10 +408,48 @@ async updated(changedProperties) {
     if (this.forecasts && this.forecasts.length) {
       this.drawChart();
     }
+
+    if (autoscrollChanged) {
+      if (!this.config.autoscroll) {
+        this.autoscroll();
+      } else {
+        this.cancelAutoscroll();
+      }
+    }
   }
 
   if (changedProperties.has('weather')) {
     this.updateChart();
+  }
+}
+
+autoscroll() {
+  if (this.autoscrollTimeout) {
+    // Autscroll already set, nothing to do
+    return;
+  }
+
+  const updateChartOncePerHour = () => {
+    const now = new Date();
+    const nextHour = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        now.getHours()+1,
+    );
+    this.autoscrollTimeout = setTimeout(() => {
+      this.autoscrollTimeout = null;
+      this.updateChart();
+      drawChartOncePerHour();
+    }, nextHour - now);
+  };
+
+  updateChartOncePerHour();
+}
+
+cancelAutoscroll() {
+  if (this.autoscrollTimeout) {
+    clearTimeout(this.autoscrollTimeout);
   }
 }
 
@@ -710,6 +754,12 @@ computeForecastData({ config, forecastItems } = this) {
 
   for (var i = 0; i < forecast.length; i++) {
     var d = forecast[i];
+    if (config.autoscroll) {
+      const cutoff = (config.forecast.type === 'hourly' ? 1 : 24) * 60 * 60 * 1000;
+      if (new Date() - new Date(d.datetime) > cutoff) {
+        continue;
+      }
+    }
     dateTime.push(d.datetime);
     tempHigh.push(d.temperature);
     if (typeof d.templow !== 'undefined') {

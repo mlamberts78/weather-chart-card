@@ -519,6 +519,15 @@ class WeatherChartCardEditor extends LitElement {
               Use 12-Hour Format
             </label>
           </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'autoscroll')}"
+              .checked="${this._config.autoscroll !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Autoscroll
+            </label>
+          </div>
           <div class="time-container">
             <div class="switch-right">
               <ha-switch
