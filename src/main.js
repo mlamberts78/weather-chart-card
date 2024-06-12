@@ -431,17 +431,6 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  if (forecast.length >= 3) {
-    var date1 = new Date(forecast[1].datetime).toISOString().split('T')[0];
-    var date2 = new Date(forecast[2].datetime).toISOString().split('T')[0];
-    if (date1 !== date2) {
-      var mode = 'daily';
-    } else {
-      var mode = 'hourly';
-    }
-  } else {
-    console.log("Insufficient forecast data.");
-  }
   var roundTemp = config.forecast.round_temp == true;
   var i;
   var dateTime = [];
@@ -484,7 +473,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   if (config.forecast.precipitation_type === 'probability') {
     precipMax = 100;
   } else {
-    if (mode === 'hourly') {
+    if (config.forecast.type === 'hourly') {
       precipMax = lengthUnit === 'km' ? 4 : 1;
     } else {
       precipMax = lengthUnit === 'km' ? 20 : 1;
@@ -637,7 +626,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
                   var time = dateObj.toLocaleTimeString(language, timeFormatOptions);
 
-                  if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && mode === 'hourly') {
+                  if (dateObj.getHours() === 0 && dateObj.getMinutes() === 0 && config.forecast.type === 'hourly') {
                       var dateFormatOptions = {
                           day: 'numeric',
                           month: 'short',
@@ -647,7 +636,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                       return [date, time];
                   }
 
-                  if (mode !== 'hourly') {
+                  if (config.forecast.type !== 'hourly') {
                       var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
                       return weekday;
                   }
