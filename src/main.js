@@ -430,32 +430,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
   } else {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
-  var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
-  var roundTemp = config.forecast.round_temp == true;
-  var i;
-  var dateTime = [];
-  var tempHigh = [];
-  var tempLow = [];
-  var precip = [];
-  for (i = 0; i < forecast.length; i++) {
-    var d = forecast[i];
-    dateTime.push(d.datetime);
-    tempHigh.push(d.temperature);
-    if (typeof d.templow !== 'undefined') {
-      tempLow.push(d.templow);
-    }
-    if (roundTemp) {
-      tempHigh[i] = Math.round(tempHigh[i]);
-      if (typeof d.templow !== 'undefined') {
-        tempLow[i] = Math.round(tempLow[i]);
-      }
-    }
-    if (config.forecast.precipitation_type === 'probability') {
-      precip.push(d.precipitation_probability);
-    } else {
-      precip.push(d.precipitation);
-    }
-  }
+  const data = this.computeForecastData();
+
   var style = getComputedStyle(document.body);
   var backgroundColor = style.getPropertyValue('--card-background-color');
   var textColor = style.getPropertyValue('--primary-text-color');
@@ -492,7 +468,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     {
       label: this.ll('tempHi'),
       type: 'line',
-      data: tempHigh,
+      data: data.tempHigh,
       yAxisID: 'TempAxis',
       borderColor: config.forecast.temperature1_color,
       backgroundColor: config.forecast.temperature1_color,
@@ -500,7 +476,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     {
       label: this.ll('tempLo'),
       type: 'line',
-      data: tempLow,
+      data: data.tempLow,
       yAxisID: 'TempAxis',
       borderColor: config.forecast.temperature2_color,
       backgroundColor: config.forecast.temperature2_color,
@@ -508,7 +484,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     {
       label: this.ll('precip'),
       type: 'bar',
-      data: precip,
+      data: data.precip,
       yAxisID: 'PrecipAxis',
       borderColor: config.forecast.precipitation_color,
       backgroundColor: config.forecast.precipitation_color,
@@ -522,7 +498,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
         const precipitationType = config.forecast.precipitation_type;
 
         const rainfall = context.dataset.data[context.dataIndex];
-        const probability = forecast[context.dataIndex].precipitation_probability;
+        const probability = data.forecast[context.dataIndex].precipitation_probability;
 
         let formattedValue;
         if (precipitationType === 'rainfall') {
@@ -589,7 +565,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   this.forecastChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: dateTime,
+      labels: data.dateTime,
       datasets: datasets,
     },
     options: {
@@ -649,8 +625,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
         TempAxis: {
           position: 'left',
           beginAtZero: false,
-          suggestedMin: Math.min(...tempHigh, ...tempLow) - 5,
-          suggestedMax: Math.max(...tempHigh, ...tempLow) + 3,
+          suggestedMin: Math.min(...data.tempHigh, ...data.tempLow) - 5,
+          suggestedMax: Math.max(...data.tempHigh, ...data.tempLow) + 3,
           grid: {
             display: false,
             drawTicks: false,
@@ -708,7 +684,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     label: function (context) {
       var label = context.dataset.label;
       var value = context.formattedValue;
-      var probability = forecast[context.dataIndex].precipitation_probability;
+      var probability = data.forecast[context.dataIndex].precipitation_probability;
       var unit = context.datasetIndex === 2 ? precipUnit : tempUnit;
 
       if (config.forecast.precipitation_type === 'rainfall' && context.datasetIndex === 2 && config.forecast.show_probability && probability !== undefined && probability !== null) {
@@ -724,11 +700,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
   });
 }
 
-updateChart({ config, language, weather, forecastItems } = this) {
-  if (!this.forecasts || !this.forecasts.length) {
-    return [];
-  }
-
+computeForecastData({ config, forecastItems } = this) {
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   var roundTemp = config.forecast.round_temp == true;
   var dateTime = [];
@@ -757,12 +729,28 @@ updateChart({ config, language, weather, forecastItems } = this) {
     }
   }
 
-  if (this.forecastChart) {
-    this.forecastChart.data.labels = dateTime;
-    this.forecastChart.data.datasets[0].data = tempHigh;
-    this.forecastChart.data.datasets[1].data = tempLow;
-    this.forecastChart.data.datasets[2].data = precip;
-    this.forecastChart.update();
+  return {
+    forecast,
+    dateTime,
+    tempHigh,
+    tempLow,
+    precip,
+  }
+}
+
+updateChart({ forecasts, forecastChart } = this) {
+  if (!forecasts || !forecasts.length) {
+    return [];
+  }
+
+  const data = this.computeForecastData();
+
+  if (forecastChart) {
+    forecastChart.data.labels = data.dateTime;
+    forecastChart.data.datasets[0].data = data.tempHigh;
+    forecastChart.data.datasets[1].data = data.tempLow;
+    forecastChart.data.datasets[2].data = data.precip;
+    forecastChart.update();
   }
 }
 
