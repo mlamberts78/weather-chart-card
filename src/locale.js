@@ -340,8 +340,8 @@ const locale = {
     'windy-variant': 'Blåsigt'
   },
   fr: {
-    'tempHi': 'Temperature max',
-    'tempLo': 'Temperature min',
+    'tempHi': 'Température max',
+    'tempLo': 'Température min',
     'precip': 'Précipitations',
     'feelsLike': 'Ressenti',
     'units': {
@@ -358,18 +358,18 @@ const locale = {
       'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
       'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'
     ],
-    'clear-night': 'Nuit dégagé',
+    'clear-night': 'Nuit dégagée',
     'cloudy': 'Nuageux',
     'fog': 'Brouillard',
-    'hail': 'Grèle',
-    'lightning': 'Tonnère',
-    'lightning-rainy': 'Orage',
-    'partlycloudy': 'Couvert partielle',
-    'pouring': 'Forte Pluie',
+    'hail': 'Grêle',
+    'lightning': 'Orage',
+    'lightning-rainy': 'Orage et Pluie',
+    'partlycloudy': 'Éclaircies',
+    'pouring': 'Fortes Pluies',
     'rainy': 'Pluie',
     'snowy': 'Neige',
     'snowy-rainy': 'Neige et Pluie',
-    'sunny': 'Ensoleillée',
+    'sunny': 'Ensoleillé',
     'windy': 'Venteux',
     'windy-variant': 'Venteux'
   },
