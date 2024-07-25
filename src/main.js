@@ -568,6 +568,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
     },
   ];
 
+  const chart_text_color = (config.forecast.chart_text_color === 'auto') ? textColor : config.forecast.chart_text_color;
+
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
@@ -580,7 +582,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.chart_text_color || config.forecast.temperature1_color,
+      color: chart_text_color || config.forecast.temperature1_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -598,7 +600,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.chart_text_color || config.forecast.temperature2_color,
+      color: chart_text_color || config.forecast.temperature2_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -701,7 +703,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderRadius: 0,
           borderWidth: 1.5,
           padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 3 : 4,
-          color: config.forecast.chart_text_color || textColor,
+          color: chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,
             lineHeight: 0.7,
