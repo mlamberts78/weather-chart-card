@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
@@ -213,72 +213,6 @@ class WeatherChartCardEditor extends LitElement {
 
 
     return html`
-      <style>
-        .switch-label {
-          padding-left: 14px;
-        }
-        .switch-container {
-          margin-bottom: 12px;
-        }
-        .page-container {
-	  display: none;
-        }
-        .page-container.active {
-          display: block;
-        }
-        .time-container {
-          display: flex;
-          flex-direction: row;
-          margin-bottom: 12px;
-        }
-        .icon-container {
-          display: flex;
-          flex-direction: row;
-          margin-bottom: 12px;
-        }
-        .switch-right {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-        .checkbox-container {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-        .textfield-container {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 10px;
-	  gap: 20px;
-        }
-        .radio-container {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-        .radio-group {
-          display: flex;
-          align-items: center;
-        }
-        .radio-group label {
-          margin-left: 4px;
-        }
-	div.buttons-container {
-          border-bottom: 2px solid #ccc;
-          padding-bottom: 10px;
-          margin-bottom: 20px;
-        }
-        .flex-container {
-          display: flex;
-          flex-direction: row;
-          gap: 20px;
-        }
-        .flex-container ha-textfield {
-          flex-basis: 50%;
-          flex-grow: 1;
-        }
-      </style>
       <div>
       <div class="textfield-container">
       <ha-select
@@ -806,6 +740,75 @@ class WeatherChartCardEditor extends LitElement {
             @value-changed=${this._formValueChanged}
           ></ha-form>
         </div>
+    `;
+  }
+
+  static get styles() {
+    return css`
+      .switch-label {
+        padding-left: 14px;
+      }
+      .switch-container {
+        margin-bottom: 12px;
+      }
+      .page-container {
+        display: none;
+      }
+      .page-container.active {
+        display: block;
+      }
+      .time-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 12px;
+      }
+      .icon-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 12px;
+      }
+      .switch-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .textfield-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        gap: 20px;
+      }
+      .radio-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .radio-group {
+        display: flex;
+        align-items: center;
+      }
+      .radio-group label {
+        margin-left: 4px;
+      }
+      div.buttons-container {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .flex-container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+      }
+      .flex-container ha-textfield {
+        flex-basis: 50%;
+        flex-grow: 1;
+      }
     `;
   }
 }
