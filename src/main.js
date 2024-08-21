@@ -6,7 +6,9 @@ import {
   weatherIconsNight,
   WeatherEntityFeature
 } from './const.js';
-import {LitElement, html} from 'lit';
+import {LitElement, html, css} from 'lit';
+import {classMap} from 'lit/directives/class-map.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import './weather-chart-card-editor.js';
 import { property } from 'lit/decorators.js';
 import {Chart, registerables} from 'chart.js';
@@ -810,142 +812,16 @@ updateChart({ forecasts, forecastChart } = this) {
     }
     if (!weather || !weather.attributes) {
       return html`
-        <style>
-          .card {
-            padding-top: ${config.title? '0px' : '16px'};
-            padding-right: 16px;
-            padding-bottom: 16px;
-            padding-left: 16px;
-          }
-        </style>
         <ha-card header="${config.title}">
-          <div class="card">
+          <div class="card ${classMap({ "has-title": config.title })}">
             Please, check your weather entity
           </div>
         </ha-card>
       `;
     }
     return html`
-      <style>
-        ha-icon {
-          color: var(--paper-item-icon-color);
-        }
-        img {
-          width: ${config.icons_size}px;
-          height: ${config.icons_size}px;
-        }
-        .card {
-          padding-top: ${config.title ? '0px' : '16px'};
-          padding-right: 16px;
-          padding-bottom: ${config.show_last_changed === true ? '2px' : '16px'};
-          padding-left: 16px;
-        }
-        .main {
-          display: flex;
-          align-items: center;
-          font-size: ${config.current_temp_size}px;
-          margin-bottom: 10px;
-        }
-        .main ha-icon {
-          --mdc-icon-size: 50px;
-          margin-right: 14px;
-        }
-        .main img {
-          width: ${config.icons_size * 2}px;
-          height: ${config.icons_size * 2}px;
-          margin-right: 14px;
-        }
-        .main div {
-          line-height: 0.9;
-        }
-        .main span {
-          font-size: 18px;
-          color: var(--secondary-text-color);
-        }
-        .attributes {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 6px;
-	  font-weight: 300;
-        }
-        .chart-container {
-          position: relative;
-          height: ${config.forecast.chart_height}px;
-          width: 100%;
-        }
-        .conditions {
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          margin: 0px 5px 0px 5px;
-	  cursor: pointer;
-        }
-        .forecast-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 1px;
-        }
-        .wind-details {
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          font-weight: 300;
-        }
-        .wind-detail {
-          display: flex;
-          align-items: center;
-          margin: 1px;
-        }
-        .wind-detail ha-icon {
-          --mdc-icon-size: 15px;
-          margin-right: 1px;
-        }
-        .wind-icon {
-          margin-right: 1px;
-          position: relative;
-	  bottom: 1px;
-        }
-        .wind-speed {
-          font-size: 11px;
-          margin-right: 1px;
-        }
-        .wind-unit {
-          font-size: 9px;
-          margin-left: 1px;
-        }
-        .current-time {
-          position: absolute;
-          top: 20px;
-          right: 16px;
-          font-size: ${config.time_size}px;
-        }
-        .date-text {
-          font-size: ${config.day_date_size}px;
-          color: var(--secondary-text-color);
-        }
-        .main .feels-like {
-          font-size: 13px;
-          margin-top: 5px;
-          font-weight: 400;
-        }
-        .main .description {
-	  font-style: italic;
-          font-size: 13px;
-          margin-top: 5px;
-          font-weight: 400;
-        }
-        .updated {
-          font-size: 13px;
-          align-items: right;
-          font-weight: 300;
-          margin-bottom: 1px;
-        }
-      </style>
-
-      <ha-card header="${config.title}">
-        <div class="card">
+      <ha-card header="${config.title}" >
+        <div class="card ${classMap({ "has-title": config.title, "has-last-changed": config.show_last_changed === true })}">
           ${this.renderMain()}
           ${this.renderAttributes()}
           <div class="chart-container">
@@ -1027,7 +903,16 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   }
 
   return html`
-    <div class="main">
+   <div
+        class="main"
+        style=${styleMap({
+          "--icons-size": `${config.icons_size}px`,
+          "--current-temp-size": `${config.current_temp_size}px`,
+          "--forecast-chart-height": `${config.forecast.chart_height}px`,
+          "--time-size": `${config.time_size}px`,
+          "--day-date-size": `${config.day_date_size}px`,
+        })}
+      >
       ${iconHtml}
       <div>
         <div>
@@ -1062,6 +947,131 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
   `;
 }
 
+static get styles() {
+  return css`
+    ha-icon {
+      color: var(--paper-item-icon-color);
+    }
+    img {
+      width: var(--icons-size);
+      height: var(--icons-size);
+    }
+    .card {
+      padding: 16px;
+    }
+
+    .card.has-title {
+      padding-top: 0;
+    }
+
+    .card.has-last-changed {
+      padding-bottom: 2px;
+    }
+
+    .main {
+      display: flex;
+      align-items: center;
+      font-size: var(--current-temp-size);
+      margin-bottom: 10px;
+    }
+    .main ha-icon {
+      --mdc-icon-size: 50px;
+      margin-right: 14px;
+    }
+    .main img {
+      width: calc(var(--icons-size) / 2);
+      height: calc(var(--icons-size) / 2);
+      margin-right: 14px;
+    }
+    .main div {
+      line-height: 0.9;
+    }
+    .main span {
+      font-size: 18px;
+      color: var(--secondary-text-color);
+    }
+    .attributes {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 300;
+    }
+    .chart-container {
+      position: relative;
+      height: var(--forecast-chart-height);
+      width: 100%;
+    }
+    .conditions {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 0px 5px 0px 5px;
+      cursor: pointer;
+    }
+    .forecast-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1px;
+    }
+    .wind-details {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-weight: 300;
+    }
+    .wind-detail {
+      display: flex;
+      align-items: center;
+      margin: 1px;
+    }
+    .wind-detail ha-icon {
+      --mdc-icon-size: 15px;
+      margin-right: 1px;
+    }
+    .wind-icon {
+      margin-right: 1px;
+      position: relative;
+      bottom: 1px;
+    }
+    .wind-speed {
+      font-size: 11px;
+      margin-right: 1px;
+    }
+    .wind-unit {
+      font-size: 9px;
+      margin-left: 1px;
+    }
+    .current-time {
+      position: absolute;
+      top: 20px;
+      right: 16px;
+      font-size: var(--time-size);
+    }
+    .date-text {
+      font-size: var(day_date_size);
+      color: var(--secondary-text-color);
+    }
+    .main .feels-like {
+      font-size: 13px;
+      margin-top: 5px;
+      font-weight: 400;
+    }
+    .main .description {
+      font-style: italic;
+      font-size: 13px;
+      margin-top: 5px;
+      font-weight: 400;
+    }
+    .updated {
+      font-size: 13px;
+      align-items: right;
+      font-weight: 300;
+      margin-bottom: 1px;
+    }
+  `;
+}
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index, dew_point, wind_gust_speed, visibility } = this) {
   let dWindSpeed = windSpeed;
   let dPressure = pressure;
