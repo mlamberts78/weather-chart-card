@@ -342,8 +342,8 @@ const locale = {
     'windy-variant': 'Blåsigt'
   },
   fr: {
-    'tempHi': 'Temperature max',
-    'tempLo': 'Temperature min',
+    'tempHi': 'Température max',
+    'tempLo': 'Température min',
     'precip': 'Précipitations',
     'feelsLike': 'Ressenti',
     'units': {
@@ -360,18 +360,18 @@ const locale = {
       'N', 'N-NE', 'NE', 'E-NE', 'E', 'E-SE', 'SE', 'S-SE',
       'S', 'S-SO', 'SO', 'O-SO', 'O', 'O-NO', 'NO', 'N-NO', 'N'
     ],
-    'clear-night': 'Nuit dégagé',
+    'clear-night': 'Nuit dégagée',
     'cloudy': 'Nuageux',
     'fog': 'Brouillard',
-    'hail': 'Grèle',
-    'lightning': 'Tonnère',
-    'lightning-rainy': 'Orage',
-    'partlycloudy': 'Couvert partielle',
-    'pouring': 'Forte Pluie',
+    'hail': 'Grêle',
+    'lightning': 'Orage',
+    'lightning-rainy': 'Orage et Pluie',
+    'partlycloudy': 'Éclaircies',
+    'pouring': 'Fortes Pluies',
     'rainy': 'Pluie',
     'snowy': 'Neige',
     'snowy-rainy': 'Neige et Pluie',
-    'sunny': 'Ensoleillée',
+    'sunny': 'Ensoleillé',
     'windy': 'Venteux',
     'windy-variant': 'Venteux'
   },
@@ -18351,6 +18351,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
     },
   ];
 
+  const chart_text_color = (config.forecast.chart_text_color === 'auto') ? textColor : config.forecast.chart_text_color;
+
   if (config.forecast.style === 'style2') {
     datasets[0].datalabels = {
       display: function (context) {
@@ -18363,7 +18365,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.chart_text_color || config.forecast.temperature1_color,
+      color: chart_text_color || config.forecast.temperature1_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -18381,7 +18383,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: config.forecast.chart_text_color || config.forecast.temperature2_color,
+      color: chart_text_color || config.forecast.temperature2_color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -18484,7 +18486,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
           borderRadius: 0,
           borderWidth: 1.5,
           padding: config.forecast.precipitation_type === 'rainfall' && config.forecast.show_probability && config.forecast.type !== 'hourly' ? 3 : 4,
-          color: config.forecast.chart_text_color || textColor,
+          color: chart_text_color || textColor,
           font: {
             size: config.forecast.labels_font_size,
             lineHeight: 0.7,
