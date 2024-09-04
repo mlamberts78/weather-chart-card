@@ -18450,6 +18450,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
                   return time;
               },
           },
+          reverse: document.dir === 'rtl' ? true : false,
         },
         TempAxis: {
           position: 'left',
@@ -18634,11 +18635,15 @@ updateChart({ forecasts, forecastChart } = this) {
         .main ha-icon {
           --mdc-icon-size: 50px;
           margin-right: 14px;
+          margin-inline-start: initial;
+          margin-inline-end: 14px;
         }
         .main img {
           width: ${config.icons_size * 2}px;
           height: ${config.icons_size * 2}px;
           margin-right: 14px;
+          margin-inline-start: initial;
+          margin-inline-end: 14px;
         }
         .main div {
           line-height: 0.9;
@@ -18652,19 +18657,21 @@ updateChart({ forecasts, forecastChart } = this) {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 6px;
-	  font-weight: 300;
+      	  font-weight: 300;
+          direction: ltr;
         }
         .chart-container {
           position: relative;
           height: ${config.forecast.chart_height}px;
           width: 100%;
+          direction: ltr;
         }
         .conditions {
           display: flex;
           justify-content: space-around;
           align-items: center;
           margin: 0px 5px 0px 5px;
-	  cursor: pointer;
+      	  cursor: pointer;
         }
         .forecast-item {
           display: flex;
@@ -18686,24 +18693,34 @@ updateChart({ forecasts, forecastChart } = this) {
         .wind-detail ha-icon {
           --mdc-icon-size: 15px;
           margin-right: 1px;
+          margin-inline-start: initial;
+          margin-inline-end: 1px;
         }
         .wind-icon {
           margin-right: 1px;
+          margin-inline-start: initial;
+          margin-inline-end: 1px;
           position: relative;
-	  bottom: 1px;
+	        bottom: 1px;
         }
         .wind-speed {
           font-size: 11px;
           margin-right: 1px;
+          margin-inline-start: initial;
+          margin-inline-end: 1px;
         }
         .wind-unit {
           font-size: 9px;
           margin-left: 1px;
+          margin-inline-start: 1px;
+          margin-inline-end: initial;
         }
         .current-time {
           position: absolute;
           top: 20px;
           right: 16px;
+          inset-inline-start: initial;
+          inset-inline-end: 16px;
           font-size: ${config.time_size}px;
         }
         .date-text {
