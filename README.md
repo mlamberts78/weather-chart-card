@@ -76,8 +76,10 @@ HACS is a third party community store and is not included in Home Assistant out 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
 | precipitation_type   | string  | rainfall                 | Show precipitation in 'rainfall' or 'probability'.                                                 |
-| show_probability     | boolean | false                    | Also show probability value when precipitation_type = rainfall. (Only when available)              |
-| labels_font_size     | number  | 11                       | Font size for temperature and precipitation labels.                                                |
+| show_probability     | boolean | false                    | Show probability value on precipitation label when available.              |
+| show_rainfall        | boolean | false                    | Show rainfall value on precipitation label when available |
+| labels_font_size     | number  | 11                       | Font size for temperature labels.                                                |
+| precip_labels_font_size  | number  | 10                   | Font size for precipitation labels. |
 | precip_bar_size      | number  | 100                      | Adjusts the thickness of precipitation bars (1-100).                                               |
 | temperature1_color   | string  | rgba(255, 152, 0, 1.0)   | Temperature first line chart color.                                                                |
 | temperature2_color   | string  | rgba(68, 115, 158, 1.0)  | Temperature second line chart color.                                                               |
@@ -88,10 +90,11 @@ HACS is a third party community store and is not included in Home Assistant out 
 | condition_icons      | boolean | true                     | Show or hide forecast condition icons.                                                             |
 | show_wind_forecast   | boolean | true                     | Show or hide wind forecast on the card.                                                            |
 | round_temp           | boolean | false                    | Option for rounding the forecast temperatures                                                      |
-| style                | string  | style1                   | Change chart style, options: 'style1' or 'style2'                                                  |
+| style                | string  | style1                   | Change chart style, options: 'style1', 'style2' or 'style3'                       |
 | type                 | string  | daily                    | Show daily or hourly forecast if available, options: 'daily' or 'hourly'                           |
 | number_of_forecasts  | number  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
 | disable_animation    | boolean | false                    | Disable the chart animation.                                                                       |
+| disable_tooltips     | boolean | false                    | Disable chart tooltips.  |
 
 ##### Units of measurement
 
