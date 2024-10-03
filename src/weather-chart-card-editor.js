@@ -69,6 +69,7 @@ class WeatherChartCardEditor extends LitElement {
       this.hass.states[config.entity].attributes &&
       this.hass.states[config.entity].attributes.description !== undefined
     ) || config.description !== undefined;
+    this.fetchEntities();	  
     this.requestUpdate();
   }
 
@@ -87,10 +88,19 @@ class WeatherChartCardEditor extends LitElement {
 
   fetchEntities() {
     if (this.hass) {
-      this.entities = Object.keys(this.hass.states).filter((e) =>
-        e.startsWith('weather.')
-      );
+      this.entities = Object.keys(this.hass.states).filter((e) => e.startsWith('weather.'));
+      this.requestUpdate();
     }
+  }
+
+  _EntityChanged(event, key) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = { ...this._config };
+    newConfig.entity = event.target.value;
+    this._entity = event.target.value;
+    this.configChanged(newConfig);
   }
 
   configChanged(newConfig) {
@@ -100,22 +110,6 @@ class WeatherChartCardEditor extends LitElement {
     });
     event.detail = { config: newConfig };
     this.dispatchEvent(event);
-  }
-
-  _EntityChanged(event, key) {
-    if (!this._config) {
-      return;
-    }
-
-    const newConfig = { ...this._config };
-
-    if (key === 'entity') {
-      newConfig.entity = event.target.value;
-      this._entity = event.target.value;
-    }
-
-    this.configChanged(newConfig);
-    this.requestUpdate();
   }
 
   _valueChanged(event, key) {
@@ -281,19 +275,17 @@ class WeatherChartCardEditor extends LitElement {
       </style>
       <div>
       <div class="textfield-container">
-      <ha-select
-        naturalMenuWidth
-        fixedMenuPosition
-        label="Entity"
-        .configValue=${'entity'}
-        .value=${this._entity}
-        @change=${(e) => this._EntityChanged(e, 'entity')}
-        @closed=${(ev) => ev.stopPropagation()}
-      >
-        ${this.entities.map((entity) => {
-          return html`<ha-list-item .value=${entity}>${entity}</ha-list-item>`;
-        })}
-      </ha-select>
+<ha-select
+  naturalMenuWidth
+  fixedMenuPosition
+  label="Entity"
+  .configValue=${'entity'}
+  .value=${this._entity}
+  @change=${(e) => this._EntityChanged(e, 'entity')}
+  @closed=${(ev) => ev.stopPropagation()}
+>
+  ${this.entities.map((entity) => html`<ha-list-item .value=${entity}>${entity}</ha-list-item>`)}
+</ha-select>
       <ha-textfield
         label="Title"
         .value="${this._config.title || ''}"
