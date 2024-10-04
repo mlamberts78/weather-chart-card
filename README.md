@@ -36,7 +36,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
 | dew_point             | string  | none                     | An entity_id for a custom dew point sensor.                                                        |
 | wind_gust_speed       | string  | none                     | An entity_id for a custom wind gust speed sensor.                                                  |
-| visibility            | string  | none                     | An entity_id for a custom visibility sensor.                                                       |
+| visibility_entity            | string  | none                     | An entity_id for a custom visibility sensor.                                                       |
 | description           | string  | none                     | An entity_id for a custom weather description sensor.                                              |
 | title                 | string  | none                     | Card title.                                                                                        |
 | show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
