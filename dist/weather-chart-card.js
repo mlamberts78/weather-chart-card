@@ -18357,7 +18357,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     {
       label: this.ll('dewpoint'),
       type: 'line',
-      data: dewPoint,
+      data: data.dewPoint,
       yAxisID: 'DPAxis',
       borderColor: config.forecast.dewpoint_color,
       backgroundColor: config.forecast.dewpoint_color,
