@@ -572,7 +572,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     {
       label: this.ll('dewpoint'),
       type: 'line',
-      data: dewPoint,
+      data: data.dewPoint,
       yAxisID: 'DPAxis',
       borderColor: config.forecast.dewpoint_color,
       backgroundColor: config.forecast.dewpoint_color,
@@ -726,8 +726,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
         DPAxis: {
           position: 'left',
           beginAtZero: false,
-          suggestedMin: Math.min(...tempHigh, ...tempLow, ...dewPoint) - 5,
-          suggestedMax: Math.max(...tempHigh, ...tempLow, ...dewPoint) + 3,
+          suggestedMin: Math.min(...data.tempHigh, ...data.tempLow, ...data.dewPoint) - 5,
+          suggestedMax: Math.max(...data.tempHigh, ...data.tempLow, ...data.dewPoint) + 3,
           grid: {
             display: false,
             drawTicks: false,
@@ -836,6 +836,7 @@ computeForecastData({ config, forecastItems } = this) {
     tempHigh,
     tempLow,
     precip,
+	  dewPoint,
   }
 }
 
