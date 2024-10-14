@@ -793,7 +793,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
 computeForecastData({ config, forecastItems } = this) {
   var forecast = this.forecasts ? this.forecasts.slice(0, forecastItems) : [];
   var roundTemp = config.forecast.round_temp == true;
-  var showDewpoint = config.forecast.show_dew_point_forecast == true;
+  var showDewpointForecast = config.forecast.show_dew_point_forecast == true;
   var dateTime = [];
   var tempHigh = [];
   var tempLow = [];
@@ -825,7 +825,7 @@ computeForecastData({ config, forecastItems } = this) {
     } else {
       precip.push(d.precipitation);
     }
-    if (showDewpoint && typeof d.dew_point !== 'undefined') {
+    if (showDewpointForecast && typeof d.dew_point !== 'undefined') {
       dewPoint.push(d.dew_point);
     }
   }
