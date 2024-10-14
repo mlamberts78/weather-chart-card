@@ -18621,6 +18621,7 @@ computeForecastData({ config, forecastItems } = this) {
     tempHigh,
     tempLow,
     precip,
+    dewPoint,
   }
 }
 
