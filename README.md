@@ -43,7 +43,8 @@ HACS is a third party community store and is not included in Home Assistant out 
 | show_temperature      | boolean | true                     | Show or hide the current temperature.                                                              |
 | show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
 | show_attributes       | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
-| show_sun              | boolean | true                     | Show or hide the sunset information                                                                |
+| show_sun              | boolean | true                     | Show or hide the sunset information           
+| show_uv               | boolean | true                     | Show or hide the uv index information                                                           |
 | show_time             | boolean | false                    | Show or hide the current time on the card.                                                         |
 | show_time_seconds     | boolean | false                    | Show or hide seconds for the current time on the card.                                             |
 | show_day              | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
