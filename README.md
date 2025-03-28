@@ -1,5 +1,8 @@
 <h1 align="center">Weather Chart Card</h1>
 
+# No Longer Maintained
+This repository is no longer maintained. Feel free to fork it if you find it useful.
+
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mlamberts7I)
 [![PayPal](https://img.shields.io/badge/Donate-PayPal-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=HZUUW64FRM2J2)
 
