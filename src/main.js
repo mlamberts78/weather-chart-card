@@ -39,6 +39,7 @@ static getStubConfig(hass, unusedEntities, allEntities) {
     show_wind_direction: true,
     show_wind_speed: true,
     show_sun: true,
+    show_uv: true,
     show_feels_like: false,
     show_dew_point: false,
     show_wind_gust_speed: false,
@@ -1146,6 +1147,7 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
   const showWindDirection = config.show_wind_direction !== false;
   const showWindSpeed = config.show_wind_speed !== false;
   const showSun = config.show_sun !== false;
+  const showUv = config.show_uv !== false;
   const showDewpoint = config.show_dew_point == true;
   const showWindgustspeed = config.show_wind_gust_speed == true;
   const showVisibility = config.show_visibility == true;
@@ -1168,9 +1170,9 @@ return html`
           ` : ''}
         </div>
       ` : ''}
-      ${((showSun && sun !== undefined) || (typeof uv_index !== 'undefined' && uv_index !== undefined)) ? html`
+      ${((showSun && sun !== undefined) || (showUv && typeof uv_index !== 'undefined' && uv_index !== undefined)) ? html`
         <div>
-          ${typeof uv_index !== 'undefined' && uv_index !== undefined ? html`
+          ${showUv && typeof uv_index !== 'undefined' && uv_index !== undefined ? html`
             <div>
               <ha-icon icon="hass:white-balance-sunny"></ha-icon> UV: ${Math.round(uv_index * 10) / 10}
             </div>
