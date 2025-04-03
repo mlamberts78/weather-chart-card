@@ -215,7 +215,7 @@ class WeatherChartCardEditor extends LitElement {
           margin-bottom: 12px;
         }
         .page-container {
-	  display: none;
+          display: none;
         }
         .page-container.active {
           display: block;
@@ -244,7 +244,7 @@ class WeatherChartCardEditor extends LitElement {
           display: flex;
           flex-direction: column;
           margin-bottom: 10px;
-	  gap: 20px;
+          gap: 20px;
         }
         .radio-container {
           display: flex;
@@ -258,7 +258,7 @@ class WeatherChartCardEditor extends LitElement {
         .radio-group label {
           margin-left: 4px;
         }
-	div.buttons-container {
+        div.buttons-container {
           border-bottom: 2px solid #ccc;
           padding-bottom: 10px;
           margin-bottom: 20px;
@@ -342,6 +342,18 @@ class WeatherChartCardEditor extends LitElement {
           ></ha-radio>
           <label class="check-label">
             Chart style 2
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="style"
+            value="style3"
+            @change="${this._handleStyleChange}"
+            .checked="${forecastConfig.style === 'style3'}"
+          ></ha-radio>
+          <label class="check-label">
+            Chart style 3
           </label>
         </div>
       </div>
@@ -459,7 +471,7 @@ class WeatherChartCardEditor extends LitElement {
             <label class="switch-label">
               Show Wind Speed
             </label>
-	  </div>
+    </div>
       <div class="switch-container">
         ${this.hasDewpoint ? html`
           <ha-switch
@@ -654,8 +666,8 @@ class WeatherChartCardEditor extends LitElement {
            <ha-list-item .value=${'sk'}>Slovak</ha-list-item>
            <ha-list-item .value=${'es'}>Spanish</ha-list-item>
            <ha-list-item .value=${'sv'}>Swedish</ha-list-item>
-	   <ha-list-item .value=${'uk'}>Ukrainian</ha-list-item>
-    	   <ha-list-item .value=${'ko'}>한국어</ha-list-item>
+           <ha-list-item .value=${'uk'}>Ukrainian</ha-list-item>
+           <ha-list-item .value=${'ko'}>한국어</ha-list-item>
         </ha-select>
         </div>
       </div>
@@ -698,7 +710,16 @@ class WeatherChartCardEditor extends LitElement {
               Disable Chart Animation
             </label>
           </div>
-	  <div class="textfield-container">
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.disable_tooltips')}"
+              .checked="${forecastConfig.disable_tooltips !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Disable Chart Tooltips
+            </label>
+          </div>
+          <div class="textfield-container">
           <ha-select
             naturalMenuWidth
             fixedMenuPosition
@@ -711,15 +732,25 @@ class WeatherChartCardEditor extends LitElement {
             <ha-list-item .value=${'rainfall'}>Rainfall</ha-list-item>
             <ha-list-item .value=${'probability'}>Probability</ha-list-item>
           </ha-select>
-         <div class="switch-container" ?hidden=${forecastConfig.precipitation_type !== 'rainfall'}>
-             <ha-switch
-               @change="${(e) => this._valueChanged(e, 'forecast.show_probability')}"
-               .checked="${forecastConfig.show_probability !== false}"
-             ></ha-switch>
-             <label class="switch-label">
-               Show precipitation probability
-             </label>
-         </div>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_probability')}"
+              .checked="${forecastConfig.show_probability !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show precipitation probability
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_rainfall')}"
+              .checked="${forecastConfig.show_rainfall !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show rainfall
+            </label>
+          </div>
           <div class="textfield-container">
             <div class="flex-container">
               <ha-textfield
@@ -736,8 +767,8 @@ class WeatherChartCardEditor extends LitElement {
                 .value="${forecastConfig.labels_font_size || '11'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.labels_font_size')}"
               ></ha-textfield>
-              </div>
-	    <div class="flex-container">
+            </div>
+            <div class="flex-container">
               <ha-textfield
                 label="Chart height"
                 type="number"
@@ -745,12 +776,19 @@ class WeatherChartCardEditor extends LitElement {
                 @change="${(e) => this._valueChanged(e, 'forecast.chart_height')}"
               ></ha-textfield>
               <ha-textfield
+                label="Precipitation Labels Font Size"
+                type="number"
+                .value="${forecastConfig.precip_labels_font_size || '10'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.precip_labels_font_size')}"
+              ></ha-textfield>
+            </div>
+            <div class="flex-container">
+              <ha-textfield
                 label="Number of forecasts"
                 type="number"
                 .value="${forecastConfig.number_of_forecasts || '0'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.number_of_forecasts')}"
               ></ha-textfield>
-              </div>
             </div>
           </div>
         </div>
