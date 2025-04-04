@@ -781,6 +781,39 @@ const locale = {
     'windy': '바람',
     'windy-variant': '강풍'
   },
+    sl: {
+    'tempHi': 'Temperatura',
+    'tempLo': 'Temperatura ponoči',
+    'precip': 'Padavine',
+    'feelsLike': 'Občutek kot',
+    'units': {
+      'km/h': 'km/h',
+      'm/s': 'm/s',
+      'mph': 'mph',
+      'Bft': 'Bft',
+      'hPa': 'hPa',
+      'mmHg': 'mm Hg',
+      'mm': 'mm',
+      'in': 'in'
+    },
+    'cardinalDirections': [
+      'S', 'S-SV', 'SV', 'V-SV', 'V', 'V-JV', 'JV', 'J-JV',
+      'J', 'J-JZ', 'JZ', 'Z-JZ', 'Z', 'Z-SZ', 'SZ', 'S-SZ', 'S'
+    ],
+    'clear-night': 'Jasno, noč',
+    'cloudy': 'Oblačno',
+    'fog': 'Megla',
+    'hail': 'Toča',
+    'lightning': 'Strela',
+    'lightning-rainy': 'Strela, dež',
+    'partlycloudy': 'Delno oblačno',
+    'pouring': 'Močan dež',
+    'rainy': 'Dež',
+    'snowy': 'Sneg',
+    'snowy-rainy': 'Sneg, dež',
+    'sunny': 'Sončno',
+    'windy': 'Veter',
+    'windy-variant': 'Vetrovno'
+  },
 };
-
 export default locale;
