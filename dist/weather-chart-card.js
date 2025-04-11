@@ -18858,6 +18858,7 @@ renderMain({ config, sun, weather, temperature, feels_like, description } = this
 
 renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, language, uv_index, dew_point, wind_gust_speed, visibility } = this) {
   let dWindSpeed = windSpeed;
+  let dWindGustSpeed = wind_gust_speed;
   let dPressure = pressure;
 
   if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
@@ -18884,6 +18885,32 @@ renderAttributes({ config, humidity, pressure, windSpeed, windDirection, sun, la
     }
   } else {
     dWindSpeed = Math.round(dWindSpeed);
+  }
+
+  if (this.unitSpeed !== this.weather.attributes.wind_speed_unit) {
+    if (this.unitSpeed === 'm/s') {
+      if (this.weather.attributes.wind_speed_unit === 'km/h') {
+        dWindGustSpeed = Math.round(dWindGustSpeed * 1000 / 3600);
+      } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+        dWindGustSpeed = Math.round(dWindGustSpeed * 0.44704);
+      }
+    } else if (this.unitSpeed === 'km/h') {
+      if (this.weather.attributes.wind_speed_unit === 'm/s') {
+        dWindGustSpeed = Math.round(dWindGustSpeed * 3.6);
+      } else if (this.weather.attributes.wind_speed_unit === 'mph') {
+        dWindGustSpeed = Math.round(dWindGustSpeed * 1.60934);
+      }
+    } else if (this.unitSpeed === 'mph') {
+      if (this.weather.attributes.wind_speed_unit === 'm/s') {
+        dWindGustSpeed = Math.round(dWindGustSpeed / 0.44704);
+      } else if (this.weather.attributes.wind_speed_unit === 'km/h') {
+        dWindGustSpeed = Math.round(dWindGustSpeed / 1.60934);
+      }
+    } else if (this.unitSpeed === 'Bft') {
+        dWindGustSpeed = this.calculateBeaufortScale(dWindGustSpeed);
+    }
+  } else {
+    dWindGustSpeed = Math.round(dWindGustSpeed);
   }
 
   if (this.unitPressure !== this.weather.attributes.pressure_unit) {
@@ -18966,9 +18993,9 @@ return x`
             <ha-icon icon="hass:weather-windy"></ha-icon>
             ${dWindSpeed} ${this.ll('units')[this.unitSpeed]} <br>
           ` : ''}
-          ${showWindgustspeed && wind_gust_speed !== undefined ? x`
+          ${showWindgustspeed && dWindGustSpeed !== undefined ? x`
             <ha-icon icon="hass:weather-windy-variant"></ha-icon>
-            ${wind_gust_speed} ${this.ll('units')[this.unitSpeed]}
+            ${dWindGustSpeed} ${this.ll('units')[this.unitSpeed]}
           ` : ''}
         </div>
       ` : ''}
