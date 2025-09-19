@@ -23,53 +23,53 @@ HACS is a third party community store and is not included in Home Assistant out 
 
 ##### Card options
 
-| Name                  | Type    | Default                  | Description                                                                                        |
-| ----------------------| ------- | -------------------------|--------------------------------------------------------------------------------------------------- |
-| type                  | string  | **Required**             | Should be `custom:weather-chart-card`.                                                             |
-| entity                | string  | **Required**             | An entity_id with the `weather` domain.                                                            |
-| temp                  | string  | none                     | An entity_id for a custom temperature sensor.                                                      |
-| press                 | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
-| humid                 | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
-| uv                    | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
-| winddir               | string  | none                     | An entity_id for a custom wind bearing sensor. Sensor should have value in degrees                 |
-| windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
-| feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
-| dew_point             | string  | none                     | An entity_id for a custom dew point sensor.                                                        |
-| wind_gust_speed       | string  | none                     | An entity_id for a custom wind gust speed sensor.                                                  |
-| visibility            | string  | none                     | An entity_id for a custom visibility sensor.                                                       |
-| description           | string  | none                     | An entity_id for a custom weather description sensor.                                              |
-| title                 | string  | none                     | Card title.                                                                                        |
-| show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
-| show_temperature      | boolean | true                     | Show or hide the current temperature.                                                              |
-| show_current_condition| boolean | true                     | Show or hide the current weather condition.                                                        |
-| show_attributes       | boolean | true                     | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.  |
-| show_sun              | boolean | true                     | Show or hide the sunset information                                                                |
-| show_time             | boolean | false                    | Show or hide the current time on the card.                                                         |
-| show_time_seconds     | boolean | false                    | Show or hide seconds for the current time on the card.                                             |
-| show_day              | boolean | false                    | Show or hide the current day on the card. (Only visible when show_time is true.)                   |
-| show_date             | boolean | false                    | Show or hide the current date the card. (Only visible when show_time is true.)                     |
-| show_humidity         | boolean | true                     | Show or hide humidity on the card.                                                                 |
-| show_pressure         | boolean | true                     | Show or hide pressure on the card.                                                                 |
-| show_wind_direction   | boolean | true                     | Show or hide wind_direction on the card.                                                           |
-| show_wind_speed       | boolean | true                     | Show or hide wind_speed on the card.                                                               |
-| show_feels_like       | boolean | false                    | Show or hide feels like temperature on the card.                                                   |
-| show_dew_point        | boolean | false                    | Show or hide dew point on the card.                                                                |
-| show_wind_gust_speed  | boolean | false                    | Show or hide wind gust speed on the card.                                                          |
-| show_visibility       | boolean | false                    | Show or hide visibility on the card.                                                               |
-| show_description      | boolean | false                    | Show or hide the weather description on the card.                                                  |
-| show_last_changed     | boolean | false                    | Show or hide when last data changed on the card.                                                   |
-| use_12hour_format     | boolean | false                    | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                  |
-| icons                 | string  | none                     | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.           |
-| animated_icons        | boolean | false                    | Enable the use of animated icons                                                                   |
-| icon_style            | string  | 'style1'                 | Options are 'style1' and'style2' for different set of animated icons.                              |
-| icons_size            | number  | 25                       | The size of the animated or custom icons in pixels.                                                |
-| current_temp_size     | number  | 28                       | The size of the current temperature in pixels.                                                     |
-| time_size             | number  | 26                       | The size of the current time in pixels.                                                            |
-| day_date_size         | number  | 15                       | The size of the current day and date in pixels.                                                    |
-| forecast              | object  | none                     | See [forecast options](#forecast-options) for available options.                                   |
-| units                 | object  | none                     | See [units of measurement](#units-of-measurement) for available options.                           |
-| locale                | string  | none                     | See [Supported languages](#Supported-languages) for available languages                            |
-| autoscroll            | boolean | false                    | Update the chart each hour, hiding prior forecast datapoints                                       |
+| Name                   | Type    | Default                   | Description                                                                                         |
+| ---------------------- | ------- | ------------------------- | --------------------------------------------------------------------------------------------------- |
+| type                   | string  | **Required**              | Should be `custom:weather-chart-card`.                                                              |
+| entity                 | string  | **Required**              | An entity_id with the `weather` domain.                                                             |
+| temp                   | string  | none                      | An entity_id for a custom temperature sensor.                                                       |
+| press                  | string  | none                      | An entity_id for a custom pressure sensor.                                                          |
+| humid                  | string  | none                      | An entity_id for a custom humidity sensor.                                                          |
+| uv                     | string  | none                      | An entity_id for a custom UV index sensor.                                                          |
+| winddir                | string  | none                      | An entity_id for a custom wind bearing sensor. Sensor should have value in degrees                  |
+| windspeed              | string  | none                      | An entity_id for a custom wind speed sensor.                                                        |
+| feels_like             | string  | none                      | An entity_id for a custom feels like temperature sensor.                                            |
+| dew_point              | string  | none                      | An entity_id for a custom dew point sensor.                                                         |
+| wind_gust_speed        | string  | none                      | An entity_id for a custom wind gust speed sensor.                                                   |
+| visibility_entity      | string  | none                      | An entity_id for a custom visibility sensor.                                                        |
+| description            | string  | none                      | An entity_id for a custom weather description sensor.                                               |
+| title                  | string  | none                      | Card title.                                                                                         |
+| show_main              | boolean | true                      | Show or hide a section with current weather condition and temperature.                              |
+| show_temperature       | boolean | true                      | Show or hide the current temperature.                                                               |
+| show_current_condition | boolean | true                      | Show or hide the current weather condition.                                                         |
+| show_attributes        | boolean | true                      | Show or hide a section with attributes such as pressure, humidity, wind direction and speed, etc.   |
+| show_sun               | boolean | true                      | Show or hide the sunset information                                                                 |
+| show_time              | boolean | false                     | Show or hide the current time on the card.                                                          |
+| show_time_seconds      | boolean | false                     | Show or hide seconds for the current time on the card.                                              |
+| show_day               | boolean | false                     | Show or hide the current day on the card. (Only visible when show_time is true.)                    |
+| show_date              | boolean | false                     | Show or hide the current date the card. (Only visible when show_time is true.)                      |
+| show_humidity          | boolean | true                      | Show or hide humidity on the card.                                                                  |
+| show_pressure          | boolean | true                      | Show or hide pressure on the card.                                                                  |
+| show_wind_direction    | boolean | true                      | Show or hide wind_direction on the card.                                                            |
+| show_wind_speed        | boolean | true                      | Show or hide wind_speed on the card.                                                                |
+| show_feels_like        | boolean | false                     | Show or hide feels like temperature on the card.                                                    |
+| show_dew_point         | boolean | false                     | Show or hide dew point on the card.                                                                 |
+| show_wind_gust_speed   | boolean | false                     | Show or hide wind gust speed on the card.                                                           |
+| show_visibility        | boolean | false                     | Show or hide visibility on the card.                                                                |
+| show_description       | boolean | false                     | Show or hide the weather description on the card.                                                   |
+| show_last_changed      | boolean | false                     | Show or hide when last data changed on the card.                                                    |
+| use_12hour_format      | boolean | false                     | Display time in 12-hour format (AM/PM) instead of 24-hour format.                                   |
+| icons                  | string  | none                      | Path to the location of custom icons in svg format, for example `/local/weather-icons/`.            |
+| animated_icons         | boolean | false                     | Enable the use of animated icons                                                                    |
+| icon_style             | string  | 'style1'                  | Options are 'style1' and'style2' for different set of animated icons.                               |
+| icons_size             | number  | 25                        | The size of the animated or custom icons in pixels.                                                 |
+| current_temp_size      | number  | 28                        | The size of the current temperature in pixels.                                                      |
+| time_size              | number  | 26                        | The size of the current time in pixels.                                                             |
+| day_date_size          | number  | 15                        | The size of the current day and date in pixels.                                                     |
+| forecast               | object  | none                      | See [forecast options](#forecast-options) for available options.                                    |
+| units                  | object  | none                      | See [units of measurement](#units-of-measurement) for available options.                            |
+| locale                 | string  | none                      | See [Supported languages](#Supported-languages) for available languages                             |
+| autoscroll             | boolean | false                     | Update the chart each hour, hiding prior forecast datapoints                                        |
 
 ##### Forecast options
 
