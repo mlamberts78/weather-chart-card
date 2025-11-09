@@ -8,7 +8,6 @@ import {
 } from './const.js';
 import {LitElement, html} from 'lit';
 import './weather-chart-card-editor.js';
-import { property } from 'lit/decorators.js';
 import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(...registerables, ChartDataLabels);
@@ -475,7 +474,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   const data = this.computeForecastData();
-  
+
   var style = getComputedStyle(this);
   var backgroundColor = style.getPropertyValue('--card-background-color');
   var textColor = style.getPropertyValue('--primary-text-color');
