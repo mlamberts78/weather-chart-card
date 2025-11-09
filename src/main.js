@@ -483,8 +483,8 @@ drawChart({ config, language, weather, forecastItems } = this) {
   var backgroundColor = style.getPropertyValue('--card-background-color');
   var textColor = style.getPropertyValue('--primary-text-color');
   var dividerColor = style.getPropertyValue('--divider-color') || config.forecast.divider_color;
-  var temperature1Color = style.getPropertyValue('--temperture1-color') || config.forecast.temperature1_color;
-  var temperature2Color = style.getPropertyValue('--temperture2-color') || config.forecast.temperature2_color;
+  var temperature1Color = style.getPropertyValue('--temperature1-color') || config.forecast.temperature1_color;
+  var temperature2Color = style.getPropertyValue('--temperature2-color') || config.forecast.temperature2_color;
   var precipitationColor = style.getPropertyValue('--precipitation-color') || config.forecast.precipitation_color;
 
   const canvas = this.renderRoot.querySelector('#forecastChart');
