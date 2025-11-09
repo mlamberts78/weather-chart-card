@@ -475,11 +475,15 @@ drawChart({ config, language, weather, forecastItems } = this) {
     var precipUnit = lengthUnit === 'km' ? this.ll('units')['mm'] : this.ll('units')['in'];
   }
   const data = this.computeForecastData();
-
-  var style = getComputedStyle(document.body);
+  
+  var style = getComputedStyle(this);
   var backgroundColor = style.getPropertyValue('--card-background-color');
   var textColor = style.getPropertyValue('--primary-text-color');
-  var dividerColor = style.getPropertyValue('--divider-color');
+  var dividerColor = style.getPropertyValue('--divider-color') || config.forecast.divider_color;
+  var temperature1Color = style.getPropertyValue('--temperture1-color') || config.forecast.temperature1_color;
+  var temperature2Color = style.getPropertyValue('--temperture2-color') || config.forecast.temperature2_color;
+  var precipitationColor = style.getPropertyValue('--precipitation-color') || config.forecast.precipitation_color;
+
   const canvas = this.renderRoot.querySelector('#forecastChart');
   if (!canvas) {
     requestAnimationFrame(() => this.drawChart());
@@ -514,24 +518,24 @@ drawChart({ config, language, weather, forecastItems } = this) {
       type: 'line',
       data: data.tempHigh,
       yAxisID: 'TempAxis',
-      borderColor: config.forecast.temperature1_color,
-      backgroundColor: config.forecast.temperature1_color,
+      borderColor: temperature1Color,
+      backgroundColor: temperature1Color,
     },
     {
       label: this.ll('tempLo'),
       type: 'line',
       data: data.tempLow,
       yAxisID: 'TempAxis',
-      borderColor: config.forecast.temperature2_color,
-      backgroundColor: config.forecast.temperature2_color,
+      borderColor: temperature2Color,
+      backgroundColor: temperature2Color,
     },
     {
       label: this.ll('precip'),
       type: 'bar',
       data: data.precip,
       yAxisID: 'PrecipAxis',
-      borderColor: config.forecast.precipitation_color,
-      backgroundColor: config.forecast.precipitation_color,
+      borderColor: precipitationColor,
+      backgroundColor: precipitationColor,
       barPercentage: config.forecast.precip_bar_size / 100,
       categoryPercentage: 1.0,
       datalabels: {
@@ -582,7 +586,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: chart_text_color || config.forecast.temperature1_color,
+      color: chart_text_color || temperature1Color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -600,7 +604,7 @@ drawChart({ config, language, weather, forecastItems } = this) {
       anchor: 'center',
       backgroundColor: 'transparent',
       borderColor: 'transparent',
-      color: chart_text_color || config.forecast.temperature2_color,
+      color: chart_text_color || temperature2Color,
       font: {
         size: parseInt(config.forecast.labels_font_size) + 1,
         lineHeight: 0.7,
@@ -807,7 +811,7 @@ updateChart({ forecasts, forecastChart } = this) {
   }
 }
 
-  render({config, _hass, weather} = this) {
+render({config, _hass, weather} = this) {
     if (!config || !_hass) {
       return html``;
     }
