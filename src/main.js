@@ -10,6 +10,7 @@ import {LitElement, html} from 'lit';
 import './weather-chart-card-editor.js';
 import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {eventName} from './themeWatcher.js';
 Chart.register(...registerables, ChartDataLabels);
 
 class WeatherChartCard extends LitElement {
@@ -204,6 +205,8 @@ subscribeForecastEvents() {
 
   connectedCallback() {
     super.connectedCallback();
+    this.themeListener = () => this.drawChart();
+    document.addEventListener(eventName, this.themeListener);
     if (!this.resizeInitialized) {
       this.delayedAttachResizeObserver();
     }
@@ -222,6 +225,7 @@ subscribeForecastEvents() {
     if (this.forecastSubscriber) {
       this.forecastSubscriber.then((unsub) => unsub());
     }
+    document.removeEventListener(eventName, this.themeListener);
   }
 
   attachResizeObserver() {
