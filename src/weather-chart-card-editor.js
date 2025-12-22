@@ -164,7 +164,7 @@ class WeatherChartCardEditor extends LitElement {
       return;
     }
     const newConfig = JSON.parse(JSON.stringify(this._config));
-    newConfig.forecast.chart_height = event.target.value;
+    newConfig.forecast.chart_height = Number(event.target.value);
     this.configChanged(newConfig);
     this.requestUpdate();
   }
@@ -363,7 +363,7 @@ class WeatherChartCardEditor extends LitElement {
             name="chart_height"
             value="100"
             @change="${this._handleChartHeightChange}"
-            .checked="${forecastConfig.chart_height === '100'}"
+            .checked="${forecastConfig.chart_height === 100}"
           ></ha-radio>
           <label class="check-label">
             Small
@@ -375,7 +375,7 @@ class WeatherChartCardEditor extends LitElement {
             name="chart_height"
             value="140"
             @change="${this._handleChartHeightChange}"
-            .checked="${forecastConfig.chart_height === '140'}"
+            .checked="${forecastConfig.chart_height === 140}"
           ></ha-radio>
           <label class="check-label">
             Medium
@@ -387,7 +387,7 @@ class WeatherChartCardEditor extends LitElement {
             name="chart_height"
             value="180"
             @change="${this._handleChartHeightChange}"
-            .checked="${forecastConfig.chart_height === '180'}"
+            .checked="${forecastConfig.chart_height === 180}"
           ></ha-radio>
           <label class="check-label">
             Large
