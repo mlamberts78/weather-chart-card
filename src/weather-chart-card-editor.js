@@ -112,7 +112,7 @@ class WeatherChartCardEditor extends LitElement {
     this.dispatchEvent(event);
   }
 
-  _valueChanged(event, key) {
+  _valueChanged(event, key, asNumber = false) {
     if (!this._config) {
       return;
     }
@@ -140,6 +140,8 @@ class WeatherChartCardEditor extends LitElement {
     } else {
       if (event.target.checked !== undefined) {
         newConfig[key] = event.target.checked;
+      } else if (asNumber) {
+        newConfig[key] = Number(event.target.value);
       } else {
         newConfig[key] = event.target.value;
       }
@@ -342,6 +344,45 @@ class WeatherChartCardEditor extends LitElement {
           ></ha-radio>
           <label class="check-label">
             Chart style 2
+          </label>
+        </div>
+      </div>
+
+      <h5>Chart height:</h5>
+      <div class="radio-container">
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="100"
+            @change="${(e) => this._valueChanged(e, 'chart_height', true)}"
+            .checked="${this._config.chart_height === '100'}"
+          ></ha-radio>
+          <label class="check-label">
+            Small
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="140"
+            @change="${(e) => this._valueChanged(e, 'chart_height', true)}"
+            .checked="${this._config.chart_height === '140'}"
+          ></ha-radio>
+          <label class="check-label">
+            Medium
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="180"
+            @change="${(e) => this._valueChanged(e, 'chart_height', true)}"
+            .checked="${this._config.chart_height === '180'}"
+          ></ha-radio>
+          <label class="check-label">
+            Large
           </label>
         </div>
       </div>
