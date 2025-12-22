@@ -444,6 +444,15 @@ class WeatherChartCardEditor extends LitElement {
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_uv_index')}"
+              .checked="${this._config.show_uv_index !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show UV Index
+            </label>
+          </div>
+          </div>          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
               .checked="${this._config.show_wind_direction !== false}"
             ></ha-switch>
