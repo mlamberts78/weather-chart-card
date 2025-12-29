@@ -698,6 +698,15 @@ class WeatherChartCardEditor extends LitElement {
               Disable Chart Animation
             </label>
           </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_date')}"
+              .checked="${forecastConfig.show_date === true}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Date on Daily Forecast
+            </label>
+          </div>
 	  <div class="textfield-container">
           <ha-select
             naturalMenuWidth

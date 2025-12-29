@@ -59,8 +59,9 @@ static getStubConfig(hass, unusedEntities, allEntities) {
       condition_icons: true,
       round_temp: false,
       type: 'daily',
-      number_of_forecasts: '0', 
-      disable_animation: false, 
+      number_of_forecasts: '0',
+      disable_animation: false,
+      show_date: false,
     },
   };
 }
@@ -114,6 +115,7 @@ setConfig(config) {
       type: 'daily',
       number_of_forecasts: '0',
       '12hourformat': false,
+      show_date: false,
       ...config.forecast,
     },
     units: {
@@ -660,6 +662,10 @@ drawChart({ config, language, weather, forecastItems } = this) {
 
                   if (config.forecast.type !== 'hourly') {
                       var weekday = dateObj.toLocaleString(language, { weekday: 'short' }).toUpperCase();
+                      if (config.forecast.show_date) {
+                          var date = dateObj.toLocaleDateString(language, { day: 'numeric', month: 'numeric' });
+                          return [weekday, date];
+                      }
                       return weekday;
                   }
 
