@@ -31,15 +31,22 @@ HACS is a third party community store and is not included in Home Assistant out 
 | type                  | string  | **Required**             | Should be `custom:weather-chart-card`.                                                             |
 | entity                | string  | **Required**             | An entity_id with the `weather` domain.                                                            |
 | temp                  | string  | none                     | An entity_id for a custom temperature sensor.                                                      |
+| temp_unit             | string  | none                     | Unit of measurement used by custom temperature sensor.                                             |
 | press                 | string  | none                     | An entity_id for a custom pressure sensor.                                                         |
+| press_unit            | string  | none                     | Unit of measurement used by custom pressure sensor.                                                |
 | humid                 | string  | none                     | An entity_id for a custom humidity sensor.                                                         |
 | uv                    | string  | none                     | An entity_id for a custom UV index sensor.                                                         |
 | winddir               | string  | none                     | An entity_id for a custom wind bearing sensor. Sensor should have value in degrees                 |
 | windspeed             | string  | none                     | An entity_id for a custom wind speed sensor.                                                       |
+| windspeed_unit        | string  | none                     | Unit of measurement used by custom wind speed sensor.                                              |
 | feels_like            | string  | none                     | An entity_id for a custom feels like temperature sensor.                                           |
+| feels_like_unit       | string  | none                     | Unit of measurement used by custom feels like temperature sensor.                                  |
 | dew_point             | string  | none                     | An entity_id for a custom dew point sensor.                                                        |
+| dew_point_unit        | string  | none                     | Unit of measurement used by custom dew point sensor.                                               |
 | wind_gust_speed       | string  | none                     | An entity_id for a custom wind gust speed sensor.                                                  |
-| visibility            | string  | none                     | An entity_id for a custom visibility sensor.                                                       |
+| wind_gust_speed_unit  | string  | none                     | Unit of measurement used by custom wind gust speed sensor.                                         |
+| visibility_entity     | string  | none                     | An entity_id for a custom visibility sensor. (Name changed due to conflict with built-in option)   |
+| visibility_unit       | string  | none                     | Unit of measurement used by custom visibility sensor.                                         |
 | description           | string  | none                     | An entity_id for a custom weather description sensor.                                              |
 | title                 | string  | none                     | Card title.                                                                                        |
 | show_main             | boolean | true                     | Show or hide a section with current weather condition and temperature.                             |
@@ -96,7 +103,7 @@ HACS is a third party community store and is not included in Home Assistant out 
 | number_of_forecasts  | number  | 0                        | Overrides the number of forecasts to display. Set to "0" for automatic mode.                       |
 | disable_animation    | boolean | false                    | Disable the chart animation.                                                                       |
 
-##### Units of measurement
+##### Units of measurement (conversion from entity values)
 
 | Name                 | Type    | Default                  | Description                                                                                        |
 | -------------------- | ------- | -------------------------|--------------------------------------------------------------------------------------------------- |

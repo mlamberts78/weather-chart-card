@@ -2,16 +2,23 @@ import { LitElement, html } from 'lit';
 
 const ALT_SCHEMA = [
   { name: "temp", title: "Alternative temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "temp_unit", title: "Temperature sensor unit", selector: { select: { options: [ '', '°C', '°F' ], mode: 'dropdown' } } },
   { name: "feels_like", title: "Alternative feels like temperature sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "feels_like_unit", title: "Feels like sensor unit", selector: { select: { options: [ '', '°C', '°F' ], mode: 'dropdown' } } },
   { name: "description", title: "Alternative weather description sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "press", title: "Alternative pressure sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "press_unit", title: "Pressure sensor unit", selector: { select: { options: [ '', 'hPa', 'kPa', 'mbar', 'bar', 'mmHg', 'inHg' ], mode: 'dropdown' } } },
   { name: "humid", title: "Alternative humidity sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "uv", title: "Alternative UV index sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "winddir", title: "Alternative wind bearing sensor", selector: { entity: { domain: 'sensor' } } },
   { name: "windspeed", title: "Alternative wind speed sensor", selector: { entity: { domain: 'sensor' } } },
-  { name: "dew_point", title: "Alternative dew pointsensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "windspeed_unit", title: "Wind speed sensor unit", selector: { select: { options: [ '', 'm/s', 'km/h', 'ft/s', 'mph', 'kn' ], mode: 'dropdown' } } },
+  { name: "dew_point", title: "Alternative dew point sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "dew_point_unit", title: "Dew point sensor unit", selector: { select: { options: [ '', '°C', '°F' ], mode: 'dropdown' } } },
   { name: "wind_gust_speed", title: "Alternative wind gust speed sensor", selector: { entity: { domain: 'sensor' } } },
-  { name: "visibility", title: "Alternative visibility sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "wind_gust_speed_unit", title: "Wind gust speed sensor unit", selector: { select: { options: [ '', 'm/s', 'km/h', 'ft/s', 'mph', 'kn' ], mode: 'dropdown' } } },
+  { name: "visibility_entity", title: "Alternative visibility sensor", selector: { entity: { domain: 'sensor' } } },
+  { name: "visibility_unit", title: "Visibility sensor unit", selector: { select: { options: [ '', 'm', 'km', 'mi' ], mode: 'dropdown' } } },
 ];
 
 class WeatherChartCardEditor extends LitElement {
@@ -62,7 +69,11 @@ class WeatherChartCardEditor extends LitElement {
       this.hass.states[config.entity] &&
       this.hass.states[config.entity].attributes &&
       this.hass.states[config.entity].attributes.visibility !== undefined
-    ) || config.visibility !== undefined;
+    ) || config.visibility_entity !== undefined || (
+      (config.visibility !== undefined) &&
+      this.hass &&
+      this.hass.states[config.visibility]
+    );
     this.hasDescription = (
       this.hass &&
       this.hass.states[config.entity] &&
@@ -682,6 +693,15 @@ class WeatherChartCardEditor extends LitElement {
           </div>
           <div class="switch-container">
             <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_wind_unit')}"
+              .checked="${forecastConfig.show_wind_unit !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Wind Unit
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
               @change="${(e) => this._valueChanged(e, 'forecast.round_temp')}"
               .checked="${forecastConfig.round_temp !== false}"
             ></ha-switch>
@@ -696,6 +716,15 @@ class WeatherChartCardEditor extends LitElement {
             ></ha-switch>
             <label class="switch-label">
               Disable Chart Animation
+            </label>
+          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_hourly_date')}"
+              .checked="${forecastConfig.show_hourly_date !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Date at Midnight
             </label>
           </div>
 	  <div class="textfield-container">
@@ -720,6 +749,15 @@ class WeatherChartCardEditor extends LitElement {
                Show precipitation probability
              </label>
          </div>
+          <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'forecast.show_precip_unit')}"
+              .checked="${forecastConfig.show_precip_unit !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show Precipitation Unit
+            </label>
+          </div>
           <div class="textfield-container">
             <div class="flex-container">
               <ha-textfield
@@ -749,6 +787,16 @@ class WeatherChartCardEditor extends LitElement {
                 type="number"
                 .value="${forecastConfig.number_of_forecasts || '0'}"
                 @change="${(e) => this._valueChanged(e, 'forecast.number_of_forecasts')}"
+              ></ha-textfield>
+              </div>
+              <div class="flex-container">
+              <ha-textfield
+                label="Minimum column width"
+                type="number"
+                max="100"
+                min="0"
+                .value="${forecastConfig.override_min_column_width || '0'}"
+                @change="${(e) => this._valueChanged(e, 'forecast.override_min_column_width')}"
               ></ha-textfield>
               </div>
             </div>
