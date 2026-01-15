@@ -159,6 +159,16 @@ class WeatherChartCardEditor extends LitElement {
     this.requestUpdate();
   }
 
+  _handleChartHeightChange(event) {
+    if (!this._config) {
+      return;
+    }
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+    newConfig.forecast.chart_height = Number(event.target.value);
+    this.configChanged(newConfig);
+    this.requestUpdate();
+  }
+
   _handleTypeChange(event) {
     if (!this._config) {
       return;
@@ -346,6 +356,45 @@ class WeatherChartCardEditor extends LitElement {
         </div>
       </div>
 
+      <h5>Chart height:</h5>
+      <div class="radio-container">
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="100"
+            @change="${this._handleChartHeightChange}"
+            .checked="${forecastConfig.chart_height === 100}"
+          ></ha-radio>
+          <label class="check-label">
+            Small
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="140"
+            @change="${this._handleChartHeightChange}"
+            .checked="${forecastConfig.chart_height === 140}"
+          ></ha-radio>
+          <label class="check-label">
+            Medium
+          </label>
+        </div>
+
+        <div class="switch-right">
+          <ha-radio
+            name="chart_height"
+            value="180"
+            @change="${this._handleChartHeightChange}"
+            .checked="${forecastConfig.chart_height === 180}"
+          ></ha-radio>
+          <label class="check-label">
+            Large
+          </label>
+        </div>
+      </div>
+
         <!-- Buttons to switch between pages -->
        <h4>Settings:</h4>
        <div class="buttons-container">
@@ -443,6 +492,15 @@ class WeatherChartCardEditor extends LitElement {
             </label>
           </div>
           <div class="switch-container">
+            <ha-switch
+              @change="${(e) => this._valueChanged(e, 'show_uv_index')}"
+              .checked="${this._config.show_uv_index !== false}"
+            ></ha-switch>
+            <label class="switch-label">
+              Show UV Index
+            </label>
+          </div>
+          </div>          <div class="switch-container">
             <ha-switch
               @change="${(e) => this._valueChanged(e, 'show_wind_direction')}"
               .checked="${this._config.show_wind_direction !== false}"
