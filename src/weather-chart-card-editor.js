@@ -641,6 +641,7 @@ class WeatherChartCardEditor extends LitElement {
            <ha-list-item .value=${'en'}>English</ha-list-item>
            <ha-list-item .value=${'fi'}>Finnish</ha-list-item>
            <ha-list-item .value=${'fr'}>French</ha-list-item>
+           <ha-list-item .value=${'ka'}>Georgian</ha-list-item>
            <ha-list-item .value=${'de'}>German</ha-list-item>
            <ha-list-item .value=${'el'}>Greek</ha-list-item>
            <ha-list-item .value=${'hu'}>Hungarian</ha-list-item>
