@@ -161,6 +161,7 @@ units:
 | English          | en      |
 | Finnish          | fi      |
 | French           | fr      |
+| Georgian         | ka      |
 | German           | de      |
 | Greek            | el      |
 | Hungarian        | hu      |
